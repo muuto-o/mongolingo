@@ -2,11 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ... */
-
+/* Define CSS variables within the base layer */
 @layer base {
   :root {
+    --primary-color: #4f46e5; /* Default purple */
+    --secondary-color: #22d3ee; /* Default cyan */
+    --font-size-base: 16px; /* Default font size */
+    --radius: 0.5rem; /* Add radius variable */
+  }
 
-    --radius: 0.5rem
+  .dark {
+    --primary-color: #22d3ee; /* Cyan for dark mode */
+    --secondary-color: #4f46e5; /* Purple for dark mode */
   }
 }

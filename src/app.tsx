@@ -5,6 +5,9 @@ import PrivateLayout from './layouts/private';
 import PublicLayout from './layouts/public';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
+import Letters from './pages/letters';
+import Leaderboard from './pages/leaderboard';
+import Profile from './pages/profile';
 
 function App() {
 
@@ -24,6 +27,9 @@ function App() {
 
          <Route element={<PrivateLayout/>}>
           <Route index element={<HomePage/>}/>
+          <Route path='/letters' element={<Letters/>}/>
+          <Route path='/leaderboard' element={<Leaderboard/>}/>
+          <Route path='/profile' element={<Profile/>}/>
          </Route>
 
         </Route>
