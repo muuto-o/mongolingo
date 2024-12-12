@@ -8,6 +8,9 @@ import RegisterPage from './pages/register';
 import Letters from './pages/letters';
 import Leaderboard from './pages/leaderboard';
 import Profile from './pages/profile';
+import Lesson from './pages/lesson';
+import Exercise from './pages/exercises';
+// import Post from './pages/post';
 
 function App() {
 
@@ -30,11 +33,15 @@ function App() {
           <Route path='/letters' element={<Letters/>}/>
           <Route path='/leaderboard' element={<Leaderboard/>}/>
           <Route path='/profile' element={<Profile/>}/>
+
+          <Route path='/lesson' element={<Lesson/>}/>
+          <Route path='/exercise' element={<Exercise/>}/>
          </Route>
 
         </Route>
       </Routes>
     </Router>
+    // <Post/>
   )
 }
 
