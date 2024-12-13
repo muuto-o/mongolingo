@@ -1,13 +1,18 @@
 import Sidebar from "@/components/sidebar";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 export default function PrivateLayout() {
+  const isLogged = localStorage.getItem("user");
+  if (!isLogged) {
+    return <Navigate to="/login" />;
+  }
+
   return (
     <div className="h-full w-screen flex">
-      <Sidebar/>
+      <Sidebar />
       <div className="p-8 w-full h-full flex">
-        <Outlet/>
+        <Outlet />
       </div>
     </div>
-  )
+  );
 }
