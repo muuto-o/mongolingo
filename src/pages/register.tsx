@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 
 // import { signUp } from "@/services/auth";
 
-import Logo from "@/assets/a_dund.png";
+import Logo from "@/assets/mongolbichig.png";
 import { users } from "@/data/datas";
 import { useToast } from "@/hooks/use-toast";
 
@@ -112,12 +112,12 @@ export default function RegisterPage() {
   return (
     <div className="flex h-screen w-full landscape:h-full">
       <div className="hidden h-screen w-5/12 flex-col space-y-4 bg-white pl-20 xl:flex">
-        <img src={Logo} alt="Logo" className="h-screen w-full" />
+        {/* <img src={Logo} alt="Logo" className="h-screen w-full" /> */}
       </div>
       <div className="flex h-full w-full flex-col items-center justify-center space-y-5 bg-white py-6 lg:h-screen xl:w-7/12">
         <div>
           <div className="flex flex-row items-center justify-around">
-            <h1 className="text-[44px] font-bold text-[#143f91]">Бүртгүүлэх</h1>
+            <h1 className="text-[44px] font-bold text-blue-600">Бүртгүүлэх</h1>
           </div>
         </div>
         <div className="w-10/12 sm:w-6/12">
@@ -219,14 +219,14 @@ export default function RegisterPage() {
               />
               <Link
                 to="/login"
-                className="flex w-full justify-end text-[13px] font-bold text-[#143f91]"
+                className="flex w-full justify-end text-[13px] font-bold text-blue-600"
               >
                 <p className="-mt-6">Аль хэдийн бүртгүүлсэн</p>
               </Link>
               <div className="flex w-full justify-center">
                 <Button
                   type="submit"
-                  className="w-full rounded-md bg-[#143f91]"
+                  className="w-full rounded-md bg-blue-600 hover:bg-blue-800"
                   // disabled={signUpMutation.isPending}
                 >
                   БҮРТГҮҮЛЭХ

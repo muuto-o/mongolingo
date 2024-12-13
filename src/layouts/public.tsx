@@ -7,7 +7,7 @@ export default function PublicLayout() {
   }
 
   return (
-    <div className="h-full w-screen">
+    <div className="h-full w-screen bg-gray-100">
       <Outlet />
     </div>
   );

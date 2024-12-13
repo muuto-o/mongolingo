@@ -11,7 +11,20 @@ export const users = [
 
 export const letters = [
     {letter: 'а', script : 'ᠠ'},
-    {letter: 'б', script : 'ᠪ'}
+    {letter: 'э', script : 'ᠡ'},
+    {letter: 'и', script : 'ᠢᠢ'},
+    {letter: 'о, у', script : 'ᠥ'},
+    {letter: 'ө, ү', script : '᠋ᠥᠥ'},
+    // {letter: 'б', script : 'ᠪ'}
+]
+export const consonants = [
+    {letter: 'н', script : 'ᠨ'},
+    {letter: 'м', script : 'ᠮ'},
+    {letter: 'л', script : 'ᠯ'},
+    {letter: 'б', script : 'ᠪ'},
+    {letter: 'с', script : '᠋ᠰ'},
+    {letter: 'д', script : '᠋ᠳ'},
+    {letter: 'г', script : '᠋ᠭ'},
 ]
 
 
@@ -26,7 +39,7 @@ export const exercises = {
         {
             question : "Дараах үгийн галигийг сонго.",
             image : ABegin,
-            answers : ["а (үгийн эхэнд)", "э (үгийн эхэнд)", "о (үгийн эхэнд)",],
+            answers : ["а (үгийн эхэнд)", "э (үгийн эхэнд)", "о (үгийн эхэнд)", "а (үгийн дунд)"],
             correctAnswer : "а (үгийн эхэнд)",
             detail : false,
         },

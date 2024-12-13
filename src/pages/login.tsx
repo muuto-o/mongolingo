@@ -22,8 +22,9 @@ import { useToast } from "@/hooks/use-toast";
 
 // import { signIn } from "@/services/auth";
 
-import Logo from "@/assets/a_dund.png";
+import Logo from "@/assets/mongolbichig.png";
 import { users } from "@/data/datas";
+import { Card } from "@/components/ui/card";
 
 const formSchema = z.object({
   email: z.string().min(11, {
@@ -87,13 +88,13 @@ export default function LoginPage() {
   };
   return (
     <div className="flex h-full w-full">
-      <div className="hidden w-5/12 flex-col space-y-6 bg-white pl-28 xl:flex">
-        <img src={Logo} alt="Logo" className="w-full" />
+      <div className="hidden w-5/12 flex-col space-y-6 bg-gray-100 pl-28 xl:flex">
+        {/* <img src={Logo} alt="Logo" className="w-full" /> */}
       </div>
-      <div className="flex w-full flex-col items-center justify-center space-y-7 bg-white xl:w-7/12">
+      <Card className="flex w-full flex-col items-center justify-center space-y-7 bg-white xl:w-7/12">
         <div>
           <div className="flex flex-row items-center justify-around">
-            <h1 className="text-[44px] font-bold text-[#143f91]">Нэвтрэх</h1>
+            <h1 className="text-[44px] font-bold text-blue-600">Нэвтрэх</h1>
           </div>
         </div>
         <div className="w-10/12 sm:w-6/12">
@@ -139,14 +140,14 @@ export default function LoginPage() {
                 )}
               />
               <Link to="/recover" className="flex w-full justify-end">
-                <p className="-mt-2 text-[13px] font-bold text-[rgb(52,93,168)]">
+                <p className="-mt-2 text-[13px] font-bold text-blue-600">
                   Нууц үгээ мартсан?
                 </p>
               </Link>
               <div className="flex w-full justify-center">
                 <Button
                   type="submit"
-                  className="w-full rounded-md bg-[#143f91]"
+                  className="w-full rounded-md bg-blue-600 hover:bg-blue-800"
                   // disabled={signInMutation.isPending}
                 >
                   Нэвтрэх
@@ -154,14 +155,14 @@ export default function LoginPage() {
               </div>
               <Link
                 to="/register"
-                className="flex w-full justify-center font-bold text-[rgb(52,93,168)]"
+                className="flex w-full justify-center font-bold text-blue-600"
               >
                 <p className="text-[14px]">Бүртгүүлэх</p>
               </Link>
             </form>
           </Form>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
