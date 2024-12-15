@@ -1,6 +1,17 @@
 import { Card } from "@/components/ui/card";
+
 import { Progress } from "@/components/ui/progress";
-import { exercises } from "@/data/datas";
+import { exercises, users } from "@/data/datas";
+import { toast, useToast } from "@/hooks/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,10 +21,13 @@ interface Question {
   answers: string[];
   correctAnswer: string;
   image?: string;
+  desc: string[];
+  explain: string;
 }
 
 export default function Exercise() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [count, setCount] = useState<number>(0);
   const [correctCount, setCorrectCount] = useState<number>(0);
   const [totalPoints, setTotalPoints] = useState<number>(0); // Added state
@@ -29,7 +43,7 @@ export default function Exercise() {
 
     if (isCorrect) {
       setCorrectCount((prev) => prev + 1);
-      setTotalPoints((prev) => prev + 4); // Add 4 points for correct answer
+      setTotalPoints((prev) => prev + 4);
       setTimeout(() => moveToNextQuestion(), 1000);
     } else {
       setIncorrectQuestions((prev) => [...prev, currentQuestion]);
@@ -45,13 +59,18 @@ export default function Exercise() {
     } else {
       setIsReviewMode(true);
       setCount(0);
+      toast({
+        title:
+          "Амжилттай дуусгалаа. Таны нийт оноо: " +
+          (totalPoints > 0 ? totalPoints + 4 : totalPoints),
+      });
       navigate(-1);
     }
   };
 
-  const currentQuestion: Question = isReviewMode
-    ? incorrectQuestions[count] || ({} as Question)
-    : (exercises.unit_one[count] as Question);
+  const currentQuestion: Question | undefined = isReviewMode
+    ? incorrectQuestions[count]
+    : exercises.unit_one[count];
 
   return (
     <div className="w-full bg-gray-50 flex flex-col items-center p-4">
@@ -64,26 +83,54 @@ export default function Exercise() {
         />
         <Progress
           value={
-            ((count + 1) /
+            (count /
               (isReviewMode
                 ? incorrectQuestions.length
                 : exercises.unit_one.length)) *
             100
           }
-          className="w-11/12 rounded-md overflow-hidden bg-gray-300 h-4"
+          className="w-11/12 rounded-md overflow-hidden bg-gray-300 h-4 [&>*]:bg-[#279c86]"
         />
       </div>
 
       {/* Question Card */}
       <Card className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6 mb-6 border border-gray-200">
-        <div className="text-lg font-semibold mb-4 text-gray-700">
-          {isReviewMode
-            ? `Review Question ${count + 1} of ${incorrectQuestions.length}`
-            : `Асуулт  ${exercises.unit_one.length}-аас ${count + 1}`}
+        <div className="text-lg font-semibold mb-4 text-gray-700 flex justify-between">
+          <div>
+            {isReviewMode
+              ? `Review Question ${count + 1} of ${incorrectQuestions.length}`
+              : `Асуулт ${count + 1} / ${exercises.unit_one.length}`}
+          </div>
+          {count + 1 < exercises.unit_one.length && (
+            <Dialog>
+              <DialogTrigger>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                  Тусламж
+                </button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Тусламж </DialogTitle>
+                  <DialogDescription>
+                    {currentQuestion?.desc?.[0] || "Тайлбар байхгүй"}{" "}
+                    {currentQuestion?.image && (
+                      <img
+                        src={currentQuestion.image}
+                        alt=""
+                        className="w-10 rotate-90 mx-1"
+                      />
+                    )}{" "}
+                    {currentQuestion?.desc?.[1] || ""}{" "}
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
+
         <div className="text-center">
           <div className="text-xl font-medium text-gray-800 mb-4">
-            {currentQuestion?.question}
+            {currentQuestion?.question || "Асуулт байхгүй"}
           </div>
           {currentQuestion?.image && (
             <img
@@ -98,7 +145,7 @@ export default function Exercise() {
       {/* Answers Section */}
       {!isReviewMode && !showCorrectAnswer && (
         <div className="w-full max-w-2xl flex flex-wrap justify-center gap-4">
-          {currentQuestion.answers.map((answer, index) => (
+          {currentQuestion?.answers.map((answer, index) => (
             <Card
               key={index}
               className={`w-32 h-24 flex items-center justify-center shadow-md border rounded-lg cursor-pointer hover:bg-gray-100 active:bg-gray-200 ${
@@ -121,20 +168,20 @@ export default function Exercise() {
       {showCorrectAnswer && (
         <div className="w-full max-w-2xl flex flex-col items-center gap-4">
           <div className="text-center text-gray-800 mb-4">
-            Correct Answer: <strong>{currentQuestion.correctAnswer}</strong>
+            Зөв хариулт: <strong>{currentQuestion?.correctAnswer || ""}</strong>
           </div>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             onClick={moveToNextQuestion}
           >
-            Next Question
+            Дараагийн асуулт
           </button>
         </div>
       )}
 
       {/* Display Total Points */}
       <div className="w-full max-w-2xl text-center text-lg text-gray-800 mt-4">
-        Total Points: <strong>{totalPoints}</strong>
+        Нийт оноо: <strong>{totalPoints}</strong>
       </div>
     </div>
   );
