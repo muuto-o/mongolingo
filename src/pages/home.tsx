@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <div className="p-6 w-full h-full bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex flex-col items-center justify-center">
       {/* SECTION 1 */}
-      <div className="bg-gradient-to-r from-blue-200 via-purple-400 to-pink-500 p-6 rounded-xl mb-8 shadow-xl border-2 border-gray-300 w-11/12 max-w-2xl flex justify-between ">
+      <div className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-500 p-6 rounded-xl mb-8 shadow-xl border-2 border-gray-300 w-11/12 max-w-2xl flex justify-between ">
         <div>
           <div className="flex justify-between items-center">
             <div>

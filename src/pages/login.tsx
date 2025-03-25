@@ -1,9 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -17,14 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-
-// import { useAuth } from "@/hooks/auth";
-
-// import { signIn } from "@/services/auth";
-
-import Logo from "@/assets/mongolbichig.png";
-import { users } from "@/data/datas";
 import { Card } from "@/components/ui/card";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@/services/auth";
 
 const formSchema = z.object({
   email: z.string().min(11, {
@@ -37,23 +30,25 @@ const formSchema = z.object({
 
 export default function LoginPage() {
   const { toast } = useToast();
-  // const { login } = useAuth();
-  // const { t } = useTranslation("login");
   const navigate = useNavigate();
 
-  // const signInMutation = useMutation({
-  //   mutationFn: signIn,
-  //   onSuccess: (data) => {
-  //     login(data);
-  //     navigate("/");
-  //   },
-  //   onError: () => {
-  //     toast({
-  //       title: "Нэвтрэх нэр эсвэл нууц үг буруу байна.",
-  //     });
-  //   },
-  // });
+  const { mutate: loginMutation } = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      toast({ title: "Амжиллтай нэвтэрлээ.", description: data.username });
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/");
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Нэвтрэх нэр эсвэл нууц үг буруу байна.",
+      });
+    },
+  });
+
   const [showPassword, setShowPassword] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,55 +58,50 @@ export default function LoginPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const user = users.find(
-      (user) => user.email === values.email && user.password === values.password
-    );
-
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      navigate("/");
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Нэвтрэх нэр эсвэл нууц үг буруу байна.",
-      });
-    }
-    // signInMutation.mutate({
-    //   user: {
-    //     email: values.email,
-    //     password: values.password,
-    //   },
-    // });
+    console.log(values);
+    loginMutation({ email: values.email, password: values.password });
   }
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   return (
-    <div className="flex h-full w-full">
-      <div className="hidden w-5/12 flex-col space-y-6 bg-gray-100 pl-28 xl:flex">
-        {/* <img src={Logo} alt="Logo" className="w-full" /> */}
-      </div>
-      <Card className="flex w-full flex-col items-center justify-center space-y-7 bg-white xl:w-7/12">
-        <div>
-          <div className="flex flex-row items-center justify-around">
-            <h1 className="text-[44px] font-bold text-blue-600">Нэвтрэх</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-purple-50 p-4">
+      <Card className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="p-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+              Нэвтрэх
+            </h1>
+            <p className="mt-2 text-sm text-gray-600">
+              Тавтай морилно уу! Нэвтрэх хэсэгт тавтай морил.
+            </p>
           </div>
-        </div>
-        <div className="w-10/12 sm:w-6/12">
+
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="mt-6 space-y-6"
+            >
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Имэйл" {...field} />
+                      <Input
+                        placeholder="Имэйл"
+                        autoComplete="username"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-sm text-red-500" />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="password"
@@ -121,44 +111,51 @@ export default function LoginPage() {
                       <Input
                         placeholder="Нууц үг"
                         type={showPassword ? "text" : "password"}
+                        autoComplete="current-password"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                         {...field}
                       />
                       <Button
                         type="button"
                         onClick={toggleShowPassword}
-                        className="absolute inset-y-0 right-0 flex items-center bg-transparent px-2 text-gray-600 hover:bg-transparent"
+                        className="absolute inset-y-0 right-0 flex items-center bg-transparent px-3 text-gray-500 hover:bg-transparent"
                       >
                         {showPassword ? (
-                          <Eye width={20} height={20} />
+                          <Eye className="w-5 h-5" />
                         ) : (
-                          <EyeOff width={20} height={20} />
+                          <EyeOff className="w-5 h-5" />
                         )}
                       </Button>
                     </div>
-                    <FormMessage />
+                    <FormMessage className="text-sm text-red-500" />
                   </FormItem>
                 )}
               />
-              <Link to="/recover" className="flex w-full justify-end">
-                <p className="-mt-2 text-[13px] font-bold text-blue-600">
+
+              <Link to="/recover" className="block text-right">
+                <p className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">
                   Нууц үгээ мартсан?
                 </p>
               </Link>
-              <div className="flex w-full justify-center">
-                <Button
-                  type="submit"
-                  className="w-full rounded-md bg-blue-600 hover:bg-blue-800"
-                  // disabled={signInMutation.isPending}
-                >
-                  Нэвтрэх
-                </Button>
-              </div>
-              <Link
-                to="/register"
-                className="flex w-full justify-center font-bold text-blue-600"
+
+              <Button
+                type="submit"
+                className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all"
               >
-                <p className="text-[14px]">Бүртгүүлэх</p>
-              </Link>
+                Нэвтрэх
+              </Button>
+
+              <div className="text-center">
+                <p className="text-sm text-gray-600">
+                  Бүртгэл байхгүй юу?{" "}
+                  <Link
+                    to="/register"
+                    className="font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                  >
+                    Бүртгүүлэх
+                  </Link>
+                </p>
+              </div>
             </form>
           </Form>
         </div>

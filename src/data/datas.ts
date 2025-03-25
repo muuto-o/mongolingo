@@ -1,4 +1,4 @@
-import ABegin from "@/assets/a_ehend.png"
+import ABegin from "@/assets/a_ehend.svg"
 import EBegin from "@/assets/e_ehend.png"
 import ADund from "@/assets/a_dund.png"
 import OBegin from "@/assets/ou_ehend.png"
@@ -17,7 +17,7 @@ export const users = [
 ]
 
 export const letters = [
-    {letter: 'а', script : 'ᠠ', desc : ['А үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [ABegin, ADund]},
+    {letter: 'а', script : 'ᠠ', desc : ['А үсэг нь үгийн ᠑ ᠠ᠋ ᠨ᠋ ᠤ᠋ эхэнд ᠠ‍', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [ABegin, ADund]},
     {letter: 'э', script : 'ᠡ', desc : ['Э үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [EBegin, ADund]},
     {letter: 'и', script : 'ᠢᠢ', desc : ['И үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [IBegin, IDund]},
     {letter: 'о, у', script : 'ᠥ', desc : ['О, У үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [OBegin, ODund]},
