@@ -15,14 +15,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { users } from "@/data/datas";
+import { useMutation } from "@tanstack/react-query";
+import { registerUser } from "@/services/auth";
+import axios from "axios";
 
 const formSchema = z
   .object({
-    firstName: z.string().min(3, {
-      message: "Хамгийн багадаа 3 тэмдэгттэй байна.",
-    }),
-    lastName: z.string().min(3, {
+    username: z.string().min(3, {
       message: "Хамгийн багадаа 3 тэмдэгттэй байна.",
     }),
     email: z
@@ -36,20 +35,54 @@ const formSchema = z
     password: z.string().min(8, {
       message: "хамгийн багадаа 8 оронтой байх",
     }),
-    repeatPassword: z.string().min(8, {
+    repeat_password: z.string().min(8, {
       message: "хамгийн багадаа 8 оронтой байх",
     }),
   })
-  .refine((data) => data.password === data.repeatPassword, {
-    path: ["repeatPassword"],
+  .refine((data) => data.password === data.repeat_password, {
+    path: ["repeat_password"],
     message: "Нууц үг таарахгүй байна.",
   });
 
 export default function RegisterPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
+
+  const registerMutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      toast({ title: `${data.message}` });
+      navigate("/login");
+    },
+    onError: (error: unknown) => {
+      if (axios.isAxiosError(error) && error.response) {
+        // Axios error with a response from the server
+        const errorMessage =
+          error.response.data?.message ||
+          error.message ||
+          "An unexpected error occurred.";
+        toast({
+          variant: "destructive",
+          title: errorMessage,
+        });
+      } else if (error instanceof Error) {
+        // General error
+        toast({
+          variant: "destructive",
+          title: error.message || "An unexpected error occurred.",
+        });
+      } else {
+        // Handle other types of errors
+        toast({
+          variant: "destructive",
+          title: "An unexpected error occurred.",
+        });
+      }
+    },
+  });
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -62,27 +95,16 @@ export default function RegisterPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      username: "",
       email: "",
       password: "",
-      repeatPassword: "",
+      repeat_password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const user = users.find((user) => user.email === values.email);
-
-    if (user) {
-      toast({
-        variant: "destructive",
-        title: "Системд бүртгэлтэй хэрэглэгч байна.",
-      });
-    } else {
-      users.push(values);
-      console.log(users);
-      navigate("/login");
-    }
+    console.log(values);
+    registerMutation.mutate(values);
   }
 
   return (
@@ -105,29 +127,12 @@ export default function RegisterPage() {
             >
               <FormField
                 control={form.control}
-                name="firstName"
+                name="username"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
-                        placeholder="Нэр"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-sm text-red-500" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="Овог"
+                        placeholder="Хэрэглэгчийн нэр"
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                         {...field}
                       />
@@ -163,6 +168,7 @@ export default function RegisterPage() {
                       <Input
                         placeholder="Нууц үг"
                         type={showPassword ? "text" : "password"}
+                        autoComplete="new-password"
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                         {...field}
                       />
@@ -185,13 +191,14 @@ export default function RegisterPage() {
 
               <FormField
                 control={form.control}
-                name="repeatPassword"
+                name="repeat_password"
                 render={({ field }) => (
                   <FormItem>
                     <div className="relative">
                       <Input
                         placeholder="Нууц үг давтах"
                         type={showPasswordRepeat ? "text" : "password"}
+                        autoComplete="new-password"
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                         {...field}
                       />
