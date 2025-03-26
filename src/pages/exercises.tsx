@@ -1,188 +1,599 @@
-import { Card } from "@/components/ui/card";
-
+import React, { useEffect, useRef, useState } from "react";
+import { lessonExercises as exercisesData } from "../data/datas";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { exercises, users } from "@/data/datas";
-import { toast, useToast } from "@/hooks/use-toast";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Heart,
+  Zap,
+  Check,
+  X,
+  ChevronRight,
+  SkipForward,
+  Volume2,
+} from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
-import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-interface Question {
+export interface MultipleChoiceExercise {
+  type: "multiple_choice";
   question: string;
-  answers: string[];
-  correctAnswer: string;
-  image?: string;
-  desc: string[];
-  explain: string;
+  options: string[];
+  answer: string;
+  audio: string;
 }
 
-export default function Exercise() {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const [count, setCount] = useState<number>(0);
-  const [correctCount, setCorrectCount] = useState<number>(0);
-  const [totalPoints, setTotalPoints] = useState<number>(0); // Added state
-  const [incorrectQuestions, setIncorrectQuestions] = useState<Question[]>([]);
-  const [isReviewMode, setIsReviewMode] = useState<boolean>(false);
+export interface MatchingExercise {
+  type: "matching";
+  question: string;
+  pairs: { word: string; meaning: string }[];
+  answer: { [word: string]: string };
+}
+
+export type Exercise = MultipleChoiceExercise | MatchingExercise;
+
+const lessonExercises: Exercise[][] = exercisesData as Exercise[][];
+// const lessonExercises: Exercise[] = exercisesData as Exercise[];
+
+const Exercise: React.FC = () => {
+  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<any[]>([]);
+  const [points, setPoints] = useState(0);
+  const [lives, setLives] = useState(5);
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [skipped, setSkipped] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const handleAnswer = (answer: string) => {
-    const currentQuestion = exercises.unit_one[count] as Question;
-    const isCorrect = answer === currentQuestion.correctAnswer;
-    setIsAnswerCorrect(isCorrect);
+  const [selectedLeft, setSelectedLeft] = useState<number | null>(null);
+  const [selectedRight, setSelectedRight] = useState<number | null>(null);
+  const [matchedPairs, setMatchedPairs] = useState<
+    { left: number; right: number }[]
+  >([]);
+  const [correctPairs, setCorrectPairs] = useState<
+    { left: number; right: number }[]
+  >([]);
+  const [isMatchingCorrect, setIsMatchingCorrect] = useState<boolean | null>(
+    null
+  );
 
-    if (isCorrect) {
-      setCorrectCount((prev) => prev + 1);
-      setTotalPoints((prev) => prev + 4);
-      setTimeout(() => moveToNextQuestion(), 1000);
+  const [shuffledLeftOptions, setShuffledLeftOptions] = useState<string[]>([]);
+  const [shuffledRightOptions, setShuffledRightOptions] = useState<string[]>(
+    []
+  );
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const lessonIndex = location.state?.lessonIndex;
+
+  console.log("lessonIndex:", lessonIndex); // Debugging
+
+  // const exercises: Exercise[] = lessonExercises[lessonIndex] || [];
+  const exercises: Exercise[] =
+    lessonIndex < lessonExercises.length && lessonExercises[lessonIndex]
+      ? lessonExercises[lessonIndex]
+      : [];
+
+  console.log("exercises:", exercises); //debugging.
+  console.log("lessonExercises:", lessonExercises); //debugging.
+
+  const currentExercise: Exercise = exercises[currentExerciseIndex];
+
+  useEffect(() => {
+    // Initialize audio element
+    if (currentExercise.type === "multiple_choice") {
+      audioRef.current = new Audio(currentExercise.audio);
+      audioRef.current.onended = () => setIsPlaying(false);
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [currentExercise]);
+
+  useEffect(() => {
+    if (selectedLeft !== null && selectedRight !== null) {
+      checkMatchingPair();
+    }
+  }, [selectedLeft, selectedRight]);
+
+  useEffect(() => {
+    if (currentExercise.type === "matching") {
+      const leftOptions = Object.keys(currentExercise.answer);
+      const rightOptions = Object.values(currentExercise.answer);
+      setShuffledLeftOptions(shuffleArray(leftOptions));
+      setShuffledRightOptions(shuffleArray(rightOptions));
+    }
+    if (currentExercise.type === "multiple_choice") {
+      audioRef.current = new Audio(currentExercise.audio);
+      audioRef.current.onended = () => setIsPlaying(false);
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [currentExercise]); // Run only when currentExercise changes
+
+  if (exercises.length === 0) {
+    return (
+      <div>
+        Lesson not found or exercises are missing for this lesson index.
+      </div>
+    );
+  }
+
+  if (!currentExercise) {
+    return <div>Loading or Exercise Not Found</div>; // Handle case where exercise is undefined
+  }
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleMultipleChoiceAnswer = (answer: string) => {
+    setSelectedOption(answer);
+    setUserAnswers((prev) => {
+      const updatedAnswers = [...prev];
+      updatedAnswers[currentExerciseIndex] = answer;
+      return updatedAnswers;
+    });
+  };
+
+  const checkMultipleChoiceAnswer = (exercise: MultipleChoiceExercise) => {
+    if (userAnswers[currentExerciseIndex] === exercise.answer) {
+      setPoints((prev) => prev + 10);
+      setIsCorrect(true);
     } else {
-      setIncorrectQuestions((prev) => [...prev, currentQuestion]);
+      setLives(() => lives - 1);
+      setIsCorrect(false);
       setShowCorrectAnswer(true);
     }
   };
 
-  const moveToNextQuestion = () => {
-    setIsAnswerCorrect(null);
-    if (count + 1 < exercises.unit_one.length) {
-      setCount((prev) => prev + 1);
-      setShowCorrectAnswer(false);
-    } else {
-      setIsReviewMode(true);
-      setCount(0);
-      toast({
-        title:
-          "Амжилттай дуусгалаа. Таны нийт оноо: " +
-          (totalPoints > 0 ? totalPoints + 4 : totalPoints),
-      });
-      navigate(-1);
+  const handleLeftSelect = (index: number) => {
+    setSelectedLeft(index);
+  };
+
+  const handleRightSelect = (index: number) => {
+    setSelectedRight(index);
+  };
+
+  const checkMatchingPair = () => {
+    if (selectedLeft !== null && selectedRight !== null) {
+      const leftOption = shuffledLeftOptions[selectedLeft];
+      const rightOption = shuffledRightOptions[selectedRight];
+
+      if (currentExercise.answer[leftOption] === rightOption) {
+        // Check if pair is already in correctPairs
+        const isPairUnique = !correctPairs.some(
+          (pair) => pair.left === selectedLeft && pair.right === selectedRight
+        );
+
+        if (isPairUnique) {
+          setCorrectPairs([
+            ...correctPairs,
+            { left: selectedLeft, right: selectedRight },
+          ]);
+        }
+
+        setIsMatchingCorrect(true);
+        setMatchedPairs([
+          ...matchedPairs,
+          { left: selectedLeft, right: selectedRight },
+        ]);
+        setSelectedLeft(null);
+        setSelectedRight(null);
+
+        // Check if all pairs are matched
+        if (
+          correctPairs.length + 1 ===
+          Object.keys(currentExercise.answer).length
+        ) {
+          setIsAnswered(true); // Mark exercise as answered
+          setIsCorrect(true); // Mark exercise as correct
+        }
+      } else {
+        setIsMatchingCorrect(false);
+      }
     }
   };
 
-  const currentQuestion: Question | undefined = isReviewMode
-    ? incorrectQuestions[count]
-    : exercises.unit_one[count];
+  const checkMatchingAnswer = (exercise: MatchingExercise) => {
+    let matchingPoints = 0;
+    Object.keys(exercise.answer).forEach((word) => {
+      if (userAnswers[currentExerciseIndex]?.[word] === exercise.answer[word]) {
+        matchingPoints += 2.5;
+      }
+    });
+    setPoints((prev) => prev + matchingPoints);
+    if (matchingPoints < Object.keys(exercise.answer).length * 2.5) {
+      setLives(() => lives - 1);
+      setIsCorrect(false);
+    } else {
+      setIsCorrect(true);
+    }
+  };
+
+  const shuffleArray = (array: any[]) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  };
+
+  const checkAnswer = () => {
+    setIsCorrect(null);
+    setShowCorrectAnswer(false);
+    if (currentExercise.type === "multiple_choice") {
+      checkMultipleChoiceAnswer(currentExercise);
+    } else if (currentExercise.type === "matching") {
+      checkMatchingAnswer(currentExercise);
+    }
+    setIsAnswered(true);
+  };
+
+  const nextExercise = () => {
+    setIsAnswered(false);
+    setSkipped(false);
+    setSelectedOption(null);
+    setIsCorrect(null);
+    setShowCorrectAnswer(false);
+    setSelectedLeft(null); // Reset selectedLeft
+    setSelectedRight(null); // Reset selectedRight
+    setMatchedPairs([]); // Reset matchedPairs
+    setCorrectPairs([]); // Reset correctPairs
+    setIsMatchingCorrect(null); // Reset isMatchingCorrect
+
+    if (currentExerciseIndex < exercises.length - 1) {
+      setCurrentExerciseIndex((prev) => prev + 1);
+    } else {
+      setShowResults(true);
+      // Check if there is a next lesson before unlocking
+    }
+  };
+
+  const nextLesson = () => {
+    if (lessonIndex < lessonExercises.length - 1) {
+      toast({ title: "Дараагийн хичээл нээгдлээ." });
+      navigate("/lesson", { state: { unlockNext: lessonIndex + 1 } });
+    } else {
+      toast({ title: "Одоогоор өөр хичээл байхгүй байна" });
+      navigate("/lesson"); // If no next lesson, just navigate back
+    }
+  };
+
+  const skipExercise = () => {
+    setSkipped(true);
+    setIsAnswered(true);
+  };
+
+  const renderMultipleChoice = (exercise: MultipleChoiceExercise) => {
+    return (
+      <Card className="border-0 shadow-lg rounded-2xl overflow-hidden min-w-96">
+        <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">
+          <CardTitle className="text-xl font-bold text-center">
+            {exercise.question}
+          </CardTitle>
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={toggleAudio}
+              className={`p-3 rounded-full ${
+                isPlaying ? "bg-indigo-700" : "bg-indigo-500"
+              } hover:bg-indigo-600 transition-colors`}
+              aria-label="Play audio"
+            >
+              <Volume2
+                size={24}
+                className={`text-white ${isPlaying ? "animate-pulse" : ""}`}
+                fill={isPlaying ? "currentColor" : "none"}
+              />
+            </button>
+          </div>
+        </CardHeader>
+        <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {exercise.options.map((option, index) => (
+            <button
+              key={option}
+              className={`p-4 rounded-xl transition-all duration-200 border-2
+                ${
+                  selectedOption === option
+                    ? isCorrect === true
+                      ? "border-emerald-500 bg-emerald-50"
+                      : isCorrect === false
+                      ? "border-rose-500 bg-rose-50"
+                      : "border-blue-500 bg-blue-50"
+                    : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                }
+                ${selectedOption === option ? "ring-2 ring-offset-2" : ""}
+                ${
+                  selectedOption === option && isCorrect === true
+                    ? "ring-emerald-200"
+                    : selectedOption === option && isCorrect === false
+                    ? "ring-rose-200"
+                    : selectedOption === option
+                    ? "ring-blue-200"
+                    : ""
+                }`}
+              onClick={() => handleMultipleChoiceAnswer(option)}
+              aria-label={`Option ${index + 1}: ${option}`}
+              aria-selected={selectedOption === option}
+              role="radio"
+            >
+              <div className="flex items-center justify-between">
+                <p className="text-left font-medium text-3xl rotate-90">
+                  {option}
+                </p>
+                {selectedOption === option && isCorrect !== null && (
+                  <span className="ml-2">
+                    {isCorrect ? (
+                      <Check className="text-emerald-500" size={20} />
+                    ) : (
+                      <X className="text-rose-500" size={20} />
+                    )}
+                  </span>
+                )}
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <span className="text-xs text-gray-500">
+                  Option {index + 1}
+                </span>
+                {selectedOption === option && (
+                  <span
+                    className={`text-xs font-semibold ${
+                      isCorrect === true
+                        ? "text-emerald-600"
+                        : isCorrect === false
+                        ? "text-rose-600"
+                        : "text-blue-600"
+                    }`}
+                  >
+                    {isCorrect === true
+                      ? "Correct!"
+                      : isCorrect === false
+                      ? "Incorrect"
+                      : "Selected"}
+                  </span>
+                )}
+              </div>
+            </button>
+          ))}
+        </CardContent>
+        {showCorrectAnswer && (
+          <div className="px-6 pb-6">
+            <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+              <p className="text-indigo-800 font-medium">
+                Correct Answer:{" "}
+                <span className="font-bold rotate-90">{exercise.answer}</span>
+              </p>
+            </div>
+          </div>
+        )}
+      </Card>
+    );
+  };
+
+  const renderMatching = (exercise: MatchingExercise) => {
+    return (
+      <Card className="border-0 shadow-lg rounded-2xl overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">
+          <CardTitle className="text-xl font-bold">
+            {exercise.question}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            {shuffledLeftOptions.map((option, index) => (
+              <button
+                key={index}
+                className={`w-full p-4 rounded-xl transition-all duration-200 border-2 ${
+                  selectedLeft === index
+                    ? "border-blue-500 bg-blue-50"
+                    : correctPairs.some((pair) => pair.left === index)
+                    ? "border-green-500 bg-green-50 cursor-not-allowed"
+                    : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                }`}
+                onClick={() =>
+                  !correctPairs.some((pair) => pair.left === index) &&
+                  handleLeftSelect(index)
+                }
+                disabled={correctPairs.some((pair) => pair.left === index)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+          <div className="space-y-2">
+            {shuffledRightOptions.map((option, index) => (
+              <button
+                key={index}
+                className={`w-full p-4 rounded-xl transition-all duration-200 border-2 ${
+                  selectedRight === index
+                    ? "border-blue-500 bg-blue-50"
+                    : correctPairs.some((pair) => pair.right === index)
+                    ? "border-green-500 bg-green-50 cursor-not-allowed"
+                    : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                }`}
+                onClick={() =>
+                  !correctPairs.some((pair) => pair.right === index) &&
+                  handleRightSelect(index)
+                }
+                disabled={correctPairs.some((pair) => pair.right === index)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </CardContent>
+        {isMatchingCorrect === false && (
+          <div className="text-center p-4 text-red-500">
+            Incorrect match. Try again.
+          </div>
+        )}
+      </Card>
+    );
+  };
+
+  if (showResults) {
+    // Calculate total possible points
+    const totalPossiblePoints = exercises.length * 10;
+
+    // Calculate accuracy
+    const accuracy = Math.round((points / totalPossiblePoints) * 100);
+
+    return (
+      <div className="max-w-2xl mx-auto text-center p-6">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-8 text-white">
+            <h2 className="text-3xl font-bold mb-2">Perfect lesson!</h2>
+            <p className="text-blue-100">
+              You made {exercises.length - (lives > 0 ? lives : 0)} mistakes in
+              this lesson
+            </p>
+          </div>
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-center gap-6 mb-8">
+              <div className="bg-gradient-to-br from-amber-100 to-amber-50 p-6 rounded-xl border border-amber-200 shadow-sm w-full sm:w-auto">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Zap className="text-amber-600" size={24} />
+                  <p className="text-amber-800 font-bold">TOTAL XP</p>
+                </div>
+                <p className="text-3xl font-bold text-amber-900">{points}</p>
+              </div>
+              <div className="bg-gradient-to-br from-emerald-100 to-emerald-50 p-6 rounded-xl border border-emerald-200 shadow-sm w-full sm:w-auto">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Check className="text-emerald-600" size={24} />
+                  <p className="text-emerald-800 font-bold">ACCURACY</p>
+                </div>
+                <p className="text-3xl font-bold text-emerald-900">
+                  {accuracy}%
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Button
+                variant="outline"
+                className="gap-2 py-5 px-6 rounded-xl"
+                disabled={true}
+              >
+                Review Lesson
+              </Button>
+              <Button
+                className="gap-2 py-5 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+                onClick={nextLesson}
+              >
+                Continue <ChevronRight size={18} />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full bg-gray-50 flex flex-col items-center p-4">
-      {/* Progress Bar Section */}
-      <div className="w-full flex items-center justify-between px-4 mb-6">
-        <ArrowLeft
-          className="cursor-pointer text-gray-600 hover:text-gray-800"
-          onClick={() => navigate(-1)}
-          size={28}
-        />
-        <Progress
-          value={
-            (count /
-              (isReviewMode
-                ? incorrectQuestions.length
-                : exercises.unit_one.length)) *
-            100
-          }
-          className="w-11/12 rounded-md overflow-hidden bg-gray-300 h-4 [&>*]:bg-[#279c86]"
-        />
-      </div>
-
-      {/* Question Card */}
-      <Card className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6 mb-6 border border-gray-200">
-        <div className="text-lg font-semibold mb-4 text-gray-700 flex justify-between">
-          <div>
-            {isReviewMode
-              ? `Review Question ${count + 1} of ${incorrectQuestions.length}`
-              : `Асуулт ${count + 1} / ${exercises.unit_one.length}`}
-          </div>
-          {count + 1 < exercises.unit_one.length && (
-            <Dialog>
-              <DialogTrigger>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                  Тусламж
-                </button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Тусламж </DialogTitle>
-                  <DialogDescription>
-                    {currentQuestion?.desc?.[0] || "Тайлбар байхгүй"}{" "}
-                    {currentQuestion?.image && (
-                      <img
-                        src={currentQuestion.image}
-                        alt=""
-                        className="w-10 rotate-90 mx-1"
-                      />
-                    )}{" "}
-                    {currentQuestion?.desc?.[1] || ""}{" "}
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          )}
-        </div>
-
-        <div className="text-center">
-          <div className="text-xl font-medium text-gray-800 mb-4">
-            {currentQuestion?.question || "Асуулт байхгүй"}
-          </div>
-          {currentQuestion?.image && (
-            <img
-              src={currentQuestion.image}
-              alt="Question illustration"
-              className="h-32 mx-auto mb-4 object-contain rotate-90"
+    <div className="max-w-3xl mx-auto">
+      <div className="flex flex-col gap-4 p-6">
+        <div className="flex justify-between items-center">
+          <div className="w-full bg-gray-100 rounded-full h-3">
+            {/* <div
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full"
+              style={{
+                width: `${
+                  ((currentExerciseIndex + 1) / exercises.length) * 100
+                }%`,
+              }}
+            ></div> */}
+            <Progress
+              className="[&>*]:bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full "
+              value={((currentExerciseIndex + 1) / exercises.length) * 100}
             />
-          )}
-        </div>
-      </Card>
-
-      {/* Answers Section */}
-      {!isReviewMode && !showCorrectAnswer && (
-        <div className="w-full max-w-2xl flex flex-wrap justify-center gap-4">
-          {currentQuestion?.answers.map((answer, index) => (
-            <Card
-              key={index}
-              className={`w-32 h-24 flex items-center justify-center shadow-md border rounded-lg cursor-pointer hover:bg-gray-100 active:bg-gray-200 ${
-                isAnswerCorrect === true &&
-                answer === currentQuestion.correctAnswer
-                  ? "bg-green-200 border-green-500"
-                  : "bg-white border-gray-200"
-              }`}
-              onClick={() => handleAnswer(answer)}
-            >
-              <span className="text-center text-gray-700 font-medium">
-                {answer}
-              </span>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      {/* Show Correct Answer Section */}
-      {showCorrectAnswer && (
-        <div className="w-full max-w-2xl flex flex-col items-center gap-4">
-          <div className="text-center text-gray-800 mb-4">
-            Зөв хариулт: <strong>{currentQuestion?.correctAnswer || ""}</strong>
           </div>
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-            onClick={moveToNextQuestion}
-          >
-            Дараагийн асуулт
-          </button>
+          <div className="flex items-center ml-4">
+            <div className="flex items-center bg-rose-50 px-3 py-1 rounded-full">
+              <Heart className="text-rose-500" size={18} fill="currentColor" />
+              <span className="text-rose-800 font-medium ml-1">{lives}</span>
+            </div>
+          </div>
         </div>
-      )}
 
-      {/* Display Total Points */}
-      <div className="w-full max-w-2xl text-center text-lg text-gray-800 mt-4">
-        Нийт оноо: <strong>{totalPoints}</strong>
+        {currentExercise.type === "multiple_choice" &&
+          renderMultipleChoice(currentExercise)}
+        {currentExercise.type === "matching" && renderMatching(currentExercise)}
+
+        {!isAnswered ? (
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+            <Button
+              onClick={checkAnswer}
+              className="py-5 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+              //   disabled={currentExercise.type === "matching"} // Disable for matching exercise
+            >
+              Check Answer
+            </Button>
+            <Button
+              onClick={skipExercise}
+              variant="outline"
+              className="py-5 px-8 rounded-xl gap-2"
+              disabled={isCorrect === true}
+            >
+              <SkipForward size={16} />
+              Skip
+            </Button>
+          </div>
+        ) : (
+          <div className="flex justify-center mt-6">
+            {skipped && (
+              <div className="text-center w-full">
+                <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100 mb-4">
+                  <p className="text-indigo-800 font-medium">
+                    Correct solution:{" "}
+                    {currentExercise.type === "multiple_choice"
+                      ? currentExercise.answer
+                      : JSON.stringify(currentExercise.answer)}
+                  </p>
+                </div>
+                <Button
+                  onClick={nextExercise}
+                  className="py-5 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 gap-2"
+                >
+                  Continue <ChevronRight size={18} />
+                </Button>
+              </div>
+            )}
+            {!skipped && (
+              <Button
+                onClick={nextExercise}
+                className="py-5 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 gap-2"
+              >
+                Continue <ChevronRight size={18} />
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default Exercise;

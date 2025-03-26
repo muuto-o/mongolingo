@@ -11,6 +11,7 @@ import Profile from "./pages/profile";
 import Lesson from "./pages/lesson";
 import Exercise from "./pages/exercises";
 import NotFound from "./pages/not-found";
+// import ExerciseActivity from "./mock/pages/ExerciseActivity";
 // import Post from './pages/post';
 
 function App() {

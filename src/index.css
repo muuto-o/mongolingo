@@ -16,3 +16,15 @@
     --secondary-color: #4f46e5; /* Purple for dark mode */
   }
 }
+
+@font-face {
+  font-family: "MongolianScript";
+  src: local("MongolianScript"),
+    url("./assets/MongolianScript5.91.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.mongolian-text {
+  font-family: MongolianScript;
+}

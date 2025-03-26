@@ -17,6 +17,7 @@ export default function Letters() {
         <section className="mb-8">
           <h1 className="w-full border-2 border-gray-300 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-lg font-bold text-2xl text-center text-white py-4 mb-12 shadow-lg">
             Эгшиг үсэгнүүд
+            {/* <AudioPlayer /> */}
           </h1>
           {/* <h1 className="text-2xl font-bold text-gray-800 mb-4">
             Эгшиг үсэгнүүд
@@ -41,7 +42,7 @@ export default function Letters() {
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Тусламж</DialogTitle>
-                    <DialogDescription className="flex ">
+                    <DialogDescription className="flex mongolian-text">
                       <div> {letter.desc[0]} </div>
                       <img
                         src={letter.img[0]}
