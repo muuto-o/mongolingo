@@ -10,6 +10,7 @@ type AuthContextProps = {
   getAccessToken: () => string | null;
   signin: (data: LoginResponse) => void;
   logout: () => void;
+  getUser: () => LoginResponse | null;
 };
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -26,6 +27,17 @@ export const AuthContextProvider = ({
     }
     return null;
   });
+
+  console.log(user);
+
+  const getUser = () => {
+    const storedUser = localStorage.getItem("user");
+    console.log(storedUser);
+    if (storedUser) {
+      return JSON.parse(storedUser) as LoginResponse;
+    }
+    return null;
+  };
 
   const addResetPasswordToken = (token: string) => {
     localStorage.setItem("resetPasswordToken", token);
@@ -60,6 +72,7 @@ export const AuthContextProvider = ({
         removeResetPasswordToken,
         getResetPasswordToken,
         getAccessToken,
+        getUser,
       }}
     >
       {children}

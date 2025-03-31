@@ -14,6 +14,9 @@ import {
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addPoinst } from "@/services/auth";
+import { useAuth } from "@/hooks/auth";
 
 export interface MultipleChoiceExercise {
   type: "multiple_choice";
@@ -82,6 +85,17 @@ const Exercise: React.FC = () => {
   console.log("lessonExercises:", lessonExercises); //debugging.
 
   const currentExercise: Exercise = exercises[currentExerciseIndex];
+
+  const { getUser } = useAuth();
+  const user = getUser();
+
+  const queryClient = useQueryClient();
+  const pointsMutation = useMutation({
+    mutationFn: addPoinst,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["me"] });
+    },
+  });
 
   useEffect(() => {
     // Initialize audio element
@@ -270,6 +284,13 @@ const Exercise: React.FC = () => {
       setCurrentExerciseIndex((prev) => prev + 1);
     } else {
       setShowResults(true);
+      const userData = {
+        email: user?.email ? user?.email : "",
+        username: user?.username ? user?.username : "",
+        points: points + (user?.points ? user.points : 0),
+        experience: Math.floor(points * 0.4),
+      };
+      pointsMutation.mutate(userData);
       // Check if there is a next lesson before unlocking
     }
   };
@@ -477,14 +498,14 @@ const Exercise: React.FC = () => {
               <div className="bg-gradient-to-br from-amber-100 to-amber-50 p-6 rounded-xl border border-amber-200 shadow-sm w-full sm:w-auto">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Zap className="text-amber-600" size={24} />
-                  <p className="text-amber-800 font-bold">TOTAL XP</p>
+                  <p className="text-amber-800 font-bold">Нийт XP</p>
                 </div>
                 <p className="text-3xl font-bold text-amber-900">{points}</p>
               </div>
               <div className="bg-gradient-to-br from-emerald-100 to-emerald-50 p-6 rounded-xl border border-emerald-200 shadow-sm w-full sm:w-auto">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Check className="text-emerald-600" size={24} />
-                  <p className="text-emerald-800 font-bold">ACCURACY</p>
+                  <p className="text-emerald-800 font-bold">Онч</p>
                 </div>
                 <p className="text-3xl font-bold text-emerald-900">
                   {accuracy}%
@@ -497,13 +518,13 @@ const Exercise: React.FC = () => {
                 className="gap-2 py-5 px-6 rounded-xl"
                 disabled={true}
               >
-                Review Lesson
+                coming soon...
               </Button>
               <Button
                 className="gap-2 py-5 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
                 onClick={nextLesson}
               >
-                Continue <ChevronRight size={18} />
+                Үргэлжлүүлэх <ChevronRight size={18} />
               </Button>
             </div>
           </div>
@@ -549,7 +570,7 @@ const Exercise: React.FC = () => {
               className="py-5 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
               //   disabled={currentExercise.type === "matching"} // Disable for matching exercise
             >
-              Check Answer
+              Шалгах
             </Button>
             <Button
               onClick={skipExercise}
@@ -558,7 +579,7 @@ const Exercise: React.FC = () => {
               disabled={isCorrect === true}
             >
               <SkipForward size={16} />
-              Skip
+              Алгасах
             </Button>
           </div>
         ) : (
@@ -577,7 +598,7 @@ const Exercise: React.FC = () => {
                   onClick={nextExercise}
                   className="py-5 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 gap-2"
                 >
-                  Continue <ChevronRight size={18} />
+                  Үргэлжлүүлэх <ChevronRight size={18} />
                 </Button>
               </div>
             )}
@@ -586,7 +607,7 @@ const Exercise: React.FC = () => {
                 onClick={nextExercise}
                 className="py-5 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 gap-2"
               >
-                Continue <ChevronRight size={18} />
+                Үргэлжлүүлэх <ChevronRight size={18} />
               </Button>
             )}
           </div>

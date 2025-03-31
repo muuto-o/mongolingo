@@ -15,6 +15,9 @@ import { useNavigate } from "react-router-dom";
 export default function HomePage() {
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   localStorage.getItem("user");
+  // }, [userData]);
   return (
     <div className="p-6 w-full h-full bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex flex-col items-center justify-center">
       {/* SECTION 1 */}

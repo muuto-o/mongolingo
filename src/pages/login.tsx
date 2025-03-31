@@ -36,6 +36,8 @@ export default function LoginPage() {
     mutationFn: login,
     onSuccess: (data) => {
       toast({ title: "Амжиллтай нэвтэрлээ.", description: data.username });
+      console.log("login success data:", data); // Check the data here!
+
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/");
     },

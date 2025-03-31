@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Book } from "lucide-react";
 
 export default function Lesson() {
   const navigate = useNavigate();
@@ -12,14 +13,15 @@ export default function Lesson() {
     if (unlockNext !== undefined && !unlockedLessons.includes(unlockNext)) {
       setUnlockedLessons((prev) => [...prev, unlockNext]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unlockNext]); // Initially, only the first lesson is unlocked
 
   const lessons = [
-    { title: "а, э" },
-    { title: "о, у" },
-    { title: "и" },
-    { title: "ө, ү" },
-    { title: "Бататгах" },
+    { title: "а, э", icon: <Book className="w-6 h-6" /> },
+    { title: "о, у", icon: <Book className="w-6 h-6" /> },
+    { title: "и", icon: <Book className="w-6 h-6" /> },
+    { title: "ө, ү", icon: <Book className="w-6 h-6" /> },
+    { title: "Бататгах", icon: <Book className="w-6 h-6" /> },
   ];
 
   const handleLessonClick = (index: number) => {
@@ -34,20 +36,32 @@ export default function Lesson() {
         Эгшиг үсэг
       </h1>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 p-4">
         {lessons.map((lesson, index) => (
           <Card
             key={index}
-            className={`w-28 h-28 flex items-center justify-center border border-gray-300 shadow-xl rounded-3xl cursor-pointer transform transition-all hover:scale-110 hover:shadow-2xl active:scale-95 ${
+            className={`w-24 h-24 flex flex-col items-center justify-center rounded-2xl cursor-pointer transition-all duration-200 ${
               unlockedLessons.includes(index)
-                ? "bg-white"
-                : "bg-gray-200 cursor-not-allowed opacity-70 hover:scale-100"
+                ? "bg-white border-2 border-green-100 hover:border-green-300 hover:shadow-lg"
+                : "bg-gray-100 cursor-not-allowed"
             }`}
-            onClick={() => handleLessonClick(index)}
+            onClick={() =>
+              unlockedLessons.includes(index) && handleLessonClick(index)
+            }
           >
-            <span className="text-base font-bold text-gray-700">
-              {lesson.title}
-            </span>
+            <div
+              className={`text-3xl mb-2 ${
+                unlockedLessons.includes(index)
+                  ? "text-green-500"
+                  : "text-gray-400"
+              }`}
+            >
+              {/* Replace these with your actual icons - example uses emoji */}
+              {lesson.icon || "📚"}
+            </div>
+            {unlockedLessons.includes(index) && (
+              <div className="w-6 h-2 bg-green-400 rounded-full"></div>
+            )}
           </Card>
         ))}
       </div>

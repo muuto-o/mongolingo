@@ -1,4 +1,5 @@
 import Sidebar from "@/components/sidebar";
+import { AuthContextProvider } from "@/hooks/auth";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function PrivateLayout() {
@@ -8,11 +9,13 @@ export default function PrivateLayout() {
   }
 
   return (
-    <div className="h-full w-screen flex">
-      <Sidebar />
-      <div className="p-8 w-full h-full flex">
-        <Outlet />
+    <AuthContextProvider>
+      <div className="h-full w-screen flex">
+        <Sidebar />
+        <div className="p-8 w-full h-full flex">
+          <Outlet />
+        </div>
       </div>
-    </div>
+    </AuthContextProvider>
   );
 }

@@ -1,9 +1,11 @@
 
 export type User = {
+  id:string;
   username: string;
   email: string;
   password?: string;
   points: number;
+  experience: number;
 }
 
 export type LoginRequest = {
@@ -12,10 +14,12 @@ export type LoginRequest = {
 }
 
 export type LoginResponse = {
+    id : string;
     username : string;
     email : string;
     password?: string;
     points : number;
+    experience: number;
 }
 
 export type RegisterRequest = {
@@ -41,3 +45,18 @@ export type EditProfileResponse ={
     password?: string;
     points : number;
 }
+
+export type AddPoinstRequest = {
+    email : string;
+    username: string;
+    points: number;
+    experience: number;
+}
+
+export type AddPoinstResponse = User
+
+export type GetMeRequest = {
+    id : string
+}
+
+export type GetMeResponse = User
