@@ -49,18 +49,71 @@ export const lessons = [
 ]
 
 
-export const lessonExercises: (MultipleChoiceExercise | MatchingExercise)[][] = [
+export const lessonExercises: (MultipleChoiceExercise | MatchingExercise)[] = 
   [
     {
       type: "multiple_choice",
-      question: "(Э) Энэ ямар үсэг вэ?",
+      title: "(Э) Энэ ямар үсэг вэ?",
       options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
-      answer: "ᠡ",
-      audio: e_sound,
+      correctAnswer: "ᠡ",
+      audioPath: e_sound,
     },
-  //   {
+    {
+      type: "multiple_choice",
+      title: "Энэ үсэг ямар дуу гаргадаг вэ?",
+      options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
+      correctAnswer: "ᠣ",
+      audioPath: o_sound,
+    },
+    {
+      type: "matching",
+      title: "Тоо бүрийг нэртэй нь тохируул.",
+      pairs: [
+        { word: "нэг", meaning: "one" },
+        { word: "хоёр", meaning: "two" },
+        { word: "гурван", meaning: "three" },
+        { word: "дөрөв", meaning: "four" },
+      ],
+      correctAnswer: {
+        нэг: "one",
+        хоёр: "two",
+        гурван: "three",
+        дөрөв: "four",
+      },
+    },
+    {
+      type: "matching",
+      title: "Өнгө бүрийг нэртэй нь тохируул.",
+      pairs: [
+        { word: "улаан", meaning: "red" },
+        { word: "хар", meaning: "black" },
+        { word: "шар", meaning: "yellow" },
+        { word: "цэнхэр", meaning: "blue" },
+      ],
+      correctAnswer: {
+        улаан: "red",
+        хар: "black",
+        шар: "yellow",
+        цэнхэр: "blue",
+      },
+    },
+     {
+      type: "multiple_choice",
+      title: "Энэ үсэг ямар дуу гаргадаг вэ?",
+      options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
+      correctAnswer: "ᠢ",
+      audioPath: i_sound,
+    },
+    //   {
+  //     type: "multiple_choice",
+  //     title: "Энэ үсэг ямар дуу гаргадаг вэ?",
+  //     options: ["ᠤ", "ᠡ", "ᠢ", "ᠣ"],
+  //     correctAnswer: "ᠤ",
+  //     audioPath: u_sound,
+  //   },
+    //  {
   //     type: "matching",
-  //     question: "Үг бүрийг утгатай нь тохируул.",
+  //     title: "Үг бүрийг утгатай нь тохируул.",
   //     pairs: [
   //       { word: "ном", meaning: "book" },
   //       { word: "ус", meaning: "water" },
@@ -69,7 +122,7 @@ export const lessonExercises: (MultipleChoiceExercise | MatchingExercise)[][] = 
   //       { word: "үүл", meaning: "cloud" },
   //       { word: "чулуу", meaning: "stone" },
   //     ],
-  //     answer: {
+  //     correctAnswer: {
   //       ном: "book",
   //       ус: "water",
   //       гал: "fire",
@@ -80,21 +133,21 @@ export const lessonExercises: (MultipleChoiceExercise | MatchingExercise)[][] = 
   //   },
   //   {
   //     type: "multiple_choice",
-  //     question: "Энэ үсэг ямар дуу гаргадаг вэ?",
+  //     title: "Энэ үсэг ямар дуу гаргадаг вэ?",
   //     options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
-  //     answer: "ᠢ",
-  //     audio: i_sound,
+  //     correctAnswer: "ᠢ",
+  //     audioPath: i_sound,
   //   },
   //   {
   //     type: "matching",
-  //     question: "Амьтан бүрийг нэртэй нь тохируул.",
+  //     title: "Амьтан бүрийг нэртэй нь тохируул.",
   //     pairs: [
   //       { word: "морь", meaning: "horse" },
   //       { word: "үхэр", meaning: "cow" },
   //       { word: "тэмээ", meaning: "camel" },
   //       { word: "хонь", meaning: "sheep" },
   //     ],
-  //     answer: {
+  //     correctAnswer: {
   //       морь: "horse",
   //       үхэр: "cow",
   //       тэмээ: "camel",
@@ -103,91 +156,35 @@ export const lessonExercises: (MultipleChoiceExercise | MatchingExercise)[][] = 
   //   },
   //   {
   //     type: "multiple_choice",
-  //     question: "Энэ үсэг ямар дуу гаргадаг вэ?",
+  //     title: "Энэ үсэг ямар дуу гаргадаг вэ?",
   //     options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
-  //     answer: "ᠠ",
-  //     audio: a_sound,
+  //     correctAnswer: "ᠠ",
+  //     audioPath: a_sound,
   //   },
   //   {
   //     type: "matching",
-  //     question: "Өнгө бүрийг нэртэй нь тохируул.",
+  //     title: "Өнгө бүрийг нэртэй нь тохируул.",
   //     pairs: [
   //       { word: "улаан", meaning: "red" },
   //       { word: "хар", meaning: "black" },
   //       { word: "шар", meaning: "yellow" },
   //       { word: "цэнхэр", meaning: "blue" },
   //     ],
-  //     answer: {
+  //     correctAnswer: {
   //       улаан: "red",
   //       хар: "black",
   //       шар: "yellow",
   //       цэнхэр: "blue",
   //     },
   //   },
-    {
-      type: "multiple_choice",
-      question: "Энэ үсэг ямар дуу гаргадаг вэ?",
-      options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
-      answer: "ᠣ",
-      audio: o_sound,
-    },
-    {
-      type: "matching",
-      question: "Тоо бүрийг нэртэй нь тохируул.",
-      pairs: [
-        { word: "нэг", meaning: "one" },
-        { word: "хоёр", meaning: "two" },
-        { word: "гурван", meaning: "three" },
-        { word: "дөрөв", meaning: "four" },
-      ],
-      answer: {
-        нэг: "one",
-        хоёр: "two",
-        гурван: "three",
-        дөрөв: "four",
-      },
-    },
-  //   {
-  //     type: "multiple_choice",
-  //     question: "Энэ үсэг ямар дуу гаргадаг вэ?",
-  //     options: ["ᠤ", "ᠡ", "ᠢ", "ᠣ"],
-  //     answer: "ᠤ",
-  //     audio: u_sound,
-  //   },
-  ],
-  [
-    {
-      type: "matching",
-      question: "Өнгө бүрийг нэртэй нь тохируул.",
-      pairs: [
-        { word: "улаан", meaning: "red" },
-        { word: "хар", meaning: "black" },
-        { word: "шар", meaning: "yellow" },
-        { word: "цэнхэр", meaning: "blue" },
-      ],
-      answer: {
-        улаан: "red",
-        хар: "black",
-        шар: "yellow",
-        цэнхэр: "blue",
-      },
-    },
-     {
-      type: "multiple_choice",
-      question: "Энэ үсэг ямар дуу гаргадаг вэ?",
-      options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
-      answer: "ᠢ",
-      audio: i_sound,
-    },
-  ]
-  //add more arrays here for other lessons.
-];
+  ];
+
 
 export const exercises2 = {
     unit_one : [
         {
             type : "test",
-            question : "Дараах үсгийн галигийг сонго.",
+            title : "Дараах үсгийн галигийг сонго.",
             image : ABegin,
             answers : ["э (үгийн эхэнд)", "а (үгийн эхэнд)", "о (үгийн эхэнд)", "а (үгийн дунд)"],
             correctAnswer : "а (үгийн эхэнд)",
@@ -199,7 +196,7 @@ export const exercises2 = {
         },
         {
             type : "test",
-            question : "Дараах үсгийн галигийг сонго.",
+            title : "Дараах үсгийн галигийг сонго.",
             image : EBegin,
             answers : ["а (үгийн эхэнд)", "э (үгийн эхэнд)", "о (үгийн эхэнд)","а (үгийн дунд)"],
             correctAnswer : "э (үгийн эхэнд)",
@@ -212,7 +209,7 @@ export const exercises2 = {
         },
          {
             type : "test",
-             question : "Дараах үсгийн галигийг сонго.",
+             title : "Дараах үсгийн галигийг сонго.",
             image : ADund,
             answers : ["а (үгийн эхэнд)", "э (үгийн эхэнд)", "о (үгийн эхэнд)","а (үгийн дунд)"],
             correctAnswer : "а (үгийн дунд)",
@@ -224,7 +221,7 @@ export const exercises2 = {
         },
         {
             type : "test",
-            question : "Дараах үсгийн галигийг сонго.",
+            title : "Дараах үсгийн галигийг сонго.",
             image : ADund,
             answers : ["а (үгийн эхэнд)", "э (үгийн эхэнд)", "о (үгийн эхэнд)","э (үгийн дунд)"],
             correctAnswer : "э (үгийн дунд)",
@@ -236,7 +233,7 @@ export const exercises2 = {
         },
         // {
         //     type : "match",
-        //     question : "Дараах үсгүүдийг тохирох галигтай холбо.",
+        //     title : "Дараах үсгүүдийг тохирох галигтай холбо.",
         //     image : [ADund, ABegin, EBegin],
         //     answers : ["а (үгийн эхэнд)", "э (үгийн эхэнд)","э (үгийн дунд)"],
         //     correctAnswer : [[0, 2], [1, 0], [2, 1]],

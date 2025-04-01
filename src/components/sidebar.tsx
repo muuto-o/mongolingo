@@ -1,9 +1,11 @@
+import { useInterface } from "@/hooks/interface";
 import { useNavigate } from "react-router-dom";
 export default function Sidebar() {
   const navigate = useNavigate();
+  const { isVisible } = useInterface();
 
   return (
-    <div className="h-full">
+    <div className={isVisible ? "h-full" : "hidden"}>
       <aside className="w-full bg-white p-6 h-full border-r border-gray-300 shadow-lg flex flex-col justify-between">
         {/* Brand */}
         <div className="text-green-600 text-3xl font-extrabold mb-12 tracking-wider">

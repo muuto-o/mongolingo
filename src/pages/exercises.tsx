@@ -20,23 +20,23 @@ import { useAuth } from "@/hooks/auth";
 
 export interface MultipleChoiceExercise {
   type: "multiple_choice";
-  question: string;
+  title: string;
   options: string[];
-  answer: string;
+  correctAnswer: string;
   audio: string;
 }
 
 export interface MatchingExercise {
   type: "matching";
-  question: string;
+  title: string;
   pairs: { word: string; meaning: string }[];
-  answer: { [word: string]: string };
+  correctAnswer: { [word: string]: string };
 }
 
 export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
-const lessonExercises: Exercise[][] = exercisesData as Exercise[][];
-// const lessonExercises: Exercise[] = exercisesData as Exercise[];
+// const lessonExercises: Exercise[][] = exercisesData as Exercise[][];
+const exercises: Exercise[] = exercisesData as Exercise[];
 
 const Exercise: React.FC = () => {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
@@ -76,13 +76,13 @@ const Exercise: React.FC = () => {
   console.log("lessonIndex:", lessonIndex); // Debugging
 
   // const exercises: Exercise[] = lessonExercises[lessonIndex] || [];
-  const exercises: Exercise[] =
-    lessonIndex < lessonExercises.length && lessonExercises[lessonIndex]
-      ? lessonExercises[lessonIndex]
-      : [];
+  // const exercises: Exercise[] =
+  //   lessonIndex < lessonExercises.length && lessonExercises[lessonIndex]
+  //     ? lessonExercises[lessonIndex]
+  //     : [];
 
-  console.log("exercises:", exercises); //debugging.
-  console.log("lessonExercises:", lessonExercises); //debugging.
+  // console.log("exercises:", exercises); //debugging.
+  // console.log("lessonExercises:", lessonExercises); //debugging.
 
   const currentExercise: Exercise = exercises[currentExerciseIndex];
 
@@ -116,12 +116,13 @@ const Exercise: React.FC = () => {
     if (selectedLeft !== null && selectedRight !== null) {
       checkMatchingPair();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLeft, selectedRight]);
 
   useEffect(() => {
     if (currentExercise.type === "matching") {
-      const leftOptions = Object.keys(currentExercise.answer);
-      const rightOptions = Object.values(currentExercise.answer);
+      const leftOptions = Object.keys(currentExercise.correctAnswer);
+      const rightOptions = Object.values(currentExercise.correctAnswer);
       setShuffledLeftOptions(shuffleArray(leftOptions));
       setShuffledRightOptions(shuffleArray(rightOptions));
     }
@@ -161,17 +162,17 @@ const Exercise: React.FC = () => {
     }
   };
 
-  const handleMultipleChoiceAnswer = (answer: string) => {
-    setSelectedOption(answer);
+  const handleMultipleChoiceAnswer = (correctAnswer: string) => {
+    setSelectedOption(correctAnswer);
     setUserAnswers((prev) => {
       const updatedAnswers = [...prev];
-      updatedAnswers[currentExerciseIndex] = answer;
+      updatedAnswers[currentExerciseIndex] = correctAnswer;
       return updatedAnswers;
     });
   };
 
   const checkMultipleChoiceAnswer = (exercise: MultipleChoiceExercise) => {
-    if (userAnswers[currentExerciseIndex] === exercise.answer) {
+    if (userAnswers[currentExerciseIndex] === exercise.correctAnswer) {
       setPoints((prev) => prev + 10);
       setIsCorrect(true);
     } else {
@@ -194,7 +195,7 @@ const Exercise: React.FC = () => {
       const leftOption = shuffledLeftOptions[selectedLeft];
       const rightOption = shuffledRightOptions[selectedRight];
 
-      if (currentExercise.answer[leftOption] === rightOption) {
+      if (currentExercise.correctAnswer[leftOption] === rightOption) {
         // Check if pair is already in correctPairs
         const isPairUnique = !correctPairs.some(
           (pair) => pair.left === selectedLeft && pair.right === selectedRight
@@ -218,7 +219,7 @@ const Exercise: React.FC = () => {
         // Check if all pairs are matched
         if (
           correctPairs.length + 1 ===
-          Object.keys(currentExercise.answer).length
+          Object.keys(currentExercise.correctAnswer).length
         ) {
           setIsAnswered(true); // Mark exercise as answered
           setIsCorrect(true); // Mark exercise as correct
@@ -231,13 +232,16 @@ const Exercise: React.FC = () => {
 
   const checkMatchingAnswer = (exercise: MatchingExercise) => {
     let matchingPoints = 0;
-    Object.keys(exercise.answer).forEach((word) => {
-      if (userAnswers[currentExerciseIndex]?.[word] === exercise.answer[word]) {
+    Object.keys(exercise.correctAnswer).forEach((word) => {
+      if (
+        userAnswers[currentExerciseIndex]?.[word] ===
+        exercise.correctAnswer[word]
+      ) {
         matchingPoints += 2.5;
       }
     });
     setPoints((prev) => prev + matchingPoints);
-    if (matchingPoints < Object.keys(exercise.answer).length * 2.5) {
+    if (matchingPoints < Object.keys(exercise.correctAnswer).length * 2.5) {
       setLives(() => lives - 1);
       setIsCorrect(false);
     } else {
@@ -296,13 +300,8 @@ const Exercise: React.FC = () => {
   };
 
   const nextLesson = () => {
-    if (lessonIndex < lessonExercises.length - 1) {
-      toast({ title: "Дараагийн хичээл нээгдлээ." });
-      navigate("/lesson", { state: { unlockNext: lessonIndex + 1 } });
-    } else {
-      toast({ title: "Одоогоор өөр хичээл байхгүй байна" });
-      navigate("/lesson"); // If no next lesson, just navigate back
-    }
+    toast({ title: "Дараагийн хичээл нээгдлээ." });
+    navigate("/lesson", { state: { unlockNext: lessonIndex + 1 } });
   };
 
   const skipExercise = () => {
@@ -315,7 +314,7 @@ const Exercise: React.FC = () => {
       <Card className="border-0 shadow-lg rounded-2xl overflow-hidden min-w-96">
         <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">
           <CardTitle className="text-xl font-bold text-center">
-            {exercise.question}
+            {exercise.title}
           </CardTitle>
           <div className="flex justify-center mt-4">
             <button
@@ -405,8 +404,10 @@ const Exercise: React.FC = () => {
           <div className="px-6 pb-6">
             <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
               <p className="text-indigo-800 font-medium">
-                Correct Answer:{" "}
-                <span className="font-bold rotate-90">{exercise.answer}</span>
+                Correct correctAnswer:{" "}
+                <span className="font-bold rotate-90">
+                  {exercise.correctAnswer}
+                </span>
               </p>
             </div>
           </div>
@@ -419,9 +420,7 @@ const Exercise: React.FC = () => {
     return (
       <Card className="border-0 shadow-lg rounded-2xl overflow-hidden">
         <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">
-          <CardTitle className="text-xl font-bold">
-            {exercise.question}
-          </CardTitle>
+          <CardTitle className="text-xl font-bold">{exercise.title}</CardTitle>
         </CardHeader>
         <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -590,8 +589,8 @@ const Exercise: React.FC = () => {
                   <p className="text-indigo-800 font-medium">
                     Correct solution:{" "}
                     {currentExercise.type === "multiple_choice"
-                      ? currentExercise.answer
-                      : JSON.stringify(currentExercise.answer)}
+                      ? currentExercise.correctAnswer
+                      : JSON.stringify(currentExercise.correctAnswer)}
                   </p>
                 </div>
                 <Button

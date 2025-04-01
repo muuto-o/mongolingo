@@ -1,16 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/home";
+
 import RootLayout from "./layouts/root";
 import PrivateLayout from "./layouts/private";
 import PublicLayout from "./layouts/public";
-import LoginPage from "./pages/login";
-import RegisterPage from "./pages/register";
-import Letters from "./pages/letters";
-import Leaderboard from "./pages/leaderboard";
-import Profile from "./pages/profile";
-import Lesson from "./pages/lesson";
-import Exercise from "./pages/exercises";
+
 import NotFound from "./pages/not-found";
+
+import { routes } from "./lib/routes";
 // import ExerciseActivity from "./mock/pages/ExerciseActivity";
 // import Post from './pages/post';
 
@@ -22,20 +18,37 @@ function App() {
           {/* Public layout */}
 
           <Route element={<PublicLayout />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            {routes.map((route) => {
+              if (!route.requireAuth) {
+                return (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={route.element}
+                  />
+                );
+              }
+              return null; // Handle cases where neither public nor private
+            })}
           </Route>
 
           {/* Private layout */}
 
           <Route element={<PrivateLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="/letters" element={<Letters />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
-
-            <Route path="/lesson" element={<Lesson />} />
-            <Route path="/exercise" element={<Exercise />} />
+            {routes.map((route) => {
+              if (route.requireAuth) {
+                return (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={route.element}
+                    // element={
+                    //   isLogged ? route.element : <Navigate to="/login" replace />
+                    // }
+                  />
+                );
+              }
+            })}
           </Route>
           <Route path="/*" element={<NotFound />} />
         </Route>
@@ -46,3 +59,18 @@ function App() {
 }
 
 export default App;
+
+{
+  {
+    /* <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} /> */
+  }
+  /* <Route index element={<HomePage />} />
+            <Route path="/letters" element={<Letters />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/profile" element={<Profile />} />
+
+            <Route path="/lesson" element={<Lesson />} />
+            <Route path="/exercise" element={<Exercise />} />
+            <Route path="/loader" element={<LoaderPage />} /> */
+}
