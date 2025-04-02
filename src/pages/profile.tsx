@@ -17,7 +17,7 @@ export default function Profile() {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState<Partial<User>>({});
-  const { getUser } = useAuth();
+  const { getUser, signin } = useAuth();
   const userData = getUser();
   const id = userData?.id ? userData?.id : "";
 
@@ -32,7 +32,8 @@ export default function Profile() {
     mutationFn: (updatedUserData: EditProfileRequest) =>
       editProfile(updatedUserData),
     onSuccess: (data) => {
-      localStorage.setItem("user", JSON.stringify(data));
+      // localStorage.setItem("user", JSON.stringify(data));
+      signin(data);
       setIsEditing(false);
       toast({
         title: "Profile Updated",
@@ -97,7 +98,7 @@ export default function Profile() {
     setEditedUser({
       username: user?.username,
       email: user?.email,
-      password: "",
+      // password: "",
     });
   };
 
@@ -106,7 +107,6 @@ export default function Profile() {
       updateUserMutation.mutate({
         username: editedUser.username || "",
         email: editedUser.email || "",
-        password: editedUser.password || "",
       });
     }
   };
@@ -168,7 +168,7 @@ export default function Profile() {
                         className="mt-1"
                       />
                     </div>
-                    <div>
+                    {/* <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Шинэ нууц үг
                       </label>
@@ -184,7 +184,7 @@ export default function Profile() {
                         className="mt-1"
                         placeholder="Leave blank to keep current"
                       />
-                    </div>
+                    </div> */}
                     <div className="flex justify-end space-x-3 pt-4">
                       <Button
                         variant="outline"

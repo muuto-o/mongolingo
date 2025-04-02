@@ -6,14 +6,16 @@ import { motion } from "framer-motion";
 import { exercises } from "@/data/datas";
 import { useQuery } from "@tanstack/react-query";
 import { getUnitsWithExercises } from "@/services/questions";
+import { useAuth } from "@/hooks/auth";
 
 export default function Lesson() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const location = useLocation();
   const unlockNext = location.state?.unlockNext;
   const [unlockedLessons, setUnlockedLessons] = useState([0]);
 
-  const exerciseLevel = 2;
+  const exerciseLevel = user?.exerciseLevel || 1;
 
   useEffect(() => {
     if (unlockNext !== undefined && !unlockedLessons.includes(unlockNext)) {

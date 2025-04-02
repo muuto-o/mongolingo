@@ -17,12 +17,15 @@ export interface MatchingExercise {
 
 
 export type User = {
-  id:string;
-  username: string;
-  email: string;
-  password?: string;
-  points: number;
-  experience: number;
+  id: string
+  email: string
+  username: string
+  points: number
+  experience: number
+  accuracy: number
+  exerciseLevel: number
+  createdAt: string
+  updatedAt: string
 }
 
 export type LoginRequest = {
@@ -30,14 +33,7 @@ export type LoginRequest = {
     password: string;
 }
 
-export type LoginResponse = {
-    id : string;
-    username : string;
-    email : string;
-    password?: string;
-    points : number;
-    experience: number;
-}
+export type LoginResponse = User
 
 export type RegisterRequest = {
     username : string;
@@ -53,15 +49,9 @@ export type RegisterResponse = {
 export type EditProfileRequest = {
     username: string;
     email : string;
-    password: string;
 }
 
-export type EditProfileResponse ={
-    username : string;
-    email : string;
-    password?: string;
-    points : number;
-}
+export type EditProfileResponse = User
 
 export type AddPoinstRequest = {
     email : string;

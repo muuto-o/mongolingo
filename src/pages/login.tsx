@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/services/auth";
+import { useAuth } from "@/hooks/auth";
 
 const formSchema = z.object({
   email: z.string().min(11, {
@@ -31,12 +32,14 @@ const formSchema = z.object({
 export default function LoginPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { signin } = useAuth();
 
   const { mutate: loginMutation } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
       toast({ title: "Амжиллтай нэвтэрлээ.", description: data.username });
-      localStorage.setItem("user", JSON.stringify(data));
+      // localStorage.setItem("user", JSON.stringify(data));
+      signin(data);
       navigate("/lesson");
     },
     onError: () => {
