@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { lessonExercises as exercisesData } from "../data/datas";
+import { questions as exercisesData } from "../data/datas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -17,26 +17,11 @@ import { toast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addPoinst } from "@/services/auth";
 import { useAuth } from "@/hooks/auth";
-
-export interface MultipleChoiceExercise {
-  type: "multiple_choice";
-  title: string;
-  options: string[];
-  correctAnswer: string;
-  audio: string;
-}
-
-export interface MatchingExercise {
-  type: "matching";
-  title: string;
-  pairs: { word: string; meaning: string }[];
-  correctAnswer: { [word: string]: string };
-}
+import { MatchingExercise, MultipleChoiceExercise } from "@/constants/types";
 
 export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
 // const lessonExercises: Exercise[][] = exercisesData as Exercise[][];
-const exercises: Exercise[] = exercisesData as Exercise[];
 
 const Exercise: React.FC = () => {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
@@ -71,7 +56,7 @@ const Exercise: React.FC = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const lessonIndex = location.state?.lessonIndex;
+  const lessonIndex = location.state?.exerciseId;
 
   console.log("lessonIndex:", lessonIndex); // Debugging
 
@@ -83,7 +68,9 @@ const Exercise: React.FC = () => {
 
   // console.log("exercises:", exercises); //debugging.
   // console.log("lessonExercises:", lessonExercises); //debugging.
-
+  const exercises: Exercise[] = exercisesData.filter(
+    (question) => question.exerciseId === lessonIndex
+  ) as Exercise[];
   const currentExercise: Exercise = exercises[currentExerciseIndex];
 
   const { getUser } = useAuth();
@@ -100,7 +87,7 @@ const Exercise: React.FC = () => {
   useEffect(() => {
     // Initialize audio element
     if (currentExercise.type === "multiple_choice") {
-      audioRef.current = new Audio(currentExercise.audio);
+      audioRef.current = new Audio(currentExercise.audioPath);
       audioRef.current.onended = () => setIsPlaying(false);
     }
 
@@ -127,7 +114,7 @@ const Exercise: React.FC = () => {
       setShuffledRightOptions(shuffleArray(rightOptions));
     }
     if (currentExercise.type === "multiple_choice") {
-      audioRef.current = new Audio(currentExercise.audio);
+      audioRef.current = new Audio(currentExercise.audioPath);
       audioRef.current.onended = () => setIsPlaying(false);
     }
 
@@ -390,9 +377,9 @@ const Exercise: React.FC = () => {
                     }`}
                   >
                     {isCorrect === true
-                      ? "Correct!"
+                      ? "Зөв!"
                       : isCorrect === false
-                      ? "Incorrect"
+                      ? "Буруу"
                       : "Selected"}
                   </span>
                 )}

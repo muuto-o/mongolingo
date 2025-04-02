@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 type AuthContextProps = {
   isVisible: boolean;
@@ -10,7 +10,7 @@ const InterfaceContext = createContext<AuthContextProps | null>(null);
 export const InterfaceContextProvider = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
 

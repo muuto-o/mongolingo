@@ -18,7 +18,7 @@ export default function PrivateLayout() {
       <InterfaceContextProvider>
         <div className="h-full w-screen flex">
           {showSidebar && <Sidebar />}
-          <div className="p-8 w-full h-full flex">
+          <div className="p-8 w-full h-full flex overflow-y-auto">
             <Outlet />
           </div>
         </div>

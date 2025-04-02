@@ -12,7 +12,7 @@ import e_sound from "../assets/э.mp3"
 import o_sound from "../assets/о.mp3"
 import u_sound from "../assets/ө.mp3"
 import i_sound from "../assets/и.mp3"
-import { MatchingExercise, MultipleChoiceExercise } from "@/pages/exercises"
+import { MatchingExercise, MultipleChoiceExercise } from "@/constants/types"
 
 export const users = [
     {
@@ -24,7 +24,7 @@ export const users = [
 ]
 
 export const letters = [
-    {letter: 'а', script : 'ᠠ', desc : ['А үсэг нь үгийн ᠑ ᠠ᠋ ᠨ᠋ ᠤ᠋ ᠣ᠋ эхэнд ᠠ‍', ' үгийн ᠣ᠋ дунд ', ' хэлбэрээр орно.'], img : [ABegin, ADund]},
+    {letter: 'а', script : 'ᠠ', desc : ['А үсэг ᠠ ᠊ᠠ ᠊ᠣ‍ нь үгийн ᠑ ᠠ᠋ ᠨ᠋ ᠤ᠋ ᠣ᠋ эхэнд ᠠ‍', ' үгийн ᠣ᠋ дунд ', ' хэлбэрээр орно.'], img : [ABegin, ADund]},
     {letter: 'э', script : 'ᠡ', desc : ['Э үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [EBegin, ADund]},
     {letter: 'и', script : 'ᠢᠢ', desc : ['И үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [IBegin, IDund]},
     {letter: 'о, у', script : 'ᠥ', desc : ['О, У үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [OBegin, ODund]},
@@ -48,62 +48,132 @@ export const lessons = [
     }
 ]
 
+export const exercises = [
+  {
+    exerciseId : "1",
+    unitId : "1",
+    iconPath : "string",
+    level : 1
+  },
+  {
+    exerciseId : "2",
+    unitId : "1",
+    iconPath : "string",
+    level : 2
+  },
+  {
+    exerciseId : "3",
+    unitId : "1",
+    iconPath : "string",
+    level : 3
+  },
+   {
+    exerciseId : "4",
+    unitId : "1",
+    iconPath : "string",
+    level : 4
+  },
+   {
+    exerciseId : "5",
+    unitId : "1",
+    iconPath : "string",
+    level : 5
+  },
+]
 
-export const lessonExercises: (MultipleChoiceExercise | MatchingExercise)[] = 
+
+export const questions: (MultipleChoiceExercise | MatchingExercise)[] = 
   [
     {
-      type: "multiple_choice",
       title: "(Э) Энэ ямар үсэг вэ?",
+      type: "multiple_choice",
+      exerciseId : "1",
       options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
       correctAnswer: "ᠡ",
       audioPath: e_sound,
     },
     {
-      type: "multiple_choice",
       title: "Энэ үсэг ямар дуу гаргадаг вэ?",
+      type: "multiple_choice",
+      exerciseId : "1",
       options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
       correctAnswer: "ᠣ",
       audioPath: o_sound,
     },
     {
-      type: "matching",
-      title: "Тоо бүрийг нэртэй нь тохируул.",
-      pairs: [
-        { word: "нэг", meaning: "one" },
-        { word: "хоёр", meaning: "two" },
-        { word: "гурван", meaning: "three" },
-        { word: "дөрөв", meaning: "four" },
-      ],
-      correctAnswer: {
-        нэг: "one",
-        хоёр: "two",
-        гурван: "three",
-        дөрөв: "four",
-      },
-    },
-    {
-      type: "matching",
-      title: "Өнгө бүрийг нэртэй нь тохируул.",
-      pairs: [
-        { word: "улаан", meaning: "red" },
-        { word: "хар", meaning: "black" },
-        { word: "шар", meaning: "yellow" },
-        { word: "цэнхэр", meaning: "blue" },
-      ],
-      correctAnswer: {
-        улаан: "red",
-        хар: "black",
-        шар: "yellow",
-        цэнхэр: "blue",
-      },
-    },
-     {
       type: "multiple_choice",
-      title: "Энэ үсэг ямар дуу гаргадаг вэ?",
+      title: "(И) Энэ ямар үсэг вэ?",
+      exerciseId : "1",
       options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
       correctAnswer: "ᠢ",
       audioPath: i_sound,
     },
+    {
+      title: "(Э) Энэ ямар үсэг вэ?",
+      type: "multiple_choice",
+      exerciseId : "2",
+      options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
+      correctAnswer: "ᠡ",
+      audioPath: e_sound,
+    },
+    {
+      title: "Энэ үсэг ямар дуу гаргадаг вэ?",
+      type: "multiple_choice",
+      exerciseId : "2",
+      options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
+      correctAnswer: "ᠣ",
+      audioPath: o_sound,
+    },
+    {
+      type: "multiple_choice",
+      title: "(И) Энэ ямар үсэг вэ?",
+      exerciseId : "3",
+      options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
+      correctAnswer: "ᠢ",
+      audioPath: i_sound,
+    },
+    // {
+    //   title: "Тоо бүрийг нэртэй нь тохируул.",
+    //   type: "matching",
+    //    exerciseId : "1",
+    //   pairs: [
+    //     { word: "нэг", meaning: "one" },
+    //     { word: "хоёр", meaning: "two" },
+    //     { word: "гурван", meaning: "three" },
+    //     { word: "дөрөв", meaning: "four" },
+    //   ],
+    //   correctAnswer: {
+    //     нэг: "one",
+    //     хоёр: "two",
+    //     гурван: "three",
+    //     дөрөв: "four",
+    //   },
+    // },
+    // {
+    //   type: "matching",
+    //   title: "Өнгө бүрийг нэртэй нь тохируул.",
+    //    exerciseId : "1",
+    //   pairs: [
+    //     { word: "улаан", meaning: "red" },
+    //     { word: "хар", meaning: "black" },
+    //     { word: "шар", meaning: "yellow" },
+    //     { word: "цэнхэр", meaning: "blue" },
+    //   ],
+    //   correctAnswer: {
+    //     улаан: "red",
+    //     хар: "black",
+    //     шар: "yellow",
+    //     цэнхэр: "blue",
+    //   },
+    // },
+    //  {
+    //   type: "multiple_choice",
+    //   title: "Энэ үсэг ямар дуу гаргадаг вэ?",
+    //    exerciseId : "1",
+    //   options: ["ᠠ", "ᠡ", "ᠢ", "ᠣ"],
+    //   correctAnswer: "ᠢ",
+    //   audioPath: i_sound,
+    // },
     //   {
   //     type: "multiple_choice",
   //     title: "Энэ үсэг ямар дуу гаргадаг вэ?",

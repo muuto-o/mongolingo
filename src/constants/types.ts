@@ -1,3 +1,20 @@
+export interface MultipleChoiceExercise {
+  title: string;
+  type: "multiple_choice";
+  exerciseId : string;
+  options: string[];
+  correctAnswer: string;
+  audioPath: string;
+}
+
+export interface MatchingExercise {
+  title: string;
+  type: "matching";
+  exerciseId : string;
+  pairs: { word: string; meaning: string }[];
+  correctAnswer: { [word: string]: string };
+}
+
 
 export type User = {
   id:string;
@@ -60,3 +77,17 @@ export type GetMeRequest = {
 }
 
 export type GetMeResponse = User
+
+export type GetUnitResponse = Array<{
+  name: string
+  id: string
+}>
+
+export type GetUnitWithExercisesResponse = Array<{
+  name: string
+  exercises: Array<{
+    iconPath: string
+    level: number
+    id: string
+  }>
+}>
