@@ -81,3 +81,13 @@ export type GetUnitWithExercisesResponse = Array<{
     id: string
   }>
 }>
+
+export type GetQuestionsByExerciseResponse = Array<{
+  title: string
+  type: string
+  exerciseId: string
+  options: Array<string>
+  correctAnswer: string
+  audioPath: string
+  id: string
+}>

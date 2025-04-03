@@ -14,10 +14,11 @@ import {
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addPoinst } from "@/services/auth";
 import { useAuth } from "@/hooks/auth";
 import { MatchingExercise, MultipleChoiceExercise } from "@/constants/types";
+import { GetQuestionsByExercise } from "@/services/questions";
 
 export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
@@ -68,9 +69,13 @@ const Exercise: React.FC = () => {
 
   // console.log("exercises:", exercises); //debugging.
   // console.log("lessonExercises:", lessonExercises); //debugging.
-  const exercises: Exercise[] = exercisesData.filter(
-    (question) => question.exerciseId === lessonIndex
-  ) as Exercise[];
+
+  const { data: questions } = useQuery({
+    queryKey: ["questions"],
+    queryFn: () => GetQuestionsByExercise(lessonIndex),
+  });
+
+  const exercises: Exercise[] = (questions as Exercise[]) || exercisesData;
   const currentExercise: Exercise = exercises[currentExerciseIndex];
 
   const { getUser } = useAuth();

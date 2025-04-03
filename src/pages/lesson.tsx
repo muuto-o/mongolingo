@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Book, Lock, Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { exercises } from "@/data/datas";
 import { useQuery } from "@tanstack/react-query";
 import { getUnitsWithExercises } from "@/services/questions";
 import { useAuth } from "@/hooks/auth";
@@ -15,7 +14,9 @@ export default function Lesson() {
   const unlockNext = location.state?.unlockNext;
   const [unlockedLessons, setUnlockedLessons] = useState([0]);
 
-  const exerciseLevel = user?.exerciseLevel || 1;
+  console.log(user);
+  const exerciseLevel = user?.exerciseLevel || 3;
+  // const exerciseLevel = 2;
 
   useEffect(() => {
     if (unlockNext !== undefined && !unlockedLessons.includes(unlockNext)) {
@@ -62,6 +63,9 @@ export default function Lesson() {
 
   const handleLessonClick = (exerciseId: string, level: number) => {
     if (level <= exerciseLevel) {
+      console.log("exerciseLevel");
+      console.log(exerciseLevel);
+      console.log(exerciseId);
       navigate("/exercise", { state: { exerciseId: exerciseId } });
     }
   };
@@ -90,8 +94,8 @@ export default function Lesson() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-4xl"
       >
-        {unitData?.map((unit) => (
-          <div className="w-full">
+        {unitData?.map((unit, index) => (
+          <div className="w-full" key={index}>
             <h1 className="w-full border border-gray-200 bg-gradient-to-r from-blue-400 to-purple-600  rounded-xl font-bold text-2xl text-center text-white py-5 mb-8 shadow-lg backdrop-blur-sm">
               {unit.name}
             </h1>
@@ -100,8 +104,9 @@ export default function Lesson() {
               initial="hidden"
               animate="show"
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5 p-4"
+              key={index}
             >
-              {exercises.map((exercise, index) => (
+              {unit.exercises.map((exercise, index) => (
                 <motion.div key={index} variants={item}>
                   <Card
                     className={`w-full aspect-square flex flex-col items-center justify-center rounded-xl cursor-pointer transition-all duration-300 ${
@@ -110,7 +115,7 @@ export default function Lesson() {
                         : "bg-gray-100 cursor-not-allowed disabled"
                     } relative overflow-hidden`}
                     onClick={() =>
-                      handleLessonClick(exercise.exerciseId, exercise.level)
+                      handleLessonClick(exercise.id, exercise.level)
                     }
                   >
                     {exercise.level <= exerciseLevel ? (
@@ -119,7 +124,7 @@ export default function Lesson() {
                           <Book className="w-6 h-6" />
                         </div>
                         <h3 className="text-white font-medium text-center px-2">
-                          {exercise.exerciseId}
+                          {exercise.level}
                         </h3>
                         <div
                           className={`absolute top-2 right-2 rounded-full p-1 ${
@@ -137,7 +142,7 @@ export default function Lesson() {
                           <Lock className="w-6 h-6" />
                         </div>
                         <h3 className="text-gray-500 font-medium text-center px-2">
-                          {exercise.exerciseId}
+                          {exercise.level}
                         </h3>
                       </>
                     )}
