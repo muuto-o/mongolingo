@@ -15,9 +15,13 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addPoinst } from "@/services/auth";
+import { CompleteExercise } from "@/services/auth";
 import { useAuth } from "@/hooks/auth";
-import { MatchingExercise, MultipleChoiceExercise } from "@/constants/types";
+import {
+  CompleteExerciseRequest,
+  MatchingExercise,
+  MultipleChoiceExercise,
+} from "@/constants/types";
 import { GetQuestionsByExercise } from "@/services/questions";
 
 export type Exercise = MultipleChoiceExercise | MatchingExercise;
@@ -71,20 +75,21 @@ const Exercise: React.FC = () => {
   // console.log("lessonExercises:", lessonExercises); //debugging.
 
   const { data: questions } = useQuery({
-    queryKey: ["questions"],
+    queryKey: ["questions", lessonIndex],
     queryFn: () => GetQuestionsByExercise(lessonIndex),
   });
 
   const exercises: Exercise[] = (questions as Exercise[]) || exercisesData;
   const currentExercise: Exercise = exercises[currentExerciseIndex];
 
-  const { getUser } = useAuth();
+  const { getUser, signin } = useAuth();
   const user = getUser();
 
   const queryClient = useQueryClient();
   const pointsMutation = useMutation({
-    mutationFn: addPoinst,
-    onSuccess: () => {
+    mutationFn: CompleteExercise,
+    onSuccess: (data) => {
+      signin(data);
       queryClient.invalidateQueries({ queryKey: ["me"] });
     },
   });
@@ -280,11 +285,12 @@ const Exercise: React.FC = () => {
       setCurrentExerciseIndex((prev) => prev + 1);
     } else {
       setShowResults(true);
-      const userData = {
+      const userData: CompleteExerciseRequest = {
         email: user?.email ? user?.email : "",
         username: user?.username ? user?.username : "",
-        points: points + (user?.points ? user.points : 0),
+        points: points,
         experience: Math.floor(points * 0.4),
+        exerciseId: lessonIndex,
       };
       pointsMutation.mutate(userData);
       // Check if there is a next lesson before unlocking
@@ -311,9 +317,11 @@ const Exercise: React.FC = () => {
           <div className="flex justify-center mt-4">
             <button
               onClick={toggleAudio}
+              disabled={true}
               className={`p-3 rounded-full ${
                 isPlaying ? "bg-indigo-700" : "bg-indigo-500"
-              } hover:bg-indigo-600 transition-colors`}
+              }  transition-colors cursor-not-allowed`}
+              // hover:bg-indigo-600
               aria-label="Play audio"
             >
               <Volume2
@@ -513,6 +521,7 @@ const Exercise: React.FC = () => {
               </Button>
               <Button
                 className="gap-2 py-5 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+                disabled={pointsMutation.isPending}
                 onClick={nextLesson}
               >
                 Үргэлжлүүлэх <ChevronRight size={18} />

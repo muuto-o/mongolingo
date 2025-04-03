@@ -27,7 +27,7 @@ export default function Lesson() {
 
   const { data: unitData } = useQuery({
     queryKey: ["units"],
-    queryFn: () => getUnitsWithExercises(),
+    queryFn: () => getUnitsWithExercises(exerciseLevel),
   });
 
   console.log("unitData");
@@ -61,8 +61,8 @@ export default function Lesson() {
   //   },
   // ];
 
-  const handleLessonClick = (exerciseId: string, level: number) => {
-    if (level <= exerciseLevel) {
+  const handleLessonClick = (exerciseId: string, unlocked: boolean) => {
+    if (unlocked) {
       console.log("exerciseLevel");
       console.log(exerciseLevel);
       console.log(exerciseId);
@@ -110,15 +110,15 @@ export default function Lesson() {
                 <motion.div key={index} variants={item}>
                   <Card
                     className={`w-full aspect-square flex flex-col items-center justify-center rounded-xl cursor-pointer transition-all duration-300 ${
-                      exercise.level <= exerciseLevel
+                      exercise.unlocked
                         ? `bg-gradient-to-br from-purple-400 to-purple-600 hover:shadow-xl hover:scale-105`
                         : "bg-gray-100 cursor-not-allowed disabled"
                     } relative overflow-hidden`}
                     onClick={() =>
-                      handleLessonClick(exercise.id, exercise.level)
+                      handleLessonClick(exercise.id, exercise.unlocked)
                     }
                   >
-                    {exercise.level <= exerciseLevel ? (
+                    {exercise.unlocked ? (
                       <>
                         <div className="text-white text-3xl mb-2">
                           <Book className="w-6 h-6" />
@@ -128,7 +128,7 @@ export default function Lesson() {
                         </h3>
                         <div
                           className={`absolute top-2 right-2 rounded-full p-1 ${
-                            index === exerciseLevel - 1
+                            index === exerciseLevel - 1 && exercise.unlocked
                               ? ` bg-white/20`
                               : `bg-green-500`
                           }`}

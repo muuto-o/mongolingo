@@ -7,8 +7,8 @@ export async function getUnits() {
   return data;
 }
 
-export async function getUnitsWithExercises(){
-    const { data } = await api.get<GetUnitWithExercisesResponse>('/api/units/exercises');
+export async function getUnitsWithExercises(level : number){
+    const { data } = await api.get<GetUnitWithExercisesResponse>(`/api/units/exercises?exerciseLevel=${level}`);
     console.log(data)
     return data;
   }

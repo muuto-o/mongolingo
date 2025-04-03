@@ -1,4 +1,4 @@
-import { AddPoinstRequest, AddPoinstResponse, EditProfileRequest, EditProfileResponse, GetMeRequest, GetMeResponse, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from "@/constants/types";
+import { CompleteExerciseRequest, CompleteExerciseResponse, EditProfileRequest, EditProfileResponse, GetMeRequest, GetMeResponse, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from "@/constants/types";
 import api from "@/lib/api";
 
 export async function login(body: LoginRequest) {
@@ -19,8 +19,8 @@ export async function registerUser(body: RegisterRequest){
   return data;
 }
 
-export async function addPoinst(body : AddPoinstRequest){
-    const {data} = await api.put<AddPoinstResponse>("/api/users/add-points", body);
+export async function CompleteExercise(body : CompleteExerciseRequest){
+    const {data} = await api.put<CompleteExerciseResponse>("/api/users/add-points", body);
     return data;
 }
 

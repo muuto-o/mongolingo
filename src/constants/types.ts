@@ -53,14 +53,15 @@ export type EditProfileRequest = {
 
 export type EditProfileResponse = User
 
-export type AddPoinstRequest = {
+export type CompleteExerciseRequest = {
     email : string;
     username: string;
     points: number;
     experience: number;
+    exerciseId: string;
 }
 
-export type AddPoinstResponse = User
+export type CompleteExerciseResponse = User
 
 export type GetMeRequest = {
     id : string
@@ -79,6 +80,7 @@ export type GetUnitWithExercisesResponse = Array<{
     iconPath: string
     level: number
     id: string
+    unlocked : boolean
   }>
 }>
 
