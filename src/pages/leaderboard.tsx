@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Trophy, Award, Medal, Star, Flame } from "lucide-react";
+import { Trophy, Award, Medal, Flame } from "lucide-react";
 import { useState } from "react";
 
 interface LeaderboardEntry {

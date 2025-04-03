@@ -7,10 +7,10 @@ import ODund from "@/assets/o_dund.png"
 import IBegin from "@/assets/IBegin.png"
 import IDund from "@/assets/IDund.png"
 
-import a_sound from "../assets/a.mp3"
+// import a_sound from "../assets/a.mp3"
 import e_sound from "../assets/э.mp3"
 import o_sound from "../assets/о.mp3"
-import u_sound from "../assets/ө.mp3"
+// import u_sound from "../assets/ө.mp3"
 import i_sound from "../assets/и.mp3"
 import { MatchingExercise, MultipleChoiceExercise } from "@/constants/types"
 

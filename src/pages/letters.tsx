@@ -115,9 +115,9 @@ export default function Letters() {
                     </div>
 
                     {/* Audio Button */}
-                    <button className="absolute top-2 right-2 p-2 rounded-full bg-green-50 text-green-500 hover:bg-green-100 transition-colors">
+                    {/* <button className="absolute top-2 right-2 p-2 rounded-full bg-green-50 text-green-500 hover:bg-green-100 transition-colors">
                       <Volume2 className="w-4 h-4" />
-                    </button>
+                    </button> */}
 
                     {/* Hover Effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-teal-50 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
@@ -142,7 +142,7 @@ export default function Letters() {
                       </button>
                     </div>
                     <div className="text-gray-700 text-center">
-                      {letter.desc?.length > 0 ? (
+                      {/* {letter.desc?.length > 0 ? (
                         letter.desc.map((part, i) => (
                           <div
                             key={i}
@@ -160,7 +160,7 @@ export default function Letters() {
                         ))
                       ) : (
                         <p>Дэлгэрэнгүй мэдээлэл оруулаагүй байна</p>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </DialogContent>

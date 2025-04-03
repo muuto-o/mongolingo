@@ -30,9 +30,10 @@ export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
 const Exercise: React.FC = () => {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [userAnswers, setUserAnswers] = useState<any[]>([]);
   const [points, setPoints] = useState(0);
-  const [lives, setLives] = useState(5);
+  const [lives, setLives] = useState(1);
   const [isAnswered, setIsAnswered] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [skipped, setSkipped] = useState(false);
@@ -136,6 +137,29 @@ const Exercise: React.FC = () => {
     };
   }, [currentExercise]); // Run only when currentExercise changes
 
+  if (lives < 1) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full gap-6 text-center p-6">
+        <div className="max-w-md mx-auto">
+          <div className="bg-rose-50 border border-rose-100 rounded-xl p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-rose-800 mb-3">
+              Уучлаарай, та дасгалыг дахин ажиллана уу
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Таны амь дууссан. Дараагийн удаа илүү сайн хийгээрэй😉
+            </p>
+            <Button
+              onClick={() => navigate("/lesson")}
+              className="py-5 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium shadow-md transition-all"
+            >
+              Буцах
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (exercises.length === 0) {
     return (
       <div>
@@ -192,7 +216,10 @@ const Exercise: React.FC = () => {
       const leftOption = shuffledLeftOptions[selectedLeft];
       const rightOption = shuffledRightOptions[selectedRight];
 
-      if (currentExercise.correctAnswer[leftOption] === rightOption) {
+      if (
+        typeof currentExercise.correctAnswer === "object" &&
+        currentExercise.correctAnswer[leftOption] === rightOption
+      ) {
         // Check if pair is already in correctPairs
         const isPairUnique = !correctPairs.some(
           (pair) => pair.left === selectedLeft && pair.right === selectedRight
@@ -222,6 +249,7 @@ const Exercise: React.FC = () => {
           setIsCorrect(true); // Mark exercise as correct
         }
       } else {
+        setLives(() => lives - 1);
         setIsMatchingCorrect(false);
       }
     }
@@ -246,6 +274,7 @@ const Exercise: React.FC = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const shuffleArray = (array: any[]) => {
     const shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {
@@ -448,7 +477,7 @@ const Exercise: React.FC = () => {
             {shuffledRightOptions.map((option, index) => (
               <button
                 key={index}
-                className={`w-full p-4 rounded-xl transition-all duration-200 border-2 ${
+                className={`w-full px-4 py-3 rounded-xl transition-all duration-200 border-2 ${
                   selectedRight === index
                     ? "border-blue-500 bg-blue-50"
                     : correctPairs.some((pair) => pair.right === index)
@@ -461,15 +490,13 @@ const Exercise: React.FC = () => {
                 }
                 disabled={correctPairs.some((pair) => pair.right === index)}
               >
-                {option}
+                <div className="rotate-90 font-semibold text-2xl">{option}</div>
               </button>
             ))}
           </div>
         </CardContent>
         {isMatchingCorrect === false && (
-          <div className="text-center p-4 text-red-500">
-            Incorrect match. Try again.
-          </div>
+          <div className="text-center p-4 text-red-500">Буруу байна.</div>
         )}
       </Card>
     );
