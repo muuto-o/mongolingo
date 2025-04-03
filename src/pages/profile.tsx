@@ -54,33 +54,33 @@ export default function Profile() {
   const achievements = [
     {
       id: 1,
-      name: "Fast Learner",
+      name: "Хурдан сурагч",
       icon: <Flame className="w-6 h-6" />,
-      unlocked: true,
+      unlocked: false,
     },
     {
       id: 2,
-      name: "5-Day Streak",
+      name: "Туйштай",
       icon: <Trophy className="w-6 h-6" />,
-      unlocked: true,
+      unlocked: false,
     },
     {
       id: 3,
-      name: "Perfect Lesson",
+      name: "Онц",
       icon: <Star className="w-6 h-6" />,
       unlocked: false,
     },
     {
       id: 4,
-      name: "Vocabulary Master",
+      name: "Хурц",
       icon: <Award className="w-6 h-6" />,
       unlocked: false,
     },
     {
       id: 5,
-      name: "Early Bird",
+      name: "Эртэч",
       icon: <CheckCircle className="w-6 h-6" />,
-      unlocked: true,
+      unlocked: false,
     },
   ];
 

@@ -1,5 +1,10 @@
-import { CompleteExerciseRequest, CompleteExerciseResponse, EditProfileRequest, EditProfileResponse, GetMeRequest, GetMeResponse, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from "@/constants/types";
+import { CompleteExerciseRequest, CompleteExerciseResponse, EditProfileRequest, EditProfileResponse, GetMeRequest, GetMeResponse, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, User } from "@/constants/types";
 import api from "@/lib/api";
+
+export async function getAllUsers(){
+    const { data } = await api.get<User[]>('/api/users');
+    return data;
+}
 
 export async function login(body: LoginRequest) {
   const { data } = await api.post<LoginResponse>('/api/users/login', body);

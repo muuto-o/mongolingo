@@ -16,9 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login } from "@/services/auth";
 import { useAuth } from "@/hooks/auth";
+// import { lessons } from "@/data/datas";
 
 const formSchema = z.object({
   email: z.string().min(11, {
@@ -33,6 +34,7 @@ export default function LoginPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { signin } = useAuth();
+  const queryClient = useQueryClient();
 
   const { mutate: loginMutation } = useMutation({
     mutationFn: login,
@@ -41,6 +43,9 @@ export default function LoginPage() {
       // localStorage.setItem("user", JSON.stringify(data));
       signin(data);
       navigate("/lesson");
+      queryClient.invalidateQueries({ queryKey: ["units"] });
+      queryClient.invalidateQueries({ queryKey: ["questions"] });
+      queryClient.invalidateQueries({ queryKey: ["me"] });
     },
     onError: () => {
       toast({
@@ -142,6 +147,7 @@ export default function LoginPage() {
 
               <Button
                 type="submit"
+                // disabled={}
                 className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all"
               >
                 Нэвтрэх

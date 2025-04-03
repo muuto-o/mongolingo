@@ -1,25 +1,27 @@
 import { Card } from "@/components/ui/card";
+import { getAllUsers } from "@/services/auth";
+import { useQuery } from "@tanstack/react-query";
 import { Trophy, Award, Medal, Flame } from "lucide-react";
-import { useState } from "react";
+// import { useState } from "react";
 
-interface LeaderboardEntry {
-  name: string;
-  score: number;
-  avatar?: string;
-  streak?: number;
-}
+// interface LeaderboardEntry {
+//   name: string;
+//   score: number;
+//   avatar?: string;
+//   streak?: number;
+// }
+const avatars = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯"];
 
-const generateRandomData = (count: number): LeaderboardEntry[] => {
-  const names = ["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank"];
-  const avatars = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯"];
+// const generateRandomData = (count: number): LeaderboardEntry[] => {
+//   const names = ["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank"];
 
-  return Array.from({ length: count }, () => ({
-    name: names[Math.floor(Math.random() * names.length)],
-    score: Math.floor(Math.random() * 100) + 1,
-    avatar: avatars[Math.floor(Math.random() * avatars.length)],
-    streak: Math.floor(Math.random() * 10) + 1,
-  })).sort((a, b) => b.score - a.score);
-};
+//   return Array.from({ length: count }, () => ({
+//     name: names[Math.floor(Math.random() * names.length)],
+//     score: Math.floor(Math.random() * 100) + 1,
+//     avatar: avatars[Math.floor(Math.random() * avatars.length)],
+//     streak: Math.floor(Math.random() * 10) + 1,
+//   })).sort((a, b) => b.score - a.score);
+// };
 
 const getRankColor = (index: number) => {
   switch (index) {
@@ -48,7 +50,12 @@ const getRankIcon = (index: number) => {
 };
 
 export default function Leaderboard() {
-  const [data] = useState<LeaderboardEntry[]>(generateRandomData(6));
+  // const [data] = useState<LeaderboardEntry[]>(generateRandomData(6));
+
+  const { data: leaders } = useQuery({
+    queryKey: ["leaderboard"],
+    queryFn: () => getAllUsers(),
+  });
 
   return (
     <div className="w-full bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen p-4 md:p-8">
@@ -64,9 +71,11 @@ export default function Leaderboard() {
           </div>
         </Card>
 
+        {leaders === undefined && <>Хэрэглэгч олдсонгүЙ!</>}
+
         {/* Leaderboard */}
         <div className="space-y-4">
-          {data.map((entry, index) => (
+          {leaders?.map((entry, index) => (
             <Card
               key={index}
               className={`relative overflow-hidden p-4 rounded-xl shadow-sm transition-all hover:shadow-md ${
@@ -103,7 +112,7 @@ export default function Leaderboard() {
                       : "bg-indigo-100 border-2 border-indigo-200"
                   }`}
                 >
-                  {entry.avatar}
+                  {avatars[index]}
                 </div>
 
                 {/* User Info */}
@@ -120,7 +129,7 @@ export default function Leaderboard() {
                           : "text-indigo-800"
                       }`}
                     >
-                      {entry.name}
+                      {entry.username}
                     </h3>
                     {getRankIcon(index)}
                   </div>
@@ -155,7 +164,7 @@ export default function Leaderboard() {
                         : "text-indigo-600"
                     }`}
                   >
-                    {entry.score} оноо
+                    {entry.points} оноо
                   </div>
                   {/* {entry.streak && (
                     <div className="flex items-center justify-end mt-1">

@@ -13,7 +13,7 @@ import {
   Volume2,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "@/hooks/use-toast";
+// import { toast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CompleteExercise } from "@/services/auth";
 import { useAuth } from "@/hooks/auth";
@@ -33,7 +33,7 @@ const Exercise: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [userAnswers, setUserAnswers] = useState<any[]>([]);
   const [points, setPoints] = useState(0);
-  const [lives, setLives] = useState(1);
+  const [lives, setLives] = useState(4);
   const [isAnswered, setIsAnswered] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [skipped, setSkipped] = useState(false);
@@ -265,11 +265,11 @@ const Exercise: React.FC = () => {
         matchingPoints += 2.5;
       }
     });
-    setPoints((prev) => prev + matchingPoints);
     if (matchingPoints < Object.keys(exercise.correctAnswer).length * 2.5) {
       setLives(() => lives - 1);
       setIsCorrect(false);
     } else {
+      setPoints((prev) => prev + 10);
       setIsCorrect(true);
     }
   };
@@ -327,7 +327,7 @@ const Exercise: React.FC = () => {
   };
 
   const nextLesson = () => {
-    toast({ title: "Дараагийн хичээл нээгдлээ." });
+    // toast({ title: "Дараагийн хичээл нээгдлээ." });
     navigate("/lesson", { state: { unlockNext: lessonIndex + 1 } });
   };
 
@@ -504,31 +504,31 @@ const Exercise: React.FC = () => {
 
   if (showResults) {
     // Calculate total possible points
-    const totalPossiblePoints = exercises.length * 10;
+    // const totalPossiblePoints = exercises.length * 10;
 
     // Calculate accuracy
-    const accuracy = Math.round((points / totalPossiblePoints) * 100);
+    // const accuracy = Math.round((points / totalPossiblePoints) * 100);
 
     return (
       <div className="max-w-2xl mx-auto text-center p-6">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-8 text-white">
-            <h2 className="text-3xl font-bold mb-2">Perfect lesson!</h2>
-            <p className="text-blue-100">
+            <h2 className="text-3xl font-bold mb-2">Баяр хүргэе!</h2>
+            {/* <p className="text-blue-100">
               You made {exercises.length - (lives > 0 ? lives : 0)} mistakes in
               this lesson
-            </p>
+            </p> */}
           </div>
           <div className="p-8">
             <div className="flex flex-col sm:flex-row justify-center gap-6 mb-8">
               <div className="bg-gradient-to-br from-amber-100 to-amber-50 p-6 rounded-xl border border-amber-200 shadow-sm w-full sm:w-auto">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Zap className="text-amber-600" size={24} />
-                  <p className="text-amber-800 font-bold">Нийт XP</p>
+                  <p className="text-amber-800 font-bold">Нийт оноо</p>
                 </div>
                 <p className="text-3xl font-bold text-amber-900">{points}</p>
               </div>
-              <div className="bg-gradient-to-br from-emerald-100 to-emerald-50 p-6 rounded-xl border border-emerald-200 shadow-sm w-full sm:w-auto">
+              {/* <div className="bg-gradient-to-br from-emerald-100 to-emerald-50 p-6 rounded-xl border border-emerald-200 shadow-sm w-full sm:w-auto">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Check className="text-emerald-600" size={24} />
                   <p className="text-emerald-800 font-bold">Онч</p>
@@ -536,7 +536,7 @@ const Exercise: React.FC = () => {
                 <p className="text-3xl font-bold text-emerald-900">
                   {accuracy}%
                 </p>
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button

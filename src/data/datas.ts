@@ -24,7 +24,7 @@ export const users = [
 ]
 
 export const letters = [
-    {letter: 'а', script : 'ᠠ', desc : ['А үсэг ᠠ ᠊ᠠ ᠊ᠣ‍ нь үгийн ᠑ ᠠ᠋ ᠨ᠋ ᠤ᠋ ᠣ᠋ эхэнд ᠠ‍', ' үгийн ᠣ᠋ дунд ', ' хэлбэрээр орно.'], img : [ABegin, ADund]},
+    {letter: 'а', script : 'ᠠ', desc : ['А үсэг нь үгийн эхэнд', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [ABegin, ADund]},
     {letter: 'э', script : 'ᠡ', desc : ['Э үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [EBegin, ADund]},
     {letter: 'и', script : 'ᠢᠢ', desc : ['И үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [IBegin, IDund]},
     {letter: 'о, у', script : 'ᠥ', desc : ['О, У үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.'], img : [OBegin, ODund]},
