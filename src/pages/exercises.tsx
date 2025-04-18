@@ -1,17 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { questions as exercisesData } from "../data/datas";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import {
-  Heart,
-  Zap,
-  Check,
-  X,
-  ChevronRight,
-  SkipForward,
-  Volume2,
-} from "lucide-react";
+import { Heart, Zap, ChevronRight, SkipForward } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { toast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -23,6 +14,8 @@ import {
   MultipleChoiceExercise,
 } from "@/constants/types";
 import { GetQuestionsByExercise } from "@/services/questions";
+import MultipleChoice from "@/components/multiple-choice";
+import Matching from "@/components/matching-exercise";
 
 export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
@@ -30,18 +23,16 @@ export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
 const Exercise: React.FC = () => {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [userAnswers, setUserAnswers] = useState<any[]>([]);
+  const [userAnswers, setUserAnswers] = useState<string[]>([]);
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
   const [points, setPoints] = useState(0);
   const [lives, setLives] = useState(4);
   const [isAnswered, setIsAnswered] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [skipped, setSkipped] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [selectedLeft, setSelectedLeft] = useState<number | null>(null);
   const [selectedRight, setSelectedRight] = useState<number | null>(null);
@@ -64,17 +55,6 @@ const Exercise: React.FC = () => {
   const location = useLocation();
   const lessonIndex = location.state?.exerciseId;
 
-  console.log("lessonIndex:", lessonIndex); // Debugging
-
-  // const exercises: Exercise[] = lessonExercises[lessonIndex] || [];
-  // const exercises: Exercise[] =
-  //   lessonIndex < lessonExercises.length && lessonExercises[lessonIndex]
-  //     ? lessonExercises[lessonIndex]
-  //     : [];
-
-  // console.log("exercises:", exercises); //debugging.
-  // console.log("lessonExercises:", lessonExercises); //debugging.
-
   const { data: questions } = useQuery({
     queryKey: ["questions", lessonIndex],
     queryFn: () => GetQuestionsByExercise(lessonIndex),
@@ -95,20 +75,20 @@ const Exercise: React.FC = () => {
     },
   });
 
-  useEffect(() => {
-    // Initialize audio element
-    if (currentExercise.type === "multiple_choice") {
-      audioRef.current = new Audio(currentExercise.audioPath);
-      audioRef.current.onended = () => setIsPlaying(false);
-    }
+  // useEffect(() => {
+  //   // Initialize audio element
+  //   if (currentExercise.type === "multiple_choice") {
+  //     audioRef.current = new Audio(currentExercise.audioPath);
+  //     audioRef.current.onended = () => setIsPlaying(false);
+  //   }
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, [currentExercise]);
+  //   return () => {
+  //     if (audioRef.current) {
+  //       audioRef.current.pause();
+  //       audioRef.current = null;
+  //     }
+  //   };
+  // }, [currentExercise]);
 
   useEffect(() => {
     if (selectedLeft !== null && selectedRight !== null) {
@@ -124,17 +104,17 @@ const Exercise: React.FC = () => {
       setShuffledLeftOptions(shuffleArray(leftOptions));
       setShuffledRightOptions(shuffleArray(rightOptions));
     }
-    if (currentExercise.type === "multiple_choice") {
-      audioRef.current = new Audio(currentExercise.audioPath);
-      audioRef.current.onended = () => setIsPlaying(false);
-    }
+    // if (currentExercise.type === "multiple_choice") {
+    //   audioRef.current = new Audio(currentExercise.audioPath);
+    //   audioRef.current.onended = () => setIsPlaying(false);
+    // }
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
+    // return () => {
+    //   if (audioRef.current) {
+    //     audioRef.current.pause();
+    //     audioRef.current = null;
+    //   }
+    // };
   }, [currentExercise]); // Run only when currentExercise changes
 
   if (lives < 1) {
@@ -171,26 +151,6 @@ const Exercise: React.FC = () => {
   if (!currentExercise) {
     return <div>Loading or Exercise Not Found</div>; // Handle case where exercise is undefined
   }
-  const toggleAudio = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const handleMultipleChoiceAnswer = (correctAnswer: string) => {
-    setSelectedOption(correctAnswer);
-    setUserAnswers((prev) => {
-      const updatedAnswers = [...prev];
-      updatedAnswers[currentExerciseIndex] = correctAnswer;
-      return updatedAnswers;
-    });
-  };
 
   const checkMultipleChoiceAnswer = (exercise: MultipleChoiceExercise) => {
     if (userAnswers[currentExerciseIndex] === exercise.correctAnswer) {
@@ -201,14 +161,6 @@ const Exercise: React.FC = () => {
       setIsCorrect(false);
       setShowCorrectAnswer(true);
     }
-  };
-
-  const handleLeftSelect = (index: number) => {
-    setSelectedLeft(index);
-  };
-
-  const handleRightSelect = (index: number) => {
-    setSelectedRight(index);
   };
 
   const checkMatchingPair = () => {
@@ -257,9 +209,9 @@ const Exercise: React.FC = () => {
 
   const checkMatchingAnswer = (exercise: MatchingExercise) => {
     let matchingPoints = 0;
-    Object.keys(exercise.correctAnswer).forEach((word) => {
+    Object.keys(exercise.correctAnswer).forEach((word, index) => {
       if (
-        userAnswers[currentExerciseIndex]?.[word] ===
+        userAnswers[currentExerciseIndex]?.[index] ===
         exercise.correctAnswer[word]
       ) {
         matchingPoints += 2.5;
@@ -334,172 +286,6 @@ const Exercise: React.FC = () => {
   const skipExercise = () => {
     setSkipped(true);
     setIsAnswered(true);
-  };
-
-  const renderMultipleChoice = (exercise: MultipleChoiceExercise) => {
-    return (
-      <Card className="border-0 shadow-lg rounded-2xl overflow-hidden min-w-96">
-        <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">
-          <CardTitle className="text-xl font-bold text-center">
-            {exercise.title}
-          </CardTitle>
-          <div className="flex justify-center mt-4">
-            <button
-              onClick={toggleAudio}
-              disabled={true}
-              className={`p-3 rounded-full ${
-                isPlaying ? "bg-indigo-700" : "bg-indigo-500"
-              }  transition-colors cursor-not-allowed`}
-              // hover:bg-indigo-600
-              aria-label="Play audio"
-            >
-              <Volume2
-                size={24}
-                className={`text-white ${isPlaying ? "animate-pulse" : ""}`}
-                fill={isPlaying ? "currentColor" : "none"}
-              />
-            </button>
-          </div>
-        </CardHeader>
-        <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          {exercise.options.map((option, index) => (
-            <button
-              key={option}
-              className={`p-4 rounded-xl transition-all duration-200 border-2
-                ${
-                  selectedOption === option
-                    ? isCorrect === true
-                      ? "border-emerald-500 bg-emerald-50"
-                      : isCorrect === false
-                      ? "border-rose-500 bg-rose-50"
-                      : "border-blue-500 bg-blue-50"
-                    : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
-                }
-                ${selectedOption === option ? "ring-2 ring-offset-2" : ""}
-                ${
-                  selectedOption === option && isCorrect === true
-                    ? "ring-emerald-200"
-                    : selectedOption === option && isCorrect === false
-                    ? "ring-rose-200"
-                    : selectedOption === option
-                    ? "ring-blue-200"
-                    : ""
-                }`}
-              onClick={() => handleMultipleChoiceAnswer(option)}
-              aria-label={`Option ${index + 1}: ${option}`}
-              aria-selected={selectedOption === option}
-              role="radio"
-            >
-              <div className="flex items-center justify-between">
-                <p className="text-left font-medium text-3xl rotate-90">
-                  {option}
-                </p>
-                {selectedOption === option && isCorrect !== null && (
-                  <span className="ml-2">
-                    {isCorrect ? (
-                      <Check className="text-emerald-500" size={20} />
-                    ) : (
-                      <X className="text-rose-500" size={20} />
-                    )}
-                  </span>
-                )}
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-xs text-gray-500">
-                  Option {index + 1}
-                </span>
-                {selectedOption === option && (
-                  <span
-                    className={`text-xs font-semibold ${
-                      isCorrect === true
-                        ? "text-emerald-600"
-                        : isCorrect === false
-                        ? "text-rose-600"
-                        : "text-blue-600"
-                    }`}
-                  >
-                    {isCorrect === true
-                      ? "Зөв!"
-                      : isCorrect === false
-                      ? "Буруу"
-                      : "Selected"}
-                  </span>
-                )}
-              </div>
-            </button>
-          ))}
-        </CardContent>
-        {showCorrectAnswer && (
-          <div className="px-6 pb-6">
-            <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
-              <p className="text-indigo-800 font-medium">
-                Correct correctAnswer:{" "}
-                <span className="font-bold rotate-90">
-                  {exercise.correctAnswer}
-                </span>
-              </p>
-            </div>
-          </div>
-        )}
-      </Card>
-    );
-  };
-
-  const renderMatching = (exercise: MatchingExercise) => {
-    return (
-      <Card className="border-0 shadow-lg rounded-2xl overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">
-          <CardTitle className="text-xl font-bold">{exercise.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            {shuffledLeftOptions.map((option, index) => (
-              <button
-                key={index}
-                className={`w-full p-4 rounded-xl transition-all duration-200 border-2 ${
-                  selectedLeft === index
-                    ? "border-blue-500 bg-blue-50"
-                    : correctPairs.some((pair) => pair.left === index)
-                    ? "border-green-500 bg-green-50 cursor-not-allowed"
-                    : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
-                }`}
-                onClick={() =>
-                  !correctPairs.some((pair) => pair.left === index) &&
-                  handleLeftSelect(index)
-                }
-                disabled={correctPairs.some((pair) => pair.left === index)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-          <div className="space-y-2">
-            {shuffledRightOptions.map((option, index) => (
-              <button
-                key={index}
-                className={`w-full px-4 py-3 rounded-xl transition-all duration-200 border-2 ${
-                  selectedRight === index
-                    ? "border-blue-500 bg-blue-50"
-                    : correctPairs.some((pair) => pair.right === index)
-                    ? "border-green-500 bg-green-50 cursor-not-allowed"
-                    : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
-                }`}
-                onClick={() =>
-                  !correctPairs.some((pair) => pair.right === index) &&
-                  handleRightSelect(index)
-                }
-                disabled={correctPairs.some((pair) => pair.right === index)}
-              >
-                <div className="rotate-90 font-semibold text-2xl">{option}</div>
-              </button>
-            ))}
-          </div>
-        </CardContent>
-        {isMatchingCorrect === false && (
-          <div className="text-center p-4 text-red-500">Буруу байна.</div>
-        )}
-      </Card>
-    );
   };
 
   if (showResults) {
@@ -586,9 +372,40 @@ const Exercise: React.FC = () => {
           </div>
         </div>
 
-        {currentExercise.type === "multiple_choice" &&
-          renderMultipleChoice(currentExercise)}
-        {currentExercise.type === "matching" && renderMatching(currentExercise)}
+        {currentExercise.type === "multiple_choice" && (
+          <MultipleChoice
+            exercise={currentExercise}
+            isCorrect={isCorrect}
+            currentExerciseIndex={currentExerciseIndex}
+            showCorrectAnswer={showCorrectAnswer}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+            setUserAnswers={setUserAnswers}
+          />
+          // onCorrect={() => {
+          //   setPoints((p) => p + 10);
+          //   setIsCorrect(true);
+          //   setIsAnswered(true);
+          // }}
+          // onIncorrect={() => {
+          //   setLives((l) => l - 1);
+          //   setIsCorrect(false);
+          //   setIsAnswered(true);
+          // }}
+        )}
+        {currentExercise.type === "matching" && (
+          <Matching
+            exercise={currentExercise}
+            isMatchingCorrect={isMatchingCorrect}
+            selectedLeft={selectedLeft}
+            selectedRight={selectedRight}
+            correctPairs={correctPairs}
+            setSelectedLeft={setSelectedLeft}
+            setSelectedRight={setSelectedRight}
+            shuffledLeftOptions={shuffledLeftOptions}
+            shuffledRightOptions={shuffledRightOptions}
+          />
+        )}
 
         {!isAnswered ? (
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">

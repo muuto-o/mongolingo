@@ -71,7 +71,20 @@ export default function Leaderboard() {
           </div>
         </Card>
 
-        {leaders === undefined && <>Хэрэглэгч олдсонгүЙ!</>}
+        {leaders === undefined && (
+          <div className="flex items-center justify-center h-full">
+            <div className="relative w-12 h-12">
+              {/* Outer circle */}
+              <div className="absolute inset-0 border-4 border-indigo-200 rounded-full"></div>
+
+              {/* Spinning arc */}
+              <div className="absolute inset-0 border-4 border-transparent border-t-indigo-500 border-r-indigo-500 rounded-full animate-spin"></div>
+
+              {/* Inner dot */}
+              {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-indigo-500 rounded-full"></div> */}
+            </div>
+          </div>
+        )}
 
         {/* Leaderboard */}
         <div className="space-y-4">
