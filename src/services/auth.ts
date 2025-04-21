@@ -33,3 +33,8 @@ export async function getMe({id}:GetMeRequest){
     const {data} = await api.get<GetMeResponse>(`/api/users/me/${id}`);
     return data;
 }
+
+export async function leaderboard(){
+  const { data } = await api.get<User[]>('/api/users/leaderboard');
+    return data;
+}

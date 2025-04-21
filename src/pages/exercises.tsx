@@ -72,6 +72,7 @@ const Exercise: React.FC = () => {
     onSuccess: (data) => {
       signin(data);
       queryClient.invalidateQueries({ queryKey: ["me"] });
+      queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
     },
   });
 

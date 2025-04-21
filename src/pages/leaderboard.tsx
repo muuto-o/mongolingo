@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { getAllUsers } from "@/services/auth";
+import { leaderboard } from "@/services/auth";
 import { useQuery } from "@tanstack/react-query";
 import { Trophy, Award, Medal, Flame } from "lucide-react";
 // import { useState } from "react";
@@ -54,7 +54,7 @@ export default function Leaderboard() {
 
   const { data: leaders } = useQuery({
     queryKey: ["leaderboard"],
-    queryFn: () => getAllUsers(),
+    queryFn: leaderboard,
   });
 
   return (
