@@ -1,3 +1,18 @@
+export interface Character{
+  shape : string;
+  name : string;
+  desc : string;
+}
+
+export interface Letter{
+  name : string;
+  script : string;
+  start : string;
+  mid : string;
+  end : string;
+  desc : string;
+}
+
 export interface MultipleChoiceExercise {
   title: string;
   type: "multiple_choice";

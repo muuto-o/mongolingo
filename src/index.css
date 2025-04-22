@@ -16,6 +16,9 @@
     --secondary-color: #4f46e5; /* Purple for dark mode */
   }
 }
+* {
+  user-select: none;
+}
 
 @font-face {
   font-family: "MongolianScript";
