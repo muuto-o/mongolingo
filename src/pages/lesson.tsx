@@ -15,7 +15,7 @@ export default function Lesson() {
   const [unlockedLessons, setUnlockedLessons] = useState([0]);
 
   console.log(user);
-  const exerciseLevel = user?.exerciseLevel || 3;
+  const exerciseLevel = user?.exerciseLevel || 1;
   // const exerciseLevel = 2;
 
   useEffect(() => {

@@ -70,7 +70,7 @@ const Exercise: React.FC = () => {
   const pointsMutation = useMutation({
     mutationFn: CompleteExercise,
     onSuccess: (data) => {
-      signin(data);
+      signin(data.updatedUser);
       queryClient.invalidateQueries({ queryKey: ["me"] });
       queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
     },

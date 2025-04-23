@@ -30,6 +30,11 @@ export interface MatchingExercise {
   correctAnswer: { [word: string]: string };
 }
 
+export type Achivement = {
+  name : string;
+  iconPath : string;
+  acquiredAt : string;
+}
 
 export type User = {
   id: string
@@ -41,6 +46,8 @@ export type User = {
   exerciseLevel: number
   createdAt: string
   updatedAt: string
+  achievements : Achivement[];
+  report : string[];
 }
 
 export type LoginRequest = {
@@ -76,7 +83,11 @@ export type CompleteExerciseRequest = {
     exerciseId: string;
 }
 
-export type CompleteExerciseResponse = User
+export type CompleteExerciseResponse = {
+  message : string;
+  updatedUser : User;
+  unlockedAchievements : Achivement[]
+}
 
 export type GetMeRequest = {
     id : string

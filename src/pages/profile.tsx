@@ -9,7 +9,16 @@ import { useToast } from "@/hooks/use-toast";
 import { editProfile, getMe } from "@/services/auth";
 import { EditProfileRequest } from "@/constants/types";
 import { useAuth } from "@/hooks/auth";
-import { Trophy, Award, Star, CheckCircle, Flame } from "lucide-react";
+import {
+  Trophy,
+  Award,
+  Star,
+  CheckCircle,
+  Flame,
+  HelpCircle,
+} from "lucide-react";
+
+// type AchivementIconType = {};
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -50,43 +59,87 @@ export default function Profile() {
     },
   });
 
+  const getAchievementIcon = (iconPath: string) => {
+    switch (iconPath) {
+      case "flame":
+        return <Flame className="w-6 h-6" />;
+      case "trophy":
+        return <Trophy className="w-6 h-6" />;
+      case "star":
+        return <Star className="w-6 h-6" />;
+      case "award":
+        return <Award className="w-6 h-6" />;
+      case "checkCircle":
+        return <CheckCircle className="w-6 h-6" />;
+      default:
+        return <HelpCircle className="w-6 h-6 text-gray-400" />; // fallback icon
+    }
+  };
+
   // Mock achievements data
-  const achievements = [
+  const achievements1 = [
     {
       id: 1,
-      name: "Хурдан сурагч",
-      icon: <Flame className="w-6 h-6" />,
+      name: "First Exercise Complete",
+      iconPath: "flame",
       unlocked: false,
     },
     {
       id: 2,
-      name: "Туйштай",
-      icon: <Trophy className="w-6 h-6" />,
+      name: "10 Exercises Completed",
+      iconPath: "trophy",
       unlocked: false,
     },
     {
       id: 3,
-      name: "Онц",
-      icon: <Star className="w-6 h-6" />,
+      name: "100 XP Reached",
+      iconPath: "star",
       unlocked: false,
     },
     {
       id: 4,
-      name: "Хурц",
-      icon: <Award className="w-6 h-6" />,
+      name: "7 Day Streak",
+      iconPath: "award",
       unlocked: false,
     },
     {
       id: 5,
       name: "Эртэч",
-      icon: <CheckCircle className="w-6 h-6" />,
+      iconPath: "checkCircle",
       unlocked: false,
     },
   ];
+  if (updateUserMutation.isPending || user === null || user === undefined) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="relative w-12 h-12">
+          {/* Outer circle */}
+          <div className="absolute inset-0 border-4 border-indigo-200 rounded-full"></div>
 
-  if (user === null) {
-    return <Navigate to="/login" />;
+          {/* Spinning arc */}
+          <div className="absolute inset-0 border-4 border-transparent border-t-indigo-500 border-r-indigo-500 rounded-full animate-spin"></div>
+
+          {/* Inner dot */}
+          {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-indigo-500 rounded-full"></div> */}
+        </div>
+      </div>
+    );
   }
+  // if (user === null || user === undefined) {
+  //   return <Navigate to="/login" />;
+  // }
+
+  const achievements = achievements1.map((el) => {
+    return {
+      name: el.name,
+      iconPath: el.iconPath,
+      acquiredAt: user.achievements.find((ua) => ua.name === el.name)
+        ?.acquiredAt,
+      unlocked: user.achievements.find((ua) => ua.name === el.name)
+        ? true
+        : false,
+    };
+  });
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -303,9 +356,9 @@ export default function Profile() {
 
               <div className="p-6">
                 <div className="grid grid-cols-2 gap-4">
-                  {achievements.map((achievement) => (
+                  {achievements.map((achievement, index) => (
                     <div
-                      key={achievement.id}
+                      key={index}
                       className={`flex flex-col items-center p-3 rounded-lg transition-all ${
                         achievement.unlocked
                           ? "bg-indigo-50 border border-indigo-100"
@@ -319,7 +372,7 @@ export default function Profile() {
                             : "bg-gray-200 text-gray-400"
                         }`}
                       >
-                        {achievement.icon}
+                        {getAchievementIcon(achievement.iconPath)}
                       </div>
                       <span
                         className={`text-xs font-medium text-center ${
