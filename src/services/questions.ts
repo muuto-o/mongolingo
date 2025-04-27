@@ -18,5 +18,9 @@ export async function getUnitsWithExercises(level : number){
     console.log("questions")
     console.log(data)
     return data;
-    
+}
+
+export async function GetYearlyActivity(id : string){
+  const {data} = await api.get(`/api/users/${id}/activity`);
+  return data;
 }

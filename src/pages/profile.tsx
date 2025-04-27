@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { User } from "@/constants/types";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,6 +17,8 @@ import {
   Flame,
   HelpCircle,
 } from "lucide-react";
+// import WeeklyActivityChart from "@/components/chart";
+import ActivityHeatmap from "@/components/heatmap";
 
 // type AchivementIconType = {};
 
@@ -420,6 +422,8 @@ export default function Profile() {
             </Card>
           </div>
         </div>
+        {/* <WeeklyActivityChart /> */}
+        <ActivityHeatmap userId={id} />
       </div>
     </div>
   );

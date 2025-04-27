@@ -31,3 +31,48 @@
 .mongolian-text {
   font-family: MongolianScript;
 }
+/* Add this to your global CSS */
+.react-calendar-heatmap {
+  --month-spacing: 4px;
+}
+
+.react-calendar-heatmap-month {
+  transform: translateX(calc(var(--month-index) * 12px));
+  shape-rendering: crispEdges;
+}
+
+.color-empty {
+  @apply fill-gray-100 rounded-[2px];
+  transition: all 0.2s ease;
+}
+
+.color-scale-1 {
+  @apply fill-blue-300 rounded-[2px];
+  transition: all 0.2s ease;
+}
+
+.color-scale-2 {
+  @apply fill-blue-400 rounded-[2px];
+  transition: all 0.2s ease;
+}
+
+.color-scale-3 {
+  @apply fill-blue-500 rounded-[2px];
+  transition: all 0.2s ease;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-week > rect:hover {
+  @apply stroke-emerald-500;
+  stroke-width: 1.5;
+  transform: scale(1.05);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar-heatmap text {
+  @apply text-[10px] fill-gray-500 font-medium;
+}
+
+.react-calendar-heatmap-month-labels text {
+  @apply fill-gray-600;
+}

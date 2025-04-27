@@ -73,6 +73,8 @@ const Exercise: React.FC = () => {
       signin(data.updatedUser);
       queryClient.invalidateQueries({ queryKey: ["me"] });
       queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
+      queryClient.invalidateQueries({ queryKey: ["units"] });
+      queryClient.invalidateQueries({ queryKey: ["activity"] });
     },
   });
 

@@ -36,6 +36,16 @@ export type Achivement = {
   acquiredAt : string;
 }
 
+export type exerciseCompletionReport = {
+  units: Array<{
+    unitId: string
+    completed: number
+    total: number
+  }>
+  totalCompleted: number
+  totalExercises: number
+}
+
 export type User = {
   id: string
   email: string
@@ -47,7 +57,7 @@ export type User = {
   createdAt: string
   updatedAt: string
   achievements : Achivement[];
-  report : string[];
+  report : exerciseCompletionReport;
 }
 
 export type LoginRequest = {
