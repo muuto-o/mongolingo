@@ -71,7 +71,7 @@ export default function Sidebar() {
       {/* Desktop Sidebar */}
       {!isMobile && (
         <div className="h-full">
-          <aside className="w-full bg-white p-6 h-full border-r border-gray-200 shadow-sm flex flex-col justify-between">
+          <aside className="fixed w-[295px] bg-white p-6 h-full border-r border-gray-200 shadow-sm flex flex-col justify-between">
             {/* Brand */}
             <div className="text-green-600 text-2xl font-bold mb-8 tracking-wide flex items-center mx-4">
               <span className="bg-gradient-to-r from-blue-400 to-purple-600 text-white px-3 py-1 rounded-lg">

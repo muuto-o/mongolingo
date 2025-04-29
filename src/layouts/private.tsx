@@ -14,9 +14,13 @@ export default function PrivateLayout() {
   const showSidebar = currentRoute ? currentRoute.showSidebar : true;
   return (
     <InterfaceContextProvider>
-      <div className="h-full w-screen flex">
+      <div className="h-min-screen  min-w-screen flex">
         {showSidebar && <Sidebar />}
-        <div className="p-8 w-full h-full flex overflow-y-auto">
+        <div
+          className={`"p-8 w-full h-full flex overflow-y-auto" ${
+            showSidebar && "ml-[295px]"
+          }`}
+        >
           <Outlet />
         </div>
       </div>
