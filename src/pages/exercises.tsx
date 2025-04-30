@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { questions as exercisesData } from "../data/datas";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Heart, Zap, ChevronRight, SkipForward } from "lucide-react";
+import { Heart, ChevronRight, SkipForward } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { toast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -16,6 +16,8 @@ import {
 import { GetQuestionsByExercise } from "@/services/questions";
 import MultipleChoice from "@/components/multiple-choice";
 import Matching from "@/components/matching-exercise";
+import LivesOut from "@/components/lives-out";
+import ShowResult from "@/components/result";
 
 export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
@@ -121,26 +123,7 @@ const Exercise: React.FC = () => {
   }, [currentExercise]); // Run only when currentExercise changes
 
   if (lives < 1) {
-    return (
-      <div className="flex flex-col items-center justify-center w-full h-full gap-6 text-center p-6">
-        <div className="max-w-md mx-auto">
-          <div className="bg-rose-50 border border-rose-100 rounded-xl p-6 shadow-sm">
-            <h3 className="text-xl font-bold text-rose-800 mb-3">
-              Уучлаарай, та дасгалыг дахин ажиллана уу
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Таны амь дууссан. Дараагийн удаа илүү сайн хийгээрэй😉
-            </p>
-            <Button
-              onClick={() => navigate("/lesson")}
-              className="py-5 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium shadow-md transition-all"
-            >
-              Буцах
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+    return <LivesOut />;
   }
 
   if (exercises.length === 0) {
@@ -299,53 +282,11 @@ const Exercise: React.FC = () => {
     // const accuracy = Math.round((points / totalPossiblePoints) * 100);
 
     return (
-      <div className="max-w-2xl mx-auto text-center p-6">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-8 text-white">
-            <h2 className="text-3xl font-bold mb-2">Баяр хүргэе!</h2>
-            {/* <p className="text-blue-100">
-              You made {exercises.length - (lives > 0 ? lives : 0)} mistakes in
-              this lesson
-            </p> */}
-          </div>
-          <div className="p-8">
-            <div className="flex flex-col sm:flex-row justify-center gap-6 mb-8">
-              <div className="bg-gradient-to-br from-amber-100 to-amber-50 p-6 rounded-xl border border-amber-200 shadow-sm w-full sm:w-auto">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Zap className="text-amber-600" size={24} />
-                  <p className="text-amber-800 font-bold">Нийт оноо</p>
-                </div>
-                <p className="text-3xl font-bold text-amber-900">{points}</p>
-              </div>
-              {/* <div className="bg-gradient-to-br from-emerald-100 to-emerald-50 p-6 rounded-xl border border-emerald-200 shadow-sm w-full sm:w-auto">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Check className="text-emerald-600" size={24} />
-                  <p className="text-emerald-800 font-bold">Онч</p>
-                </div>
-                <p className="text-3xl font-bold text-emerald-900">
-                  {accuracy}%
-                </p>
-              </div> */}
-            </div>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button
-                variant="outline"
-                className="gap-2 py-5 px-6 rounded-xl"
-                disabled={true}
-              >
-                coming soon...
-              </Button>
-              <Button
-                className="gap-2 py-5 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
-                disabled={pointsMutation.isPending}
-                onClick={nextLesson}
-              >
-                Үргэлжлүүлэх <ChevronRight size={18} />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ShowResult
+        points={points}
+        nextLesson={nextLesson}
+        isLoading={pointsMutation.isPending}
+      />
     );
   }
 

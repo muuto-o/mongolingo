@@ -90,25 +90,16 @@ export default function MultipleChoice({
           <button
             key={option}
             className={`p-4 rounded-xl transition-all duration-200 border-2
-                ${
-                  selectedOption === option
-                    ? isCorrect === true
-                      ? "border-emerald-500 bg-emerald-50"
-                      : isCorrect === false
-                      ? "border-rose-500 bg-rose-50"
-                      : "border-blue-500 bg-blue-50"
-                    : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
-                }
-                ${selectedOption === option ? "ring-2 ring-offset-2" : ""}
-                ${
-                  selectedOption === option && isCorrect === true
-                    ? "ring-emerald-200"
-                    : selectedOption === option && isCorrect === false
-                    ? "ring-rose-200"
-                    : selectedOption === option
-                    ? "ring-blue-200"
-                    : ""
-                }`}
+                  ${
+                    selectedOption === option
+                      ? isCorrect === true
+                        ? "border-emerald-500 bg-emerald-50 ring-2 ring-offset-2 ring-emerald-200"
+                        : isCorrect === false
+                        ? "border-rose-500 bg-rose-50 ring-2 ring-offset-2 ring-rose-200"
+                        : "border-blue-500 bg-blue-50 ring-2 ring-offset-2 ring-blue-200"
+                      : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                  }
+            `}
             onClick={() => handleMultipleChoiceAnswer(option)}
             aria-label={`Option ${index + 1}: ${option}`}
             aria-selected={selectedOption === option}

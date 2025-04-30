@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { MatchingExercise } from "@/constants/types";
+import MongolianScript from "./mongolian-script";
 
 type Props = {
   exercise: MatchingExercise;
@@ -80,7 +81,9 @@ export default function Matching({
               }
               disabled={correctPairs.some((pair) => pair.right === index)}
             >
-              <div className="rotate-90 font-semibold text-2xl">{option}</div>
+              <div className="font-semibold text-2xl">
+                <MongolianScript script={option} className=" " />
+              </div>
             </button>
           ))}
         </div>

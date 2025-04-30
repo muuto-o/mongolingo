@@ -16,28 +16,6 @@ type Props = {
   className?: string;
 };
 
-const adds = (value: string) => {
-  let letter = "";
-  switch (value) {
-    case "а":
-      letter = "‍ᠠ‍";
-      break;
-    case "э":
-      letter = "‍ᠡ‍";
-      break;
-    case "и":
-      letter = "‍ᠢ‍";
-      break;
-    case "о":
-      letter = "‍ᠥ‍";
-      break;
-    default:
-      letter = "";
-  }
-
-  return letter;
-};
-
 export function LetterTable({ letter, character, className }: Props) {
   return (
     <Card className={`overflow-hidden ${className}`}>

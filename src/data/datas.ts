@@ -1,20 +1,23 @@
 
-// import a_sound from "../assets/a.mp3"
+import a_sound from "@/assets/а1745938944.wav"
 import e_sound from "../assets/э.mp3"
-import o_sound from "../assets/о.mp3"
-// import u_sound from "../assets/ө.mp3"
-import i_sound from "../assets/и.mp3"
-import { Letter, MatchingExercise, MultipleChoiceExercise } from "@/constants/types"
+import o_sound from "../assets/о1745939194.wav"
+import u_sound from "../assets/ө1745939191.wav"
+import ou_sound from "../assets/у1745938553.wav"
+import i_sound from "../assets/и1745939184.wav"
+import uu_sound from "../assets/ү1745939198.wav"
+import { Consonant, Letter, MatchingExercise, MultipleChoiceExercise } from "@/constants/types"
 
 export const vowels :Letter[] =[
-  {name : "А", script : "ᠠ", start: "ᠠ‍", mid : "᠊ᠠ‍", end : "᠊ᠠ ᠡ᠋", desc : ""},
-  {name : "Э", script : "ᠡ", start: "ᠡ‍", mid : "᠊ᠠ‍", end : "᠊ᠠ ᠡ᠋", desc : ""},
-  {name : "И", script : "ᠢ", start: "ᠢ‍", mid : "᠊ᠢ‍", end : "᠊ᠢ", desc : ""},
-  {name : "О, у", script : "ᠣ‍", start: "ᠣ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
-  {name : "Ө, ү", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""}
+  {name : "А", script : "ᠠ", start: "ᠠ‍", mid : "᠊ᠠ‍", end : "᠊ᠠ ᠡ᠋", desc : a_sound},
+  {name : "Э", script : "ᠡ", start: "ᠡ‍", mid : "᠊ᠠ‍", end : "᠊ᠠ ᠡ᠋", desc : e_sound},
+  {name : "И", script : "ᠢ", start: "ᠢ‍", mid : "᠊ᠢ‍", end : "᠊ᠢ", desc : i_sound},
+  {name : "О", script : "ᠣ‍", start: "ᠣ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : o_sound},
+  {name : "У", script : "ᠣ‍", start: "ᠣ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ou_sound},
+  {name : "Ө", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : u_sound},
+  {name : "Ү", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : uu_sound}
 ]
-
-export const consonants : Letter[] = [
+export const consonants1 : Letter[] = [
   {name : "Н", script : "ᠨ", start: "ᠨ", mid : "᠊ᠨ‍", end : "᠊ᠠ", desc : ""},
   {name : "М", script : "ᠮ", start: "ᠮ", mid : "‍᠊ᠮ‍", end : "᠊ᠮ", desc : ""},
   {name : "Л", script : "ᠯ", start: "ᠯ", mid : "᠊ᠯ‍", end : "᠊ᠯ", desc : ""},
@@ -42,22 +45,38 @@ export const foreignConsonants : Letter[]= [
   {name : "ЛХ", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
 ]
 
-export const letters = [
-    {letter: 'а', script : 'ᠠ', desc : ['А үсэг нь үгийн эхэнд', ' үгийн дунд ', ' хэлбэрээр орно.']},
-    {letter: 'э', script : 'ᠡ', desc : ['Э үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.']},
-    {letter: 'и', script : 'ᠢᠢ', desc : ['И үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.']},
-    {letter: 'о, у', script : 'ᠥ', desc : ['О, У үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.']},
-    {letter: 'ө, ү', script : '᠋ᠥᠥ', desc : ['Ө, Ү үсэг нь үгийн эхэнд ', ' үгийн дунд ', ' хэлбэрээр орно.']},
-    // {letter: 'б', script : 'ᠪ'}
-]
-export const consonants1 = [
-    {letter: 'н', script : 'ᠨ'},
-    {letter: 'м', script : 'ᠮ'},
-    {letter: 'л', script : 'ᠯ'},
-    {letter: 'б', script : 'ᠪ'},
-    {letter: 'с', script : '᠋ᠰ'},
-    {letter: 'д', script : '᠋ᠳ'},
-    {letter: 'г', script : '᠋ᠭ'},
+export const consonants : Consonant[]= [
+  {name : "Н", script : "ᠨ", start: "ᠨ", mid : "᠊ᠨ‍", end : "᠊ᠠ", desc : a_sound, letters : [
+    {name : "Н", script : "ᠨ", start: "ᠨ", mid : "᠊ᠨ‍", end : "᠊ᠠ", desc : a_sound},
+    { name : "НА", script : "ᠨᠠ‍", start: "ᠨᠡ‍", mid : "᠊ᠨᠠ‍", end : "᠊ᠨᠠ", desc : a_sound},
+    { name : "НЭ", script : "ᠨᠡ‍", start: "ᠨᠡ‍", mid : "᠊ᠨᠠ‍", end : "᠊ᠨ ᠡ᠋", desc : e_sound},
+    { name : "НИ", script : "ᠨᠢ‍", start: "ᠨᠢ‍", mid : "᠊ᠨᠢ‍", end : "᠊ᠨᠢ", desc : i_sound},
+    { name : "НО", script : "ᠨᠣ‍", start: "ᠨᠣ‍", mid : "᠊ᠨ‍ᠥ‍", end : "᠊ᠨᠥ", desc : o_sound},
+    { name : "НУ", script : "ᠨᠣ‍", start: "ᠨᠣ‍", mid : "᠊ᠨ‍ᠥ‍", end : "᠊ᠨᠥ", desc : ou_sound},
+    { name : "НӨ", script : "ᠨᠥ‍", start: "ᠨᠥ‍", mid : "᠊ᠨ‍ᠥ‍", end : "᠊ᠨᠥ", desc : u_sound},
+    { name : "НҮ", script : "ᠨᠥ‍", start: "ᠨᠥ‍", mid : "᠊ᠨ‍ᠥ‍", end : "᠊ᠨᠥ", desc : uu_sound}
+  ]},
+  {name : "М", script : "ᠮ", start: "ᠮ", mid : "‍᠊ᠮ‍", end : "᠊ᠮ", desc : a_sound, letters : [
+    {name : "М", script : "ᠮ", start: "ᠮ", mid : "‍᠊ᠮ‍", end : "᠊ᠮ", desc : a_sound},
+    { name : "МА", script : "ᠮᠠ‍", start: "ᠮᠠ‍", mid : "᠊ᠮᠠ‍", end : "᠊ᠮᠠ", desc : a_sound},
+    { name : "МЭ", script : "ᠮᠠ‍", start: "ᠮᠠ‍", mid : "᠊ᠮᠠ‍", end : "᠊ᠮ ᠡ᠋", desc : e_sound},
+    { name : "МИ", script : "ᠮᠢ‍", start: "ᠮᠢ‍", mid : "᠊ᠮᠢ‍", end : "᠊ᠮᠢ", desc : i_sound},
+    { name : "МО", script : "ᠮᠣ‍", start: "ᠮᠣ‍", mid : "᠊ᠮ‍ᠥ‍", end : "᠊ᠮᠥ", desc : o_sound},
+    { name : "МУ", script : "ᠮᠣ‍", start: "ᠮᠣ‍", mid : "᠊ᠮ‍ᠥ‍", end : "᠊ᠮᠥ", desc : ou_sound},
+    { name : "МӨ", script : "ᠮᠥ‍", start: "ᠮᠥ‍", mid : "᠊ᠮ‍ᠥ‍", end : "᠊ᠮᠥ", desc : u_sound},
+    { name : "МҮ", script : "ᠮᠥ‍", start: "ᠮᠥ‍", mid : "᠊ᠮ‍ᠥ‍", end : "᠊ᠮᠥ", desc : uu_sound}
+  ]},
+  {name : "Л", script : "ᠯ", start: "ᠯ", mid : "᠊ᠯ‍", end : "᠊ᠯ", desc : a_sound, letters : [
+    {name : "Л", script : "ᠯ", start: "ᠯ", mid : "᠊ᠯ‍", end : "᠊ᠯ", desc : a_sound},
+    { name : "ЛА", script : "ᠯᠠ‍", start: "ᠯᠠ‍", mid : "᠊ᠯᠠ‍", end : "᠊ᠮᠠ᠂ ᠊ᠮ ᠡ᠋", desc : a_sound},
+    { name : "ЛЭ", script : "ᠯᠠ‍", start: "ᠯᠠ‍", mid : "᠊ᠯᠠ‍", end : "᠊ᠮ ᠡ᠋", desc : e_sound},
+    { name : "ЛИ", script : "ᠯᠢ‍", start: "ᠯᠢ‍", mid : "᠊ᠯᠢ‍", end : "᠊ᠮᠢ", desc : i_sound},
+    { name : "ЛО", script : "ᠯᠣ‍", start: "ᠯᠣ‍", mid : "᠊ᠯ‍ᠥ‍", end : "᠊ᠯᠥ", desc : o_sound},
+    { name : "ЛУ", script : "ᠯᠣ‍", start: "ᠯᠣ‍", mid : "᠊ᠯᠥ‍", end : "᠊ᠯᠥ", desc : ou_sound},
+    { name : "ЛӨ", script : "ᠯᠥ‍", start: "ᠯᠥ‍", mid : "᠊ᠯ‍ᠥ‍", end : "᠊ᠯᠥ", desc : u_sound},
+    { name : "ЛҮ", script : "ᠯᠥ‍", start: "ᠯᠥ‍", mid : "᠊ᠯᠥ‍", end : "᠊ᠯᠥ", desc : uu_sound}
+  ]},
+  
 ]
 
 export const questions: (MultipleChoiceExercise | MatchingExercise)[] = 

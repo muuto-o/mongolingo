@@ -13,6 +13,10 @@ export interface Letter{
   desc : string;
 }
 
+export interface Consonant extends Letter {
+  letters : Letter[]
+}
+
 export interface MultipleChoiceExercise {
   title: string;
   type: "multiple_choice";
