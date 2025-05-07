@@ -59,26 +59,21 @@ export default function RegisterPage() {
     },
     onError: (error: unknown) => {
       if (axios.isAxiosError(error) && error.response) {
-        // Axios error with a response from the server
         const errorMessage =
-          error.response.data?.message ||
-          error.message ||
-          "An unexpected error occurred.";
+          error.response.data?.message || error.message || "Алдаа гарлаа";
         toast({
           variant: "destructive",
           title: errorMessage,
         });
       } else if (error instanceof Error) {
-        // General error
         toast({
           variant: "destructive",
-          title: error.message || "An unexpected error occurred.",
+          title: error.message || "Алдаа гарлаа",
         });
       } else {
-        // Handle other types of errors
         toast({
           variant: "destructive",
-          title: "An unexpected error occurred.",
+          title: "Алдаа гарлаа",
         });
       }
     },
@@ -103,19 +98,18 @@ export default function RegisterPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     registerMutation.mutate(values);
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-purple-50 p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-background via-muted/50 to-muted p-4">
+      <div className="w-full max-w-md bg-card rounded-2xl shadow-lg overflow-hidden border">
         <div className="p-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500">
               Бүртгүүлэх
             </h1>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-muted-foreground">
               Шинэ хэрэглэгч үү? Бүртгүүлэх хэсэгт тавтай морил.
             </p>
           </div>
@@ -133,11 +127,11 @@ export default function RegisterPage() {
                     <FormControl>
                       <Input
                         placeholder="Хэрэглэгчийн нэр"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                        className="w-full px-4 py-3 rounded-lg focus-visible:ring-primary"
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className="text-sm text-red-500" />
+                    <FormMessage className="text-sm text-destructive" />
                   </FormItem>
                 )}
               />
@@ -150,11 +144,11 @@ export default function RegisterPage() {
                     <FormControl>
                       <Input
                         placeholder="Имэйл"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                        className="w-full px-4 py-3 rounded-lg focus-visible:ring-primary"
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className="text-sm text-red-500" />
+                    <FormMessage className="text-sm text-destructive" />
                   </FormItem>
                 )}
               />
@@ -169,13 +163,15 @@ export default function RegisterPage() {
                         placeholder="Нууц үг"
                         type={showPassword ? "text" : "password"}
                         autoComplete="new-password"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                        className="w-full px-4 py-3 rounded-lg focus-visible:ring-primary"
                         {...field}
                       />
                       <Button
                         type="button"
                         onClick={toggleShowPassword}
-                        className="absolute inset-y-0 right-0 flex items-center bg-transparent px-3 text-gray-500 hover:bg-transparent"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:bg-transparent"
                       >
                         {showPassword ? (
                           <Eye className="w-5 h-5" />
@@ -184,7 +180,7 @@ export default function RegisterPage() {
                         )}
                       </Button>
                     </div>
-                    <FormMessage className="text-sm text-red-500" />
+                    <FormMessage className="text-sm text-destructive" />
                   </FormItem>
                 )}
               />
@@ -199,13 +195,15 @@ export default function RegisterPage() {
                         placeholder="Нууц үг давтах"
                         type={showPasswordRepeat ? "text" : "password"}
                         autoComplete="new-password"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                        className="w-full px-4 py-3 rounded-lg focus-visible:ring-primary"
                         {...field}
                       />
                       <Button
                         type="button"
                         onClick={toggleShowPasswordRepeat}
-                        className="absolute inset-y-0 right-0 flex items-center bg-transparent px-3 text-gray-500 hover:bg-transparent"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:bg-transparent"
                       >
                         {showPasswordRepeat ? (
                           <Eye className="w-5 h-5" />
@@ -214,24 +212,27 @@ export default function RegisterPage() {
                         )}
                       </Button>
                     </div>
-                    <FormMessage className="text-sm text-red-500" />
+                    <FormMessage className="text-sm text-destructive" />
                   </FormItem>
                 )}
               />
 
               <Button
                 type="submit"
-                className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all"
+                className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-800 dark:hover:to-purple-800 transition-all"
+                disabled={registerMutation.isPending}
               >
-                БҮРТГҮҮЛЭХ
+                {registerMutation.isPending
+                  ? "Бүртгэл үүсгэж байна..."
+                  : "БҮРТГҮҮЛЭХ"}
               </Button>
 
               <div className="text-center">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Аль хэдийн бүртгүүлсэн үү?{" "}
                   <Link
                     to="/login"
-                    className="font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                    className="font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                   >
                     Нэвтрэх
                   </Link>

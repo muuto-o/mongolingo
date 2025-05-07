@@ -24,6 +24,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import ActivityHeatmap from "@/components/heatmap";
+import Loader from "@/components/loader";
 
 // Animated background component
 const AnimatedBackground = () => (
@@ -123,11 +124,8 @@ export default function Profile() {
 
   if (updateUserMutation.isPending || !user) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="relative w-12 h-12">
-          <div className="absolute inset-0 border-4 border-indigo-200 rounded-full"></div>
-          <div className="absolute inset-0 border-4 border-transparent border-t-indigo-500 border-r-indigo-500 rounded-full animate-spin"></div>
-        </div>
+      <div className="min-h-screen w-full flex justify-center items-center border-2">
+        <Loader size="lg" color="primary" className="mt-4" />;
       </div>
     );
   }
@@ -438,7 +436,7 @@ export default function Profile() {
             </Card>
 
             {/* Streak Card */}
-            <Card className="bg-white rounded-2xl shadow-lg overflow-hidden border-0">
+            {/* <Card className="bg-white rounded-2xl shadow-lg overflow-hidden border-0">
               <div className="bg-gradient-to-r from-pink-500 to-rose-500 p-6 text-white">
                 <div className="flex items-center justify-between">
                   <div>
@@ -460,7 +458,7 @@ export default function Profile() {
                   ></div>
                 </div>
               </div>
-            </Card>
+            </Card> */}
           </div>
         </div>
       </div>

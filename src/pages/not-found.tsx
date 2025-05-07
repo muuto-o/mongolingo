@@ -1,21 +1,22 @@
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+    <div className="w-full h-screen bg-background flex flex-col items-center justify-center p-4">
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">404</h1>
-        <p className="text-lg text-gray-600 mb-6">
-          Oops! The page you’re looking for doesn’t exist.
+        <h1 className="text-4xl font-bold text-foreground mb-4">404</h1>
+        <p className="text-lg text-muted-foreground mb-6">
+          Уучлаарай! Таны хайсан хуудас олдсонгүй.
         </p>
-        <button
-          className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
+        <Button
           onClick={() => navigate("/")}
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          Go Back to Home
-        </button>
+          Нүүр хуудас руу буцах
+        </Button>
       </div>
     </div>
   );

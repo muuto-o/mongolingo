@@ -18,6 +18,7 @@ import MultipleChoice from "@/components/multiple-choice";
 import Matching from "@/components/matching-exercise";
 import LivesOut from "@/components/lives-out";
 import ShowResult from "@/components/result";
+import LoaderPage from "./loader";
 
 export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
@@ -57,7 +58,7 @@ const Exercise: React.FC = () => {
   const location = useLocation();
   const lessonIndex = location.state?.exerciseId;
 
-  const { data: questions } = useQuery({
+  const { data: questions, isLoading } = useQuery({
     queryKey: ["questions", lessonIndex],
     queryFn: () => GetQuestionsByExercise(lessonIndex),
   });
@@ -124,6 +125,10 @@ const Exercise: React.FC = () => {
 
   if (lives < 1) {
     return <LivesOut />;
+  }
+
+  if (isLoading) {
+    return <LoaderPage />;
   }
 
   if (exercises.length === 0) {
