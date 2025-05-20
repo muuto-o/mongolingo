@@ -75,8 +75,8 @@ export default function Lesson() {
               className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 gap-5 p-4"
               key={index}
             >
-              {unit.exercises.map((exercise, index) => (
-                <motion.div key={index} variants={item}>
+              {unit.exercises.map((exercise, ex_index) => (
+                <motion.div key={ex_index} variants={item}>
                   <Card
                     className={`w-full aspect-square flex flex-col items-center justify-center rounded-xl cursor-pointer transition-all duration-300 ${
                       exercise.unlocked
@@ -97,7 +97,7 @@ export default function Lesson() {
                         </h3>
                         <div
                           className={`absolute top-2 right-2 rounded-full p-1 ${
-                            index === exerciseLevel - 1 && exercise.unlocked
+                            exercise.level >= exerciseLevel && exercise.unlocked
                               ? ` bg-white/20`
                               : `bg-green-500`
                           }`}

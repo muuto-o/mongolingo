@@ -34,15 +34,93 @@ export const consonants1 : Letter[] = [
   {name : "Ш", script : "ᠱ", start: "ᠱ", mid : "᠊ᠱ‍", end : "᠊ᠱ", desc : ""},
 ]
 
-export const foreignConsonants : Letter[]= [
-  {name : "В", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
-  {name : "П", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
-  {name : "К", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
-  {name : "Ф", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
-  {name : "Ц", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
-  {name : "З", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
-  {name : "Х", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
-  {name : "ЛХ", script : "ᠦ‍", start: "ᠦ‍", mid : "᠊ᠣ‍", end : "᠊ᠣ", desc : ""},
+export const foreignConsonants : Consonant[]= [
+   
+  {name : "В", script : "ᠸ", start: "ᠸ", mid : "᠊ᠸ‍", end : "᠊ᠸ", desc : a_sound, letters : [
+    {name : "В", script : "ᠸ", start: "ᠸ", mid : "᠊ᠸ‍", end : "᠊ᠸ", desc : a_sound},
+    { name : "ВА", script : "ᠸᠠ‍", start: "ᠸᠠ‍", mid : "᠊ᠸᠠ‍", end : "᠊ᠸᠠ", desc : a_sound},
+    { name : "ВЭ(ВЕ)", script : "ᠸᠸ‍", start: "ᠸᠸ‍", mid : "᠊ᠸᠸ‍", end : "᠊ᠸᠸ", desc : e_sound},
+    { name : "ВИ", script : "ᠸᠢ‍", start: "ᠸᠢ‍", mid : "᠊ᠸᠢ‍", end : "᠊ᠸᠢ", desc : i_sound},
+    { name : "ВО", script : "ᠸᠣ‍", start: "ᠸᠣ‍", mid : "᠊ᠸ‍ᠥ‍", end : "᠊ᠸᠣ", desc : o_sound},
+    { name : "ВУ", script : "ᠸᠥ‍", start: "ᠸᠣ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : ou_sound},
+    { name : "ВӨ", script : "ᠸᠥ‍", start: "ᠸᠥ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : u_sound},
+    { name : "ВҮ", script : "ᠸᠥ‍", start: "ᠸᠥ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : uu_sound}
+  ]},
+
+  {name : "П", script : "ᠫ", start: "ᠫ", mid : "᠊ᠫ‍", end : "᠊ᠫ", desc : a_sound, letters : [
+    {name : "П", script : "ᠸ", start: "ᠸ", mid : "᠊ᠸ‍", end : "᠊ᠸ", desc : a_sound},
+    { name : "ПА", script : "ᠸᠠ‍", start: "ᠸᠠ‍", mid : "᠊ᠸᠠ‍", end : "᠊ᠸᠠ", desc : a_sound},
+    { name : "ПЭ(ПЕ)", script : "ᠸᠸ‍", start: "ᠸᠸ‍", mid : "᠊ᠸᠸ‍", end : "᠊ᠸᠸ", desc : e_sound},
+    { name : "ПИ", script : "ᠸᠢ‍", start: "ᠸᠢ‍", mid : "᠊ᠸᠢ‍", end : "᠊ᠸᠢ", desc : i_sound},
+    { name : "ПО", script : "ᠸᠣ‍", start: "ᠸᠣ‍", mid : "᠊ᠸ‍ᠥ‍", end : "᠊ᠸᠣ", desc : o_sound},
+    { name : "ПУ", script : "ᠸᠥ‍", start: "ᠸᠣ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : ou_sound},
+    { name : "ПӨ", script : "ᠸᠥ‍", start: "ᠸᠥ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : u_sound},
+    { name : "ПҮ", script : "ᠸᠥ‍", start: "ᠸᠥ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : uu_sound}
+  ]},
+
+  {name : "К", script : "ᠻ", start: "ᠻ", mid : "᠊ᠻ‍", end : "᠊ᠺ", desc : a_sound, letters : [
+    {name : "К", script : "ᠸ", start: "ᠸ", mid : "᠊ᠸ‍", end : "᠊ᠸ", desc : a_sound},
+    { name : "КА", script : "ᠸᠠ‍", start: "ᠸᠠ‍", mid : "᠊ᠸᠠ‍", end : "᠊ᠸᠠ", desc : a_sound},
+    { name : "КЭ(КЕ)", script : "ᠸᠸ‍", start: "ᠸᠸ‍", mid : "᠊ᠸᠸ‍", end : "᠊ᠸᠸ", desc : e_sound},
+    { name : "КИ", script : "ᠸᠢ‍", start: "ᠸᠢ‍", mid : "᠊ᠸᠢ‍", end : "᠊ᠸᠢ", desc : i_sound},
+    { name : "КО", script : "ᠸᠣ‍", start: "ᠸᠣ‍", mid : "᠊ᠸ‍ᠥ‍", end : "᠊ᠸᠣ", desc : o_sound},
+    { name : "КУ", script : "ᠸᠥ‍", start: "ᠸᠣ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : ou_sound},
+    { name : "КӨ", script : "ᠸᠥ‍", start: "ᠸᠥ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : u_sound},
+    { name : "КҮ", script : "ᠸᠥ‍", start: "ᠸᠥ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : uu_sound}
+  ]},
+
+  {name : "Ф", script : "ᠹ", start: "ᠹ", mid : "᠊ᠹ‍", end : "᠊ᠹ", desc : a_sound, letters : [
+    {name : "Ф", script : "ᠸ", start: "ᠸ", mid : "᠊ᠸ‍", end : "᠊ᠸ", desc : a_sound},
+    { name : "ФА", script : "ᠸᠠ‍", start: "ᠸᠠ‍", mid : "᠊ᠸᠠ‍", end : "᠊ᠸᠠ", desc : a_sound},
+    { name : "ФЭ(ФЕ)", script : "ᠸᠸ‍", start: "ᠸᠸ‍", mid : "᠊ᠸᠸ‍", end : "᠊ᠸᠸ", desc : e_sound},
+    { name : "ФИ", script : "ᠸᠢ‍", start: "ᠸᠢ‍", mid : "᠊ᠸᠢ‍", end : "᠊ᠸᠢ", desc : i_sound},
+    { name : "ФО", script : "ᠸᠣ‍", start: "ᠸᠣ‍", mid : "᠊ᠸ‍ᠥ‍", end : "᠊ᠸᠣ", desc : o_sound},
+    { name : "ФУ", script : "ᠸᠥ‍", start: "ᠸᠣ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : ou_sound},
+    { name : "ФӨ", script : "ᠸᠥ‍", start: "ᠸᠥ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : u_sound},
+    { name : "ФҮ", script : "ᠸᠥ‍", start: "ᠸᠥ‍", mid : "᠊ᠸᠥ‍", end : "᠊ᠸᠣ", desc : uu_sound}
+  ]},
+
+  {name : "Ц", script : "ᠼ", start: "ᠼ", mid : "᠊ᠼ‍", end : "᠊ᠼ", desc : a_sound, letters : [
+    {name : "Ц", script : "ᠼ", start: "ᠼ", mid : "᠊ᠼ‍", end : "᠊ᠼ", desc : a_sound},
+    { name : "ЦА", script : "ᠼᠠ‍", start: "ᠼᠠ‍", mid : "᠊ᠼᠠ‍", end : "᠊ᠼᠠ", desc : a_sound},
+    { name : "ЦЭ(ЦЕ)", script : "ᠼᠸ‍", start: "ᠼᠸ‍", mid : "᠊ᠼᠸ‍", end : "᠊ᠼᠸ", desc : e_sound},
+    { name : "ЦИ", script : "ᠼᠢ‍", start: "ᠴᠢ‍", mid : "᠊ᠴᠢ‍", end : "᠊ᠴᠢ", desc : i_sound},
+    { name : "ЦО", script : "ᠼᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : o_sound},
+    { name : "ЦУ", script : "ᠼᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : ou_sound},
+    { name : "ЦӨ", script : "ᠼᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : u_sound},
+    { name : "ЦҮ", script : "ᠼᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : uu_sound}
+  ]},
+
+  {name : "З", script : "ᠼ", start: "ᠼ", mid : "᠊ᠼ‍", end : "᠊ᠼ", desc : a_sound, letters : [
+    {name : "З", script : "ᠼ", start: "ᠼ", mid : "᠊ᠼ‍", end : "᠊ᠼ", desc : a_sound},
+    { name : "ЗА", script : "ᠼᠠ‍", start: "ᠼᠠ‍", mid : "᠊ᠼᠠ‍", end : "᠊ᠼᠠ", desc : a_sound},
+    { name : "ЗЭ(ЗЕ)", script : "ᠼᠸ‍", start: "ᠼᠸ‍", mid : "᠊ᠼᠸ‍", end : "᠊ᠼᠸ", desc : e_sound},
+    { name : "ЗИ", script : "ᠼᠢ‍", start: "ᠴᠢ‍", mid : "᠊ᠴᠢ‍", end : "᠊ᠴᠢ", desc : i_sound},
+    { name : "ЗО", script : "ᠼᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : o_sound},
+    { name : "ЗУ", script : "ᠼᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : ou_sound},
+    { name : "ЗӨ", script : "ᠼᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : u_sound},
+    { name : "ЗҮ", script : "ᠼᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : uu_sound}
+  ]},
+  {name : "Х", script : "ᠡᡁ", start: "ᠡᡁ", mid : "᠊ᡁ", end : "᠊ᡁ", desc : a_sound, letters : [
+    {name : "Х", script : "ᠡᡁ", start: "ᠡᡁ", mid : "᠊ᡁ‍", end : "᠊ᡁ", desc : a_sound},
+    { name : "ХА", script : "ᠡᡁᠠ‍", start: "ᠡᡁᠠ‍", mid : "᠊ᡁᠠ‍", end : "᠊ᡁᠠ", desc : a_sound},
+    { name : "ХЭ(ХЕ)", script : "ᠼᠠ‍", start: "ᠼᠠ‍", mid : "᠊ᠼ‍", end : "᠊ᠼᠡ", desc : e_sound},
+    { name : "ХИ", script : "ᠼᠢ‍", start: "ᠴᠢ‍", mid : "᠊ᠴᠢ‍", end : "᠊ᠴᠢ", desc : i_sound},
+    { name : "ХО", script : "ᠼᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : o_sound},
+    { name : "ХУ", script : "ᠼᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : ou_sound},
+    { name : "ХӨ", script : "ᠼᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : u_sound},
+    { name : "ХҮ", script : "ᠼᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : uu_sound}
+  ]},
+  {name : "ЛХ", script : "ᠯᡁ", start: "ᠯᡁ", mid : "᠊ᠯᡁ‍", end : "᠊ᠯᡁ", desc : a_sound, letters : [
+    {name : "ЛХ", script : "ᠯᡁ", start: "ᠯᡁ", mid : "᠊ᠯᡁ‍", end : "᠊ᠯᡁ", desc : a_sound},
+    { name : "А", script : "ᠯᡁᠠ‍", start: "ᠯᡁᠠ‍", mid : "᠊ᠯᡁᠠ‍", end : "᠊ᠯᡁᠠ", desc : a_sound},
+    { name : "Э(Е)", script : "ᠯᡁᠸ‍", start: "ᠯᡁᠸ‍", mid : "᠊ᠯᡁᠸ‍", end : "᠊ᠯᡁᠸ", desc : e_sound},
+    { name : "И", script : "ᠼᠢ‍", start: "ᠴᠢ‍", mid : "᠊ᠴᠢ‍", end : "᠊ᠴᠢ", desc : i_sound},
+    { name : "О", script : "ᠼᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : o_sound},
+    { name : "У", script : "ᠼᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : ou_sound},
+    { name : "Ө", script : "ᠼᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : u_sound},
+    { name : "Ү", script : "ᠼᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : uu_sound}
+  ]},
 ]
 
 export const consonants : Consonant[]= [
@@ -76,8 +154,127 @@ export const consonants : Consonant[]= [
     { name : "ЛӨ", script : "ᠯᠥ‍", start: "ᠯᠥ‍", mid : "᠊ᠯ‍ᠥ‍", end : "᠊ᠯᠥ", desc : u_sound},
     { name : "ЛҮ", script : "ᠯᠥ‍", start: "ᠯᠥ‍", mid : "᠊ᠯᠥ‍", end : "᠊ᠯᠥ", desc : uu_sound}
   ]},
-  
+
+  {name : "Б", script : "ᠪ‍", start: "ᠪ‍", mid : "᠊ᠪ᠊", end : "᠊ᠪ", desc : a_sound, letters : [
+    {name : "Б", script : "ᠪ‍", start: "ᠪ‍", mid : "᠊ᠪ᠊", end : "᠊ᠪ", desc : a_sound},
+    { name : "БА", script : "ᠪᠠ‍", start: "ᠪᠠ‍", mid : "᠊ᠪᠠ‍", end : "᠊ᠪᠠ", desc : a_sound},
+    { name : "БЭ", script : "ᠪᠠ‍", start: "ᠪᠠ‍", mid : "᠊ᠪᠠ‍", end : "᠊ᠪᠠ", desc : e_sound},
+    { name : "БИ", script : "ᠪᠢ‍", start: "ᠪᠢ‍", mid : "᠊ᠪᠢ‍", end : "᠊ᠪᠢ", desc : i_sound},
+    { name : "БО", script : "ᠪᠣ‍", start: "ᠪᠣ‍", mid : "᠊ᠪ‍ᠥ‍", end : "᠊ᠪᠥ", desc : o_sound},
+    { name : "БУ", script : "ᠪᠣ‍", start: "ᠪᠣ‍", mid : "᠊ᠪ‍ᠥ‍", end : "᠊ᠪᠥ", desc : ou_sound},
+    { name : "БӨ", script : "ᠪᠥ‍", start: "ᠪᠥ‍", mid : "᠊ᠪ‍ᠥ‍", end : "᠊ᠪᠥ", desc : u_sound},
+    { name : "БҮ", script : "ᠪᠥ‍", start: "ᠪᠥ‍", mid : "᠊ᠪ‍ᠥ‍", end : "᠊ᠪᠥ", desc : uu_sound}
+  ]},
+
+  {name : "Р", script : "ᠷ", start: "ᠷ", mid : "᠊ᠷ‍", end : "᠊ᠷ", desc : a_sound, letters : [
+    {name : "Р", script : "ᠷ", start: "ᠷ", mid : "᠊ᠷ‍", end : "᠊ᠷ", desc : a_sound},
+    { name : "РА", script : "ᠷᠠ‍", start: "ᠷᠠ‍", mid : "᠊ᠷᠠ‍", end : "᠊ᠷᠠ᠂ ᠊ᠷ ᠡ᠋", desc : a_sound},
+    { name : "РЭ", script : "ᠷᠠ‍", start: "ᠷᠠ‍", mid : "᠊ᠷᠠ‍", end : "᠊ᠷᠠ᠂ ᠊ᠷ ᠡ᠋", desc : e_sound},
+    { name : "РИ", script : "ᠷᠢ‍", start: "ᠷᠢ‍", mid : "᠊ᠷᠢ‍", end : "᠊ᠷᠢ", desc : i_sound},
+    { name : "РО", script : "ᠷᠣ‍", start: "ᠷᠣ‍", mid : "᠊ᠷ‍ᠥ‍", end : "᠊ᠷᠣ", desc : o_sound},
+    { name : "РУ", script : "ᠷᠣ‍", start: "ᠷᠣ‍", mid : "᠊ᠷ‍ᠥ‍", end : "᠊ᠷᠣ", desc : ou_sound},
+    { name : "РӨ", script : "ᠷᠥ‍", start: "ᠷᠥ‍", mid : "᠊ᠷ‍ᠥ‍", end : "᠊ᠷᠣ", desc : u_sound},
+    { name : "РҮ", script : "ᠷᠥ‍", start: "ᠷᠥ‍", mid : "᠊ᠷ‍ᠥ‍", end : "᠊ᠷᠣ", desc : uu_sound}
+  ]},
+
+  {name : "С", script : "ᠰ", start: "ᠰ", mid : "᠊ᠰ‍", end : "᠊ᠰ", desc : a_sound, letters : [
+    {name : "С", script : "ᠰ", start: "ᠰ", mid : "᠊ᠰ‍", end : "᠊ᠰ", desc : a_sound},
+    { name : "СА", script : "ᠰᠠ‍", start: "ᠰᠠ‍", mid : "᠊ᠰᠠ‍", end : "᠊ᠰᠠ", desc : a_sound},
+    { name : "СЭ", script : "ᠰᠠ‍", start: "ᠰᠠ‍", mid : "᠊ᠰᠠ‍", end : "᠊ᠰᠠ", desc : e_sound},
+    { name : "СИ", script : "ᠰᠢ‍", start: "ᠰᠢ‍", mid : "᠊ᠰᠢ‍", end : "᠊ᠰᠢ", desc : i_sound},
+    { name : "СО", script : "ᠰᠣ‍", start: "ᠰᠣ‍", mid : "᠊ᠰ‍ᠥ‍", end : "᠊ᠰᠣ", desc : o_sound},
+    { name : "СУ", script : "ᠰᠣ‍", start: "ᠰᠣ‍", mid : "᠊ᠰ‍ᠥ‍", end : "᠊ᠰᠣ", desc : ou_sound},
+    { name : "СӨ", script : "ᠰᠥ‍", start: "ᠰᠥ‍", mid : "᠊ᠰ‍ᠥ‍", end : "᠊ᠰᠣ", desc : u_sound},
+    { name : "СҮ", script : "ᠰᠥ‍", start: "ᠰᠥ‍", mid : "᠊ᠰ‍ᠥ‍", end : "᠊ᠰᠣ", desc : uu_sound}
+  ]},
+
+  {name : "Д", script : "ᠳ‍", start: "ᠳ‍", mid : "᠊ᠳ‍᠂ ᠊ᠲ‍", end : "᠊ᠳ᠂ ᠊ᠲ", desc : a_sound, letters : [
+    {name : "Д", script : "ᠳ‍", start: "ᠳ‍", mid : "᠊ᠳ‍᠂ ᠊ᠲ‍", end : "᠊ᠳ᠂ ᠊ᠲ", desc : a_sound},
+    { name : "ДА", script : "ᠳᠠ‍", start: "ᠳᠠ‍", mid : "᠊ᠲᠠ‍", end : "᠊ᠲᠠ", desc : a_sound},
+    { name : "ДЭ", script : "ᠳᠠ‍", start: "ᠳᠠ‍", mid : "᠊ᠲᠠ‍", end : "᠊ᠲᠠ", desc : e_sound},
+    { name : "ДИ", script : "ᠲᠢ‍", start: "ᠳᠢ‍", mid : "᠊ᠲᠢ‍", end : "᠊ᠲᠢ", desc : i_sound},
+    { name : "ДО", script : "ᠳᠣ‍", start: "ᠳᠣ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : o_sound},
+    { name : "ДУ", script : "ᠳᠣ‍", start: "ᠳᠣ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : ou_sound},
+    { name : "ДӨ", script : "ᠲᠥ‍", start: "ᠲᠥ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : u_sound},
+    { name : "ДҮ", script : "ᠲᠥ‍", start: "ᠲᠥ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : uu_sound}
+  ]},
+
+  {name : "Г", script : "ᠭ᠂ ᠭ‍", start: "ᠭ᠂ ᠭ‍", mid : "᠊ᠭ‍᠂ ᠊ᠭᠡ‍‍‍‍", end : "᠊ᠭ᠂ ᠊ᠭ᠌", desc : a_sound, letters : [
+    {name : "Г", script : "ᠭ᠂ ᠭ‍", start: "ᠭ᠂ ᠭ‍", mid : "᠊ᠭ‍᠂ ᠊ᠭᠡ‍‍‍‍", end : "᠊ᠭ᠂ ᠊ᠭ᠌", desc : a_sound},
+    { name : "ГА", script : "ᠭᠠ‍", start: "ᠭᠠ‍", mid : "᠊ᠭᠠ‍", end : "᠊ᠭᠠ ᠡ᠋", desc : a_sound},
+    { name : "ГЭ", script : "ᠭᠡ‍", start: "ᠭᠡ‍", mid : "᠊ᠭᠡ‍", end : "᠊ᠭᠡ", desc : e_sound},
+    { name : "ГИ", script : "ᠭᠢ‍", start: "ᠭᠢ‍", mid : "᠊ᠭᠢ‍", end : "᠊ᠭᠢ", desc : i_sound},
+    { name : "ГО", script : "ᠭᠣ‍", start: "ᠭᠣ‍", mid : "᠊ᠭᠣ‍", end : "᠊ᠭᠣ", desc : o_sound},
+    { name : "ГУ", script : "ᠭᠣ‍", start: "ᠭᠣ‍", mid : "᠊ᠭᠣ‍", end : "᠊ᠭᠣ", desc : ou_sound},
+    { name : "ГӨ", script : "ᠭᠥ‍", start: "ᠭᠥ‍", mid : "᠊ᠭᠥ‍", end : "᠊ᠭᠥ", desc : u_sound},
+    { name : "ГҮ", script : "ᠭᠥ‍", start: "ᠭᠥ‍", mid : "᠊ᠭᠥ‍", end : "᠊ᠭᠥ", desc : uu_sound}
+  ]},
+
+  {name : "Х", script : "ᠬᠠ‍", start: "ᠬᠠ‍", mid : "᠊ᠭ‍", end : "᠊ᠭ ᠡ᠋", desc : a_sound, letters : [
+    // {name : "Х", script : "ᠭ᠂ ᠭ‍", start: "ᠭ᠂ ᠭ‍", mid : "᠊ᠭ‍᠂ ᠊ᠭᠡ‍‍‍‍", end : "᠊ᠭ᠂ ᠊ᠭ᠌", desc : a_sound},
+    { name : "ХА", script : "ᠬᠠ‍", start: "ᠬᠠ‍", mid : "᠊ᠬᠠ‍", end : "᠊ᠬᠠ ᠡ᠋", desc : a_sound},
+    { name : "ХЭ", script : "ᠭᠡ‍", start: "ᠭᠡ‍", mid : "᠊ᠭᠡ‍", end : "᠊ᠭᠡ", desc : e_sound},
+    { name : "ХИ", script : "ᠭᠢ‍", start: "ᠭᠢ‍", mid : "᠊ᠭᠢ‍", end : "᠊ᠭᠢ", desc : i_sound},
+    { name : "ХО", script : "ᠭᠣ‍", start: "ᠭᠣ‍", mid : "᠊ᠭᠣ‍", end : "᠊ᠭᠣ", desc : o_sound},
+    { name : "ХУ", script : "ᠭᠣ‍", start: "ᠭᠣ‍", mid : "᠊ᠭᠣ‍", end : "᠊ᠭᠣ", desc : ou_sound},
+    { name : "ХӨ", script : "ᠭᠥ‍", start: "ᠭᠥ‍", mid : "᠊ᠭᠥ‍", end : "᠊ᠭᠥ", desc : u_sound},
+    { name : "ХҮ", script : "ᠭᠥ‍", start: "ᠭᠥ‍", mid : "᠊ᠭᠥ‍", end : "᠊ᠭᠥ", desc : uu_sound}
+  ]},
+
+  {name : "Т", script : "ᠳ‍", start: "ᠳ‍", mid : "᠊ᠲ‍", end : "᠊ᠲ", desc : a_sound, letters : [
+    // {name : "Д", script : "ᠳ‍", start: "ᠳ‍", mid : "᠊ᠳ‍᠂ ᠊ᠲ‍", end : "᠊ᠳ᠂ ᠊ᠲ", desc : a_sound},
+    { name : "ТА", script : "ᠳᠠ‍", start: "ᠳᠠ‍", mid : "᠊ᠲᠠ‍", end : "᠊ᠲᠠ", desc : a_sound},
+    { name : "ТЭ", script : "ᠳᠠ‍", start: "ᠳᠠ‍", mid : "᠊ᠲᠠ‍", end : "᠊ᠲᠠ", desc : e_sound},
+    { name : "ТИ", script : "ᠲᠢ‍", start: "ᠳᠢ‍", mid : "᠊ᠲᠢ‍", end : "᠊ᠲᠢ", desc : i_sound},
+    { name : "ТО", script : "ᠳᠣ‍", start: "ᠳᠣ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : o_sound},
+    { name : "ТУ", script : "ᠳᠣ‍", start: "ᠳᠣ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : ou_sound},
+    { name : "ТӨ", script : "ᠲᠥ‍", start: "ᠲᠥ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : u_sound},
+    { name : "ТҮ", script : "ᠲᠥ‍", start: "ᠲᠥ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : uu_sound}
+  ]},
+
+  {name : "Т", script : "ᠳ‍", start: "ᠳ‍", mid : "᠊ᠲ‍", end : "᠊ᠲ", desc : a_sound, letters : [
+    // {name : "Д", script : "ᠳ‍", start: "ᠳ‍", mid : "᠊ᠳ‍᠂ ᠊ᠲ‍", end : "᠊ᠳ᠂ ᠊ᠲ", desc : a_sound},
+    { name : "ТА", script : "ᠳᠠ‍", start: "ᠳᠠ‍", mid : "᠊ᠲᠠ‍", end : "᠊ᠲᠠ", desc : a_sound},
+    { name : "ТЭ", script : "ᠳᠠ‍", start: "ᠳᠠ‍", mid : "᠊ᠲᠠ‍", end : "᠊ᠲᠠ", desc : e_sound},
+    { name : "ТИ", script : "ᠲᠢ‍", start: "ᠳᠢ‍", mid : "᠊ᠲᠢ‍", end : "᠊ᠲᠢ", desc : i_sound},
+    { name : "ТО", script : "ᠳᠣ‍", start: "ᠳᠣ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : o_sound},
+    { name : "ТУ", script : "ᠳᠣ‍", start: "ᠳᠣ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : ou_sound},
+    { name : "ТӨ", script : "ᠲᠥ‍", start: "ᠲᠥ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : u_sound},
+    { name : "ТҮ", script : "ᠲᠥ‍", start: "ᠲᠥ‍", mid : "᠊ᠲ‍ᠥ‍", end : "᠊ᠲᠣ", desc : uu_sound}
+  ]},
+
+  {name : "Ц, Ч", script : "ᠴᠭ‍", start: "ᠴᠭ‍", mid : "᠊ᠴᠠ‍", end : "᠊ᠴᠠ", desc : a_sound, letters : [
+    { name : "ЦА, ЧА", script : "ᠴ‍ᠠ‍", start: "ᠴ‍ᠠ‍", mid : "᠊ᠴᠠ‍", end : "᠊ᠴᠠ", desc : a_sound},
+    { name : "ЦЭ, ЧЭ", script : "ᠴ‍ᠠ‍", start: "ᠴ‍ᠠ‍", mid : "᠊ᠴᠠ‍", end : "᠊ᠴᠠ", desc : e_sound},
+    { name : "ЦИ, ЧИ", script : "ᠴᠢ‍", start: "ᠴᠢ‍", mid : "᠊ᠴᠢ‍", end : "᠊ᠴᠢ", desc : i_sound},
+    { name : "ЦО, ЧО", script : "ᠴᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : o_sound},
+    { name : "ЦУ, ЧУ", script : "ᠴᠣ‍", start: "ᠴᠣ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : ou_sound},
+    { name : "ЦӨ, ЧӨ", script : "ᠴᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴᠥ‍", end : "᠊ᠴᠣ", desc : u_sound},
+    { name : "ЦҮ, ЧҮ", script : "ᠴᠥ‍", start: "ᠴᠥ‍", mid : "᠊ᠴ‍ᠥ‍", end : "᠊ᠴᠣ", desc : uu_sound}
+  ]},
+
+  {name : "З, Ж", script : "ᠵᠠ‍", start: "ᠵᠠ‍", mid : "᠊ᠵᠠ‍", end : "᠊ᠵᠠ", desc : a_sound, letters : [
+    // {name : "Д", script : "ᠳ‍", start: "ᠳ‍", mid : "᠊ᠳ‍᠂ ᠊ᠲ‍", end : "᠊ᠳ᠂ ᠊ᠲ", desc : a_sound},
+    { name : "ЗА, ЖА", script : "ᠵᠠ‍", start: "ᠵᠠ‍", mid : "᠊ᠵᠠ‍", end : "᠊ᠵᠠ", desc : a_sound},
+    { name : "ЗЭ, ЖЭ", script : "ᠵᠠ‍", start: "ᠵᠠ‍", mid : "᠊ᠵᠠ‍", end : "᠊ᠵᠠ", desc : e_sound},
+    { name : "ЗИ, ЖИ", script : "ᠴᠢ‍", start: "ᠴᠢ‍", mid : "᠊ᠴᠵ‍", end : "᠊ᠵᠢ", desc : i_sound},
+    { name : "ЗО, ЖО", script : "ᠵᠣ‍", start: "ᠵᠣ‍", mid : "᠊ᠵᠥ‍", end : "᠊ᠵᠣ", desc : o_sound},
+    { name : "ЗУ, ЖУ", script : "ᠵᠣ‍", start: "ᠵᠣ‍", mid : "᠊ᠵᠥ‍", end : "᠊ᠵᠣ", desc : ou_sound},
+    { name : "ЗӨ, ЖӨ", script : "ᠵᠥ‍", start: "ᠵᠥ‍", mid : "᠊ᠵᠥ‍", end : "᠊ᠵᠣ", desc : u_sound},
+    { name : "ЗҮ, ЖҮ", script : "ᠵᠥ‍", start: "ᠵᠥ‍", mid : "᠊ᠵᠥ‍", end : "᠊ᠵᠣ", desc : uu_sound}
+  ]},
+  {name : "Ш", script : "ᠱᠠ‍", start: "ᠱᠠ‍", mid : "᠊ᠲ‍", end : "᠊ᠲ", desc : a_sound, letters : [
+    // {name : "Д", script : "ᠳ‍", start: "ᠳ‍", mid : "᠊ᠳ‍᠂ ᠊ᠲ‍", end : "᠊ᠳ᠂ ᠊ᠲ", desc : a_sound},
+    { name : "ША", script : "ᠱᠠ‍", start: "ᠱᠠ‍", mid : "᠊ᠱᠠ‍", end : "᠊ᠱᠠ", desc : a_sound},
+    { name : "ШЭ", script : "ᠱᠠ‍", start: "ᠱᠠ‍", mid : "᠊ᠱᠠ‍", end : "᠊ᠱᠠ", desc : e_sound},
+    { name : "ШИ", script : "ᠱᠢ‍", start: "ᠱᠢ‍", mid : "᠊ᠱᠢ‍", end : "᠊ᠱᠢ", desc : i_sound},
+    { name : "ШО", script : "ᠱᠣ‍", start: "ᠱᠣ‍", mid : "᠊ᠱ‍ᠥ‍", end : "᠊ᠱᠣ", desc : o_sound},
+    { name : "ШУ", script : "ᠱᠣ‍", start: "ᠱᠣ‍", mid : "᠊ᠱᠥ‍", end : "᠊ᠱᠣ", desc : ou_sound},
+    { name : "ШӨ", script : "ᠱᠥ‍", start: "ᠱᠥ‍", mid : "᠊ᠱᠥ‍", end : "᠊ᠱᠣ", desc : u_sound},
+    { name : "ШҮ", script : "ᠱᠥ‍", start: "ᠱᠥ‍", mid : "᠊ᠱᠥ‍", end : "᠊ᠱᠣ", desc : uu_sound}
+  ]},
 ]
+
 
 export const questions: (MultipleChoiceExercise | MatchingExercise)[] = 
   [

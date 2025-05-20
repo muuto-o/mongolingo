@@ -66,14 +66,14 @@ const Exercise: React.FC = () => {
   const exercises: Exercise[] = (questions as Exercise[]) || exercisesData;
   const currentExercise: Exercise = exercises[currentExerciseIndex];
 
-  const { getUser, signin } = useAuth();
+  const { getUser, updateUser } = useAuth();
   const user = getUser();
 
   const queryClient = useQueryClient();
   const pointsMutation = useMutation({
     mutationFn: CompleteExercise,
     onSuccess: (data) => {
-      signin(data.updatedUser);
+      updateUser(data.updatedUser);
       queryClient.invalidateQueries({ queryKey: ["me"] });
       queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
       queryClient.invalidateQueries({ queryKey: ["units"] });

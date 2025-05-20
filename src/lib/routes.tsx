@@ -9,6 +9,7 @@ import RegisterPage from "@/pages/register";
 import Lesson from "@/pages/lesson";
 import ResetPassword from "@/pages/reset-password";
 import ForgetPassword from "@/pages/recover";
+import QuestionRegistration from "@/pages/question-register";
 // import NotFound from "@/pages/not-found";
 
 export const routes = [
@@ -77,5 +78,11 @@ export const routes = [
     element: <ResetPassword />,
     showSidebar: false,
     requireAuth: false,
+  },
+  {
+    path: "/qr",
+    element: <QuestionRegistration />,
+    showSidebar: false,
+    requireAuth: true,
   },
 ];

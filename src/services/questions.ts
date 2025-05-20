@@ -1,4 +1,4 @@
-import { GetQuestionsByExerciseResponse, GetUnitResponse, GetUnitWithExercisesResponse } from "@/constants/types";
+import { GetQuestionsByExerciseResponse, GetUnitResponse, GetUnitWithExercisesResponse, MatchingExercise, MultipleChoiceExercise } from "@/constants/types";
 import api from "@/lib/api";
 
 
@@ -22,5 +22,11 @@ export async function getUnitsWithExercises(level : number){
 
 export async function GetYearlyActivity(id : string){
   const {data} = await api.get(`/api/users/${id}/activity`);
+  return data;
+}
+
+
+export async function registerQuestion(body : MultipleChoiceExercise | MatchingExercise){
+  const {data} = await api.post("/api/questions", body);
   return data;
 }

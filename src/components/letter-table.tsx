@@ -33,7 +33,11 @@ export function LetterTable({ letter, character, className }: Props) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow className="border-b hover:bg-muted/50">
+              <TableRow
+                className={`border-b hover:bg-muted/50 ${
+                  letter.name === "Г" && "h-24"
+                }`}
+              >
                 <TableCell className="font-medium w-1/3 align-middle text-right pr-4">
                   Эхэнд
                 </TableCell>
@@ -46,7 +50,7 @@ export function LetterTable({ letter, character, className }: Props) {
               </TableRow>
               <TableRow
                 className={`"hover:bg-muted/50" ${
-                  letter.name === "Д" && "h-24"
+                  (letter.name === "Д" || letter.name === "Г") && "h-24"
                 }`}
               >
                 <TableCell className="font-medium w-1/3 align-middle text-right pr-4">
@@ -61,7 +65,7 @@ export function LetterTable({ letter, character, className }: Props) {
               </TableRow>
               <TableRow
                 className={`"hover:bg-muted/50" ${
-                  letter.name === "Д" && "h-24"
+                  (letter.name === "Д" || letter.name === "Г") && "h-24"
                 }`}
               >
                 <TableCell className="font-medium w-1/3 align-middle text-right pr-4">
