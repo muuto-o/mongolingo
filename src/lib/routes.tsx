@@ -7,6 +7,8 @@ import LoginPage from "@/pages/login";
 import Profile from "@/pages/profile";
 import RegisterPage from "@/pages/register";
 import Lesson from "@/pages/lesson";
+import ResetPassword from "@/pages/reset-password";
+import ForgetPassword from "@/pages/recover";
 // import NotFound from "@/pages/not-found";
 
 export const routes = [
@@ -61,6 +63,18 @@ export const routes = [
   {
     path: "/register",
     element: <RegisterPage />,
+    showSidebar: false,
+    requireAuth: false,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgetPassword />,
+    showSidebar: false,
+    requireAuth: false,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPassword />,
     showSidebar: false,
     requireAuth: false,
   },

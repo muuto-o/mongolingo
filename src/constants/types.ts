@@ -69,7 +69,10 @@ export type LoginRequest = {
     password: string;
 }
 
-export type LoginResponse = User
+export type LoginResponse = {
+  token : string;
+  user : User
+}
 
 export type RegisterRequest = {
     username : string;
@@ -80,6 +83,24 @@ export type RegisterRequest = {
 
 export type RegisterResponse = {
     message : string;
+}
+
+export type EmailCheckRequest = {
+  email: string;
+};
+
+export type EmailCheckResponse = {
+  message: string;
+  resetToken: string;
+};
+
+export type ResetPasswordRequest = {
+  password : string;
+  resetToken : string;
+}
+
+export type ResetPasswordResponse = {
+  message : string;
 }
 
 export type EditProfileRequest = {

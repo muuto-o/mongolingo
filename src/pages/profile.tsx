@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { editProfile, getMe } from "@/services/auth";
-import { EditProfileRequest } from "@/constants/types";
 import { useAuth } from "@/hooks/auth";
 import {
   Trophy,
@@ -41,9 +40,12 @@ export default function Profile() {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState<Partial<User>>({});
-  const { getUser, signin } = useAuth();
+  const { getUser, updateUser } = useAuth();
   const userData = getUser();
-  const id = userData?.id ? userData?.id : "";
+  console.log("first");
+  console.log(userData);
+  const id = userData ? userData.id : "obso";
+  console.log(id);
 
   const { data: user } = useQuery({
     queryFn: () => getMe({ id }),
@@ -51,10 +53,9 @@ export default function Profile() {
   });
 
   const updateUserMutation = useMutation({
-    mutationFn: (updatedUserData: EditProfileRequest) =>
-      editProfile(updatedUserData),
+    mutationFn: editProfile,
     onSuccess: (data) => {
-      signin(data);
+      updateUser(data);
       setIsEditing(false);
       toast({
         title: "Profile Updated",

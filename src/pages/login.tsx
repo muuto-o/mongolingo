@@ -38,7 +38,7 @@ export default function LoginPage() {
   const { mutate: loginMutation } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      toast({ title: "Амжиллтай нэвтэрлээ.", description: data.username });
+      toast({ title: "Амжиллтай нэвтэрлээ.", description: data.user.username });
       signin(data);
       navigate("/lesson");
       queryClient.invalidateQueries({ queryKey: ["units"] });
@@ -139,7 +139,7 @@ export default function LoginPage() {
                 )}
               />
 
-              <Link to="/recover" className="block text-right">
+              <Link to="/forgot-password" className="block text-right">
                 <p className="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">
                   Нууц үгээ мартсан?
                 </p>

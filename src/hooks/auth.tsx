@@ -1,16 +1,17 @@
 import { createContext, useContext, useState } from "react";
 
-import { LoginResponse } from "@/constants/types";
+import { LoginResponse, User } from "@/constants/types";
 
 type AuthContextProps = {
-  user: LoginResponse | null;
+  user: User | null;
   addResetPasswordToken: (token: string) => void;
   removeResetPasswordToken: () => void;
   getResetPasswordToken: () => string | null;
   getAccessToken: () => string | null;
   signin: (data: LoginResponse) => void;
+  updateUser: (data: User) => void;
   logout: () => void;
-  getUser: () => LoginResponse | null;
+  getUser: () => User | null;
 };
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -20,10 +21,10 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [user, setUser] = useState<LoginResponse | null>(() => {
+  const [user, setUser] = useState<User | null>(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      return JSON.parse(storedUser) as LoginResponse;
+      return JSON.parse(storedUser) as User;
     }
     return null;
   });
@@ -32,11 +33,16 @@ export const AuthContextProvider = ({
 
   const getUser = () => {
     const storedUser = localStorage.getItem("user");
-    console.log(storedUser);
+    // console.log(storedUser);
     if (storedUser) {
-      return JSON.parse(storedUser) as LoginResponse;
+      return JSON.parse(storedUser) as User;
     }
     return null;
+  };
+
+  const updateUser = (user: User) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    setUser(user);
   };
 
   const addResetPasswordToken = (token: string) => {
@@ -54,8 +60,9 @@ export const AuthContextProvider = ({
   };
 
   const signin = (data: LoginResponse) => {
-    localStorage.setItem("user", JSON.stringify(data));
-    setUser(data);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.setItem("accessToken", JSON.stringify(data.token));
+    setUser(data.user);
   };
 
   const logout = () => {
@@ -67,6 +74,7 @@ export const AuthContextProvider = ({
       value={{
         user,
         signin,
+        updateUser,
         logout,
         addResetPasswordToken,
         removeResetPasswordToken,
@@ -80,6 +88,7 @@ export const AuthContextProvider = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be within AuthContextProvider.");
