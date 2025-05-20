@@ -18,7 +18,7 @@ export default function PrivateLayout() {
         {showSidebar && <Sidebar />}
         <div
           className={`"p-8 w-full h-full flex overflow-y-auto" ${
-            showSidebar && "ml-[295px]"
+            showSidebar && "md:ml-[295px]"
           }`}
         >
           <Outlet />

@@ -30,37 +30,6 @@ export default function Lesson() {
     queryFn: () => getUnitsWithExercises(exerciseLevel),
   });
 
-  console.log("unitData");
-  console.log(unitData);
-
-  // const exericises = [
-  //   {
-  //     title: "а, э",
-  //     icon: <Book className="w-6 h-6" />,
-  //     color: "from-blue-400 to-blue-600",
-  //   },
-  //   {
-  //     title: "о, у",
-  //     icon: <Book className="w-6 h-6" />,
-  //     color: "from-purple-400 to-purple-600",
-  //   },
-  //   {
-  //     title: "и",
-  //     icon: <Book className="w-6 h-6" />,
-  //     color: "from-pink-400 to-pink-600",
-  //   },
-  //   {
-  //     title: "ө, ү",
-  //     icon: <Book className="w-6 h-6" />,
-  //     color: "from-emerald-400 to-emerald-600",
-  //   },
-  //   {
-  //     title: "Бататгах",
-  //     icon: <Award className="w-6 h-6" />,
-  //     color: "from-amber-400 to-amber-600",
-  //   },
-  // ];
-
   const handleLessonClick = (exerciseId: string, unlocked: boolean) => {
     if (unlocked) {
       console.log("exerciseLevel");
@@ -103,7 +72,7 @@ export default function Lesson() {
               variants={container}
               initial="hidden"
               animate="show"
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5 p-4"
+              className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 gap-5 p-4"
               key={index}
             >
               {unit.exercises.map((exercise, index) => (
