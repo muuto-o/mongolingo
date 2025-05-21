@@ -19,6 +19,7 @@ import Matching from "@/components/matching-exercise";
 import LivesOut from "@/components/lives-out";
 import ShowResult from "@/components/result";
 import LoaderPage from "./loader";
+import MongolianScript from "@/components/mongolian-script";
 
 export type Exercise = MultipleChoiceExercise | MatchingExercise;
 
@@ -275,6 +276,7 @@ const Exercise: React.FC = () => {
   };
 
   const skipExercise = () => {
+    setLives(() => lives - 1);
     setSkipped(true);
     setIsAnswered(true);
   };
@@ -379,12 +381,17 @@ const Exercise: React.FC = () => {
           <div className="flex justify-center mt-6">
             {skipped && (
               <div className="text-center w-full">
-                <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100 mb-4">
+                <div className="bg-indigo-50 p-2 rounded-lg border border-indigo-100 mb-4">
                   <p className="text-indigo-800 font-medium">
-                    Correct solution:{" "}
-                    {currentExercise.type === "multiple_choice"
-                      ? currentExercise.correctAnswer
-                      : JSON.stringify(currentExercise.correctAnswer)}
+                    Зөв хариулт:{" "}
+                    {currentExercise.type === "multiple_choice" ? (
+                      <MongolianScript
+                        script={currentExercise.correctAnswer}
+                        className="text-2xl py-0"
+                      />
+                    ) : (
+                      JSON.stringify(currentExercise.correctAnswer)
+                    )}
                   </p>
                 </div>
                 <Button

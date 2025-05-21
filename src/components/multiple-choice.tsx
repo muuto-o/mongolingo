@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MultipleChoiceExercise } from "@/constants/types";
-import { Check, Volume2, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Check, X } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 type Props = {
   exercise: MultipleChoiceExercise;
@@ -22,15 +22,15 @@ export default function MultipleChoice({
   setSelectedOption,
   setUserAnswers,
 }: Props) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     // Initialize audio element
-    if (exercise.type === "multiple_choice") {
-      audioRef.current = new Audio(exercise.audioPath);
-      audioRef.current.onended = () => setIsPlaying(false);
-    }
+    // if (exercise.type === "multiple_choice") {
+    //   audioRef.current = new Audio(exercise.audioPath);
+    //   audioRef.current.onended = () => setIsPlaying(false);
+    // }
 
     return () => {
       if (audioRef.current) {
@@ -40,17 +40,17 @@ export default function MultipleChoice({
     };
   }, [exercise]);
 
-  const toggleAudio = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
+  // const toggleAudio = () => {
+  //   if (audioRef.current) {
+  //     if (isPlaying) {
+  //       audioRef.current.pause();
+  //       audioRef.current.currentTime = 0;
+  //     } else {
+  //       audioRef.current.play();
+  //     }
+  //     setIsPlaying(!isPlaying);
+  //   }
+  // };
 
   const handleMultipleChoiceAnswer = (correctAnswer: string) => {
     setSelectedOption(correctAnswer);
@@ -67,7 +67,7 @@ export default function MultipleChoice({
         <CardTitle className="text-xl font-bold text-center">
           {exercise.title}
         </CardTitle>
-        <div className="flex justify-center mt-4">
+        {/* <div className="flex justify-center mt-4">
           <button
             onClick={toggleAudio}
             disabled={true}
@@ -83,7 +83,7 @@ export default function MultipleChoice({
               fill={isPlaying ? "currentColor" : "none"}
             />
           </button>
-        </div>
+        </div> */}
       </CardHeader>
       <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         {exercise.options.map((option, index) => (
@@ -120,7 +120,7 @@ export default function MultipleChoice({
               )}
             </div>
             <div className="flex justify-between items-center mt-2">
-              <span className="text-xs text-gray-500">Option {index + 1}</span>
+              <span className="text-xs text-gray-500">сонголт {index + 1}</span>
               {selectedOption === option && (
                 <span
                   className={`text-xs font-semibold ${

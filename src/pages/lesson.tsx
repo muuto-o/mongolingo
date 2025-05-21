@@ -30,12 +30,19 @@ export default function Lesson() {
     queryFn: () => getUnitsWithExercises(exerciseLevel),
   });
 
-  const handleLessonClick = (exerciseId: string, unlocked: boolean) => {
+  const handleLessonClick = (
+    exerciseId: string,
+    unlocked: boolean,
+    level: number
+  ) => {
     if (unlocked) {
-      console.log("exerciseLevel");
-      console.log(exerciseLevel);
-      console.log(exerciseId);
-      navigate("/exercise", { state: { exerciseId: exerciseId } });
+      if (level === 1) {
+        console.log("level");
+        console.log(level);
+        navigate("/tutorial", { state: { exerciseId } });
+      } else {
+        navigate("/exercise", { state: { exerciseId: exerciseId } });
+      }
     }
   };
 
@@ -84,7 +91,11 @@ export default function Lesson() {
                         : "bg-gray-100 cursor-not-allowed disabled"
                     } relative overflow-hidden`}
                     onClick={() =>
-                      handleLessonClick(exercise.id, exercise.unlocked)
+                      handleLessonClick(
+                        exercise.id,
+                        exercise.unlocked,
+                        exercise.level
+                      )
                     }
                   >
                     {exercise.unlocked ? (
