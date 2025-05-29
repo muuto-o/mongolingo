@@ -42,15 +42,15 @@ export default function ResetPassword() {
   const FormSchema = z
     .object({
       password: z.string().min(8, {
-        message: "messages.passwordMin",
+        message: "Багадаа 8-н тэмдэгт байна.",
       }),
       repeatPassword: z.string().min(8, {
-        message: "messages.passwordMin",
+        message: "Багадаа 8-н тэмдэгт байна.",
       }),
     })
     .refine((data) => data.password === data.repeatPassword, {
       path: ["repeatPassword"],
-      message: "messages.passwordNotMatch",
+      message: "Нууц үг таарахгүй байна.",
     });
 
   // const { getResetPasswordToken, removeResetPasswordToken } = useAuth();
@@ -107,10 +107,10 @@ export default function ResetPassword() {
               <div className="flex items-center space-x-2">
                 <CircleX size={32} color="#ea0606" strokeWidth={2.5} />
                 {/* <CircleX className="text-3xl text-rose-600" /> */}
-                <h1 className="text-3xl">invalidToken</h1>
+                <h1 className="text-3xl">Хүчингүй токен</h1>
               </div>
               <div className="space-y-4">
-                <p>invalidTokenDesc</p>
+                <p>Хүчингүй токен</p>
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -119,7 +119,7 @@ export default function ResetPassword() {
                   }}
                   className="w-full bg-[#143f91] text-white hover:bg-[#1d2053] hover:text-white"
                 >
-                  cancel
+                  Буцах
                 </Button>
               </div>
             </div>
@@ -134,7 +134,7 @@ export default function ResetPassword() {
             >
               <div className="flex h-full w-full flex-col justify-evenly">
                 <div>
-                  <h1 className="text-2xl font-bold">resetPassword</h1>
+                  <h1 className="text-2xl font-bold">Нууц үг шинэчлэх</h1>
                   <Separator className="my-3 bg-slate-300" />
                 </div>
                 <FormField
@@ -142,12 +142,12 @@ export default function ResetPassword() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>password</FormLabel>
+                      <FormLabel>Нууц үг</FormLabel>
                       <div className="flex flex-col space-y-4">
                         <FormControl>
                           <div className="relative">
                             <Input
-                              placeholder={"password"}
+                              placeholder={"Нууц үгээ оруулна уу."}
                               className="dark:focus-visible:ring-none rounded-md bg-white outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                               type={showPassword ? "text" : "password"}
                               {...field}
@@ -178,7 +178,7 @@ export default function ResetPassword() {
                       <FormControl>
                         <div className="relative w-full">
                           <Input
-                            placeholder={"repeatPassword"}
+                            placeholder={"Нууц үгээ давтан оруулна уу."}
                             className="dark:focus-visible:ring-none rounded-md bg-white outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                             type={showPasswordRepeat ? "text" : "password"}
                             {...field}
@@ -210,13 +210,13 @@ export default function ResetPassword() {
                     navigate("/login");
                   }}
                 >
-                  cancel
+                  Буцах
                 </Button>
                 <Button
                   variant="default"
-                  className="w-full bg-[#143f91] text-white hover:bg-[#1d2053] hover:text-white"
+                  className="w-full text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 hover:text-white"
                 >
-                  submit
+                  Шинэчлэх
                 </Button>
               </div>
             </form>

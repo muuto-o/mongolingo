@@ -36,7 +36,7 @@ export default function Lesson() {
     level: number
   ) => {
     if (unlocked) {
-      if (level === 1) {
+      if (level === 1 || level === 6) {
         console.log("level");
         console.log(level);
         navigate("/tutorial", { state: { exerciseId } });

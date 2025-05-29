@@ -33,7 +33,7 @@ export default function SendEmail({ nextPage, cancel }: SendEmailProps) {
     },
     onError: () => {
       toast({
-        title: "messages.unregistered",
+        title: "Бүртгэлгүй имэйл байна.",
       });
     },
   });
@@ -66,17 +66,20 @@ export default function SendEmail({ nextPage, cancel }: SendEmailProps) {
         className="flex h-full w-full flex-col justify-between"
       >
         <div>
-          <h1 className="text-2xl font-bold">resetPassword</h1>
+          <h1 className="text-2xl font-bold">Нууц үг шинэчлэх</h1>
           <Separator className="my-3 bg-slate-300" />
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>resetPasswordDesc</FormLabel>
+                <FormLabel></FormLabel>
                 <br />
                 <FormControl>
-                  <Input placeholder={"email"} {...field} />
+                  <Input
+                    placeholder={"Өөрийн бүртгэлтэй имэйлийг оруулна уу."}
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />
@@ -84,20 +87,20 @@ export default function SendEmail({ nextPage, cancel }: SendEmailProps) {
             )}
           />
         </div>
-        <div className="flex justify-end space-x-4">
+        <div className="flex justify-end space-x-4 mt-6">
           <Button
             variant="outline"
+            className="rounded-xl px-6 py-2"
             onClick={cancel}
             disabled={resetPasswordMutation.isPending}
           >
-            cancel
+            Буцах
           </Button>
           <Button
-            variant="default"
-            className="bg-[#143f91] text-white hover:bg-[#1d2053] hover:text-white"
+            className="py-2 px-6 rounded-xl text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
             disabled={resetPasswordMutation.isPending}
           >
-            continue
+            Үргэлжлүүлэх
           </Button>
         </div>
       </form>

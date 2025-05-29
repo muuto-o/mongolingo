@@ -4,6 +4,11 @@ export interface Character{
   desc : string;
 }
 
+export interface Drawing{
+  name : string;
+  image : string;
+}
+
 export interface Letter{
   name : string;
   script : string;

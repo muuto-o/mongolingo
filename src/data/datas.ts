@@ -6,7 +6,24 @@ import u_sound from "../assets/ө1745939191.wav"
 import ou_sound from "../assets/у1745938553.wav"
 import i_sound from "../assets/и1745939184.wav"
 import uu_sound from "../assets/ү1745939198.wav"
-import { Consonant, Letter, MatchingExercise, MultipleChoiceExercise } from "@/constants/types"
+import titem_zurlaga from "@/assets/titem_zurlaga.png"
+import shud_zurlaga from "@/assets/shud_zurlaga.png"
+import gedes_zurlaga from "@/assets/gedes_zurlaga.png"
+import shilbe_zurlaga from "@/assets/shilbe_zurlaga.png"
+import num_zurlaga from "@/assets/num_zurlaga.png"
+import suul_zurlaga from "@/assets/suul_zurlaga.png"
+import orhits_zurlaga from "@/assets/orhits_zurlaga.png"
+import { Consonant, Drawing, Letter, MatchingExercise, MultipleChoiceExercise } from "@/constants/types"
+
+export const drawings : Drawing[] = [
+  {  name : "Титэм", image : titem_zurlaga  },
+  {  name : "Шүд", image : shud_zurlaga  },
+  {  name : "Шилбэ", image : shilbe_zurlaga  },
+  {  name : "Гэдэс", image : gedes_zurlaga  },
+  {  name : "Нум", image : num_zurlaga  },
+  {  name : "Орхиц", image : orhits_zurlaga  },
+  {  name : "Сүүл", image : suul_zurlaga  },
+]
 
 export const vowels :Letter[] =[
   {name : "А", script : "ᠠ", start: "ᠠ‍", mid : "᠊ᠠ‍", end : "᠊ᠠ ᠡ᠋", desc : a_sound},
@@ -33,6 +50,9 @@ export const consonants1 : Letter[] = [
   {name : "Й", script : "ᠶ", start: "ᠶ", mid : "᠊ᠶ‍", end : "᠊ᠶᠠ᠂᠊ᠶ᠋ ᠡ᠋", desc : ""},
   {name : "Ш", script : "ᠱ", start: "ᠱ", mid : "᠊ᠱ‍", end : "᠊ᠱ", desc : ""},
 ]
+
+
+
 
 export const foreignConsonants : Consonant[]= [
    

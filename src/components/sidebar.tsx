@@ -75,7 +75,7 @@ export default function Sidebar() {
             {/* Brand */}
             <div className="text-green-600 text-2xl font-bold mb-8 tracking-wide flex items-center mx-4">
               <span className="bg-gradient-to-r from-blue-400 to-purple-600 text-white px-3 py-1 rounded-lg">
-                MONGOLINGO
+                HumunBichig
               </span>
             </div>
 
@@ -102,7 +102,7 @@ export default function Sidebar() {
 
             {/* Footer */}
             <div className="text-gray-500 text-xs mt-8 text-center py-4 border-t border-gray-100">
-              &copy; 2024 Mongolingo. All rights reserved.
+              &copy; 2025 HumunBichig. All rights reserved.
             </div>
           </aside>
         </div>

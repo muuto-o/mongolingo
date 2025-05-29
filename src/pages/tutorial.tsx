@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MongolianScript from "@/components/mongolian-script";
+import { drawings } from "@/data/datas";
 
 type TutorialContent = {
   title: string;
@@ -110,6 +111,24 @@ export default function Tutorial() {
                   >
                     <MongolianScript script={ex.word} className="text-2xl" />
                     <p className="text-sm text-gray-600 mt-1">{ex.meaning}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {drawings && (
+            <div className="text-center">
+              <h2 className="font-semibold text-indigo-700 mb-2">
+                Үндсэн тэмдэгтүүдийн зурлага
+              </h2>
+              <div className="flex justify-center flex-wrap gap-4">
+                {drawings.map((character, index) => (
+                  <div
+                    key={index}
+                    className="p-4 border rounded-xl bg-gray-50 shadow-sm"
+                  >
+                    <img src={character.image} alt={character.name} />
                   </div>
                 ))}
               </div>

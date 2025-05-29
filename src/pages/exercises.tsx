@@ -122,7 +122,7 @@ const Exercise: React.FC = () => {
     //     audioRef.current = null;
     //   }
     // };
-  }, [currentExercise]); // Run only when currentExercise changes
+  }, [currentExercise]);
 
   if (lives < 1) {
     return <LivesOut />;
@@ -141,7 +141,7 @@ const Exercise: React.FC = () => {
   }
 
   if (!currentExercise) {
-    return <div>Loading or Exercise Not Found</div>; // Handle case where exercise is undefined
+    return <div>Loading or Exercise Not Found</div>;
   }
 
   const checkMultipleChoiceAnswer = (exercise: MultipleChoiceExercise) => {
@@ -164,7 +164,6 @@ const Exercise: React.FC = () => {
         typeof currentExercise.correctAnswer === "object" &&
         currentExercise.correctAnswer[leftOption] === rightOption
       ) {
-        // Check if pair is already in correctPairs
         const isPairUnique = !correctPairs.some(
           (pair) => pair.left === selectedLeft && pair.right === selectedRight
         );
@@ -189,8 +188,8 @@ const Exercise: React.FC = () => {
           correctPairs.length + 1 ===
           Object.keys(currentExercise.correctAnswer).length
         ) {
-          setIsAnswered(true); // Mark exercise as answered
-          setIsCorrect(true); // Mark exercise as correct
+          setIsAnswered(true);
+          setIsCorrect(true);
         }
       } else {
         setLives(() => lives - 1);
@@ -248,11 +247,11 @@ const Exercise: React.FC = () => {
     setSelectedOption(null);
     setIsCorrect(null);
     setShowCorrectAnswer(false);
-    setSelectedLeft(null); // Reset selectedLeft
-    setSelectedRight(null); // Reset selectedRight
-    setMatchedPairs([]); // Reset matchedPairs
-    setCorrectPairs([]); // Reset correctPairs
-    setIsMatchingCorrect(null); // Reset isMatchingCorrect
+    setSelectedLeft(null);
+    setSelectedRight(null);
+    setMatchedPairs([]);
+    setCorrectPairs([]);
+    setIsMatchingCorrect(null);
 
     if (currentExerciseIndex < exercises.length - 1) {
       setCurrentExerciseIndex((prev) => prev + 1);

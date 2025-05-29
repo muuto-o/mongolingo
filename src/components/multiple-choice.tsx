@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MultipleChoiceExercise } from "@/constants/types";
 import { Check, X } from "lucide-react";
 import { useEffect, useRef } from "react";
+import MongolianScript from "./mongolian-script";
 
 type Props = {
   exercise: MultipleChoiceExercise;
@@ -135,7 +136,7 @@ export default function MultipleChoice({
                     ? "Зөв!"
                     : isCorrect === false
                     ? "Буруу"
-                    : "Selected"}
+                    : "Сонгогдсон"}
                 </span>
               )}
             </div>
@@ -145,11 +146,8 @@ export default function MultipleChoice({
       {showCorrectAnswer && (
         <div className="px-6 pb-6">
           <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
-            <p className="text-indigo-800 font-medium">
-              Correct correctAnswer:{" "}
-              <span className="font-bold rotate-90">
-                {exercise.correctAnswer}
-              </span>
+            <p className="text-indigo-800 font-medium text-center">
+              Зөв хариулт: <MongolianScript script={exercise.correctAnswer} />
             </p>
           </div>
         </div>

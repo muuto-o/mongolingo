@@ -11,6 +11,7 @@ import ResetPassword from "@/pages/reset-password";
 import ForgetPassword from "@/pages/recover";
 import QuestionRegistration from "@/pages/question-register";
 import Tutorial from "@/pages/tutorial";
+import TypingPracticePage from "@/pages/type";
 // import NotFound from "@/pages/not-found";
 
 export const routes = [
@@ -83,6 +84,12 @@ export const routes = [
   {
     path: "/tutorial",
     element: <Tutorial />,
+    showSidebar: false,
+    requireAuth: true,
+  },
+  {
+    path: "/typer",
+    element: <TypingPracticePage />,
     showSidebar: false,
     requireAuth: true,
   },
